@@ -24,6 +24,13 @@ header {
     border: none; /* Sin borde */
     color: black;
     border-radius: 50px;
+    font-family: "Arial Black";
+}
+
+.logo {
+    max-width: 90%; /* Ajustar el ancho máximo de la imagen */
+    height: auto; /* Mantener la proporción de la imagen */
+    border: none; /* Sin borde */
 }
 
 .btn-primary:hover {
