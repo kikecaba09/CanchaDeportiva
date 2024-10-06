@@ -1,0 +1,31 @@
+body {
+    background-color: #f8f9fa; /* Color de fondo claro */
+}
+
+header {
+    background-color: #85fc0f; /* Color verde ajustable */
+    color: black; /* Color del texto */
+    text-align: center; /* Centrar el texto */
+    padding: 15px 0; /* Espaciado vertical */
+}
+
+.form-container {
+    margin-top: 100px; /* Margen superior para el formulario */
+    text-align: center;
+}
+
+.form-card {
+    max-width: 530px; /* Ancho máximo del formulario */
+    margin: auto; /* Centrar horizontalmente */
+}
+
+.btn-primary {
+    background-color: #4ae80e; /* Color del botón */
+    border: none; /* Sin borde */
+    color: black;
+    border-radius: 50px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Color del botón al pasar el mouse */
+}
