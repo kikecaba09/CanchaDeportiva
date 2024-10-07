@@ -4,12 +4,12 @@ import java.util.Date;
 
 public class Cliente {
 
-    private int clienteId;            // Identificador único del cliente
-    private String nombre;            // Nombre del cliente
-    private String apellido;          // Apellido del cliente
-    private String nroIdentidad;      // Número de identidad (cédula, DNI, etc.)
-    private String telefono;          // Número de teléfono
-    private String email;             // Correo electrónico
+    private int clienteId;
+    private String nombre;
+    private String apellido;
+    private String nroIdentidad;
+    private String telefono;
+    private String email;
     private Date fechaNacimiento;
 
     public Cliente(int clienteId, String nombre, String apellido, String nroIdentidad,

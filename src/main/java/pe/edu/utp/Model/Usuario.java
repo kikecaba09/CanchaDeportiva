@@ -5,16 +5,13 @@ public class Usuario {
     private String idUsuario;
     private String username;
     private String password;
-    private String nombre;
     private int idRol;
     private int idCliente;
 
-    public Usuario(String idUsuario, String username, String password, String nombre, int idRol,
-                   int idCliente) {
+    public Usuario(String idUsuario, String username, String password, int idRol, int idCliente) {
         this.idUsuario = idUsuario;
         this.username = username;
         this.password = password;
-        this.nombre = nombre;
         this.idRol = idRol;
         this.idCliente = idCliente;
     }
@@ -46,14 +43,6 @@ public class Usuario {
         this.password = password;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public int getIdRol() {
         return idRol;
     }
@@ -76,7 +65,6 @@ public class Usuario {
                 "idUsuario='" + idUsuario + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", nombre='" + nombre + '\'' +
                 ", idRol=" + idRol +
                 ", idCliente=" + idCliente +
                 '}';
