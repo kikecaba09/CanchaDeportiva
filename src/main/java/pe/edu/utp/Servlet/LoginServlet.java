@@ -22,14 +22,18 @@ public class LoginServlet extends HttpServlet {
         Usuario usuario = usuarioDAO.obtenerUsuario(username, password);
 
         if (usuario != null) {
-            // Guardar el usuario en sesión
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(true);
             session.setAttribute("usuario", usuario);
-            response.sendRedirect("home.jsp"); // Redirigir a la página de inicio
+            response.sendRedirect("HTML/dashboard.html");
         } else {
-            // Usuario no encontrado
             request.setAttribute("error", "Usuario o contraseña incorrectos.");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("index.html").forward(request, response);
         }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Aquí podrías redirigir al login si intentan acceder directamente
+        request.getRequestDispatcher("index.html").forward(request, response);
     }
 }

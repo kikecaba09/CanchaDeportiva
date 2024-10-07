@@ -1,12 +1,12 @@
 package pe.edu.utp.utils;
 
 import jakarta.servlet.Servlet;
-import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.server.session.SessionHandler;
 
 public class JettyUTP {
 
@@ -19,33 +19,27 @@ public class JettyUTP {
         this.port = port;
         this.static_path = static_path;
         this.server = new Server(port);
-        Connector connector = new ServerConnector(this.server);
+        ServerConnector connector = new ServerConnector(this.server);
         this.server.addConnector(connector);
-        this.context = getContextWebApp(this.port, this.static_path);
-    }
-
-    private static ServletContextHandler getContextWebApp(int port, String path){
-
-        // Crear ServletContextHandler con contextPath.
-        ServletContextHandler context = new ServletContextHandler();
-        context.setContextPath("/");
+        this.context = new ServletContextHandler(ServletContextHandler.SESSIONS); // Use the sessions constant
+        this.context.setContextPath("/");
 
         // Agregar DefaultServlet para atender contenido estático
         ServletHolder servletHolderStatic = context.addServlet(DefaultServlet.class, "/");
-        // Configurar DefaultServlet para indicarle la ruta de los archivos estáticos
-        servletHolderStatic.setInitParameter("resourceBase", path);
+        servletHolderStatic.setInitParameter("resourceBase", static_path);
         servletHolderStatic.setAsyncSupported(true);
 
-        return context;
+        // Establecer el SessionHandler en el ServletContextHandler automáticamente
+        this.context.setHandler(new SessionHandler());
     }
 
-    public ServletHolder addServlet(Class<? extends Servlet> servlet, String path){
+    public ServletHolder addServlet(Class<? extends Servlet> servlet, String path) {
         return context.addServlet(servlet, path);
     }
 
     public void start() throws Exception {
         // Link the context to the server.
         this.server.setHandler(this.context);
-        this.server.start();
+        this.server.start(); // Iniciar el servidor
     }
 }
