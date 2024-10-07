@@ -5,6 +5,7 @@ import pe.edu.utp.Reposity.RolDAO;
 import java.util.List;
 
 public class RolDAOImp implements RolDAO {
+
     @Override
     public void agregarRol(Rol rol) {
 
@@ -12,6 +13,11 @@ public class RolDAOImp implements RolDAO {
 
     @Override
     public void modificarRol(Rol rol) {
+
+    }
+
+    @Override
+    public void eliminarRol(int rolId) {
 
     }
 

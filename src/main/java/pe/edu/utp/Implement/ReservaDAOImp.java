@@ -1,6 +1,5 @@
 package pe.edu.utp.Implement;
 
-import pe.edu.utp.Model.Cancha;
 import pe.edu.utp.Model.Reserva;
 import pe.edu.utp.Reposity.ReservaDAO;
 import java.util.List;
@@ -23,22 +22,7 @@ public class ReservaDAOImp implements ReservaDAO {
     }
 
     @Override
-    public void registrarMetodoPago(int reservaId, String metodoPago) {
+    public void validarDisponibilidad(int canchaId, String fecha, String horaInicio, int duracion) {
 
-    }
-
-    @Override
-    public List<Reserva> generarReporteReservas(String fechaInicio, String fechaFin) {
-        return List.of();
-    }
-
-    @Override
-    public double calcularIngresos(String fechaInicio, String fechaFin) {
-        return 0;
-    }
-
-    @Override
-    public List<Cancha> obtenerEstadisticasUso(String fechaInicio, String fechaFin) {
-        return List.of();
     }
 }

@@ -24,9 +24,4 @@ public class CanchaDAOImp implements CanchaDAO {
     public List<Cancha> listarCanchas() {
         return List.of();
     }
-
-    @Override
-    public boolean validarDisponibilidad(int canchaId, String fecha, String horaInicio, String horaFin) {
-        return false;
-    }
 }

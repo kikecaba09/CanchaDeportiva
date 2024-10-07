@@ -36,8 +36,12 @@ CREATE TABLE User (
                       rol_id INT NOT NULL,
                       username VARCHAR(50) NOT NULL,
                       password VARCHAR(255) NOT NULL,
-                      FOREIGN KEY (cliente_id) REFERENCES Cliente(cliente_id) ON DELETE CASCADE ON UPDATE CASCADE,
-                      FOREIGN KEY (rol_id) REFERENCES Rol(rol_id) ON DELETE CASCADE ON UPDATE CASCADE
+                      FOREIGN KEY (cliente_id) REFERENCES Cliente(cliente_id)
+                          ON DELETE CASCADE
+                          ON UPDATE CASCADE,
+                      FOREIGN KEY (rol_id) REFERENCES Rol(rol_id)
+                          ON DELETE CASCADE
+                          ON UPDATE CASCADE
 );
 
 -- Tabla Reserva
@@ -50,6 +54,22 @@ CREATE TABLE Reserva (
                          hora_inicio TIME NOT NULL,
                          hora_fin TIME NOT NULL,
                          estado_reserva VARCHAR(50),
-                         FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-                         FOREIGN KEY (cancha_id) REFERENCES Cancha(cancha_id) ON DELETE CASCADE ON UPDATE CASCADE
+                         FOREIGN KEY (user_id) REFERENCES User(user_id)
+                             ON DELETE CASCADE
+                             ON UPDATE CASCADE,
+                         FOREIGN KEY (cancha_id) REFERENCES Cancha(cancha_id)
+                             ON DELETE CASCADE
+                             ON UPDATE CASCADE
+);
+
+-- Tabla Pago
+CREATE TABLE Pago (
+                      pago_id INT AUTO_INCREMENT PRIMARY KEY,
+                      reserva_id INT NOT NULL,
+                      metodo_pago VARCHAR(50) NOT NULL,  -- 'Efectivo' o 'Yape'
+                      monto DECIMAL(10,2) NOT NULL,
+                      fecha_pago DATE NOT NULL,
+                      FOREIGN KEY (reserva_id) REFERENCES Reserva(reserva_id)
+                          ON DELETE CASCADE
+                          ON UPDATE CASCADE
 );
