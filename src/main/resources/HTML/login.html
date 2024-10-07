@@ -3,41 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <title>SHUMPI Soccer Club</title>
 </head>
 <body>
-<header> <!-- Encabezado con color verde ajustable -->
-    <h1>Login</h1>
-</header>
-
-<div class="container-fluid form-container">
-    <div class="row align-items-center">
-        <div class="col-md-6 text-center">
-            <img src="../img/importante/logo.png" alt="Logo" class="img-fluid" style="max-width: 80%; height: auto;">
+<div class="container">
+    <aside class="sidebar">
+        <div class="logo">
+            <h1>SHUMPI</h1>
+            <h2>Soccer Club</h2>
         </div>
-        <div class="col-md-6">
-            <div class="form-card"> <!-- Card para el formulario -->
-                <form action="login.php" method="post"> <!-- Cambia el action según tu archivo de procesamiento -->
-                    <h2>Bienvenidos al sistema</h2>
-                    <div class="form-group">
-                        <label for="username" class="font-weight-bold">Usuario:</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password" class="font-weight-bold">Contraseña:</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
-                </form>
+        <nav>
+            <ul>
+                <li><a href="#">Reservar</a></li>
+                <li><a href="#">Canchas disponibles</a></li>
+                <li><a href="#">Calendario disponibilidad</a></li>
+                <li><a href="#">Configuración</a></li>
+                <li><a href="#">Reportes</a></li>
+            </ul>
+        </nav>
+        <div class="logout">
+            <a href="#">Cerrar sesión</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <h2>Reservas</h2>
+        </header>
+        <div class="court-container">
+            <div class="court">
+                <h3>Cancha 1</h3>
+                <img src="img/cancha1.jpg" alt="Cancha 1">
+                <p>6 jugadores - Grass sintético - Iluminación LED</p>
+                <p>Precio Día: S/.45</p>
+                <p>Precio Noche: S/.65</p>
+                <button>Reservar</button>
+            </div>
+            <div class="court">
+                <h3>Cancha 2</h3>
+                <img src="img/cancha2.jpg" alt="Cancha 2">
+                <p>6 jugadores - Grass sintético - Iluminación LED</p>
+                <p>Precio Día: S/.45</p>
+                <p>Precio Noche: S/.65</p>
+                <button>Reservar</button>
             </div>
         </div>
-    </div>
+    </main>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

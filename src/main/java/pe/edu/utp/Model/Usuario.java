@@ -2,13 +2,13 @@ package pe.edu.utp.Model;
 
 public class Usuario {
 
-    private String idUsuario;
+    private int idUsuario;
     private String username;
     private String password;
     private int idRol;
     private int idCliente;
 
-    public Usuario(String idUsuario, String username, String password, int idRol, int idCliente) {
+    public Usuario(int idUsuario, String username, String password, int idRol, int idCliente) {
         this.idUsuario = idUsuario;
         this.username = username;
         this.password = password;
@@ -19,11 +19,11 @@ public class Usuario {
     public Usuario() {
     }
 
-    public String getIdUsuario() {
+    public int getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(String idUsuario) {
+    public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
 

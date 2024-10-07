@@ -1,5 +1,6 @@
 package pe.edu.utp.Ejecucion;
 
+import pe.edu.utp.Servlet.LoginServlet;
 import pe.edu.utp.utils.JettyUTP;
 import java.net.URL;
 
@@ -9,6 +10,7 @@ public class AppCanchaDeportiva {
         String path = "src\\main\\resources\\";
 
         JettyUTP webserver = new JettyUTP(8080, path);
+        webserver.addServlet(LoginServlet.class,"/login");
 
 
         URL myURL = new URL("http://localhost:8080");
