@@ -2,54 +2,19 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <title>SHUMPI Soccer Club</title>
+    <title>Lista de Canchas</title>
+    <script src="listarCanchas.js" defer></script> <!-- Asegúrate de que la ruta sea correcta -->
+    <style>
+        /* Estilos para tus canchas */
+        .cancha {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <aside class="sidebar">
-        <div class="logo">
-            <h1>SHUMPI</h1>
-            <h2>Soccer Club</h2>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#">Reservar</a></li>
-                <li><a href="#">Canchas disponibles</a></li>
-                <li><a href="#">Calendario disponibilidad</a></li>
-                <li><a href="#">Configuración</a></li>
-                <li><a href="#">Reportes</a></li>
-            </ul>
-        </nav>
-        <div class="logout">
-            <a href="#">Cerrar sesión</a>
-        </div>
-    </aside>
-
-    <main class="main-content">
-        <header>
-            <h2>Reservas</h2>
-        </header>
-        <div class="court-container">
-            <div class="court">
-                <h3>Cancha 1</h3>
-                <img src="img/cancha1.jpg" alt="Cancha 1">
-                <p>6 jugadores - Grass sintético - Iluminación LED</p>
-                <p>Precio Día: S/.45</p>
-                <p>Precio Noche: S/.65</p>
-                <button>Reservar</button>
-            </div>
-            <div class="court">
-                <h3>Cancha 2</h3>
-                <img src="img/cancha2.jpg" alt="Cancha 2">
-                <p>6 jugadores - Grass sintético - Iluminación LED</p>
-                <p>Precio Día: S/.45</p>
-                <p>Precio Noche: S/.65</p>
-                <button>Reservar</button>
-            </div>
-        </div>
-    </main>
-</div>
+<h1>Lista de Canchas</h1>
+<div id="contenedorCanchas"></div> <!-- Aquí se mostrarán las canchas -->
 </body>
 </html>
