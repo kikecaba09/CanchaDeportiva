@@ -9,7 +9,8 @@ CREATE TABLE Cancha (
                         precio_noche DECIMAL(10,2) NOT NULL,
                         imagen_cancha VARCHAR(100) NOT NULL,
                         hora_abierto TIME NOT NULL,
-                        hora_cerrado TIME NOT NULL
+                        hora_cerrado TIME NOT NULL,
+                        estado VARCHAR(50) NOT NULL
 );
 
 -- Tabla Rol
@@ -65,11 +66,11 @@ CREATE TABLE Pago (
 );
 
 
-INSERT INTO Cancha (nro_cancha, precio_dia, precio_noche, imagen_cancha, hora_abierto, hora_cerrado) VALUES
-    (1, 45.00, 65.00, 'cancha1.png', '08:00:00', '21:00:00'),
-    (2, 50.00, 70.00, 'cancha2.png', '09:30:00', '20:30:00'),
-    (3, 55.00, 75.00, 'cancha3.png', '10:30:00', '22:00:00'),
-    (4, 60.00, 80.00, 'cancha4.png', '09:30:00', '19:00:00');
+INSERT INTO Cancha (nro_cancha, precio_dia, precio_noche, imagen_cancha, hora_abierto, hora_cerrado, estado) VALUES
+(1, 45.00, 65.00, 'cancha1.png', '08:00:00', '21:00:00', 'Disponible'),
+(2, 50.00, 70.00, 'cancha2.png', '09:30:00', '20:30:00', 'No disponible'),
+(3, 55.00, 75.00, 'cancha3.png', '10:30:00', '22:00:00', 'Disponible'),
+(4, 60.00, 80.00, 'cancha4.png', '09:30:00', '19:00:00', 'No disponible');
 
 INSERT INTO Rol (rol) VALUES ('administrador'), ('cajero'),  ('cliente');
 
@@ -79,4 +80,4 @@ INSERT INTO Cliente (nombre, apellido, nro_identidad, telefono, email, fecha_nac
 ('Luis', 'Martínez', '11223344', '987654323', 'luismartinez@gmail.com', '1985-10-20');
 
 INSERT INTO User (cliente_id, rol_id, username, password) VALUES
-(1, 1, 'Victor', '123456');
+    (1, 1, 'Victor', '123456');

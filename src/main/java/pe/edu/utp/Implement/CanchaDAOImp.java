@@ -29,7 +29,7 @@ public class CanchaDAOImp implements CanchaDAO {
     @Override
     public List<Cancha> listarCanchas() {
         List<Cancha> canchas = new ArrayList<>();
-        String sql = "SELECT cancha_id, nro_cancha, imagen_cancha, precio_dia, precio_noche FROM Cancha"; // Ajusta la consulta según sea necesario
+        String sql = "SELECT cancha_id, nro_cancha, precio_dia, precio_noche, imagen_cancha FROM Cancha"; // Ajusta la consulta según sea necesario
 
         Connection conexion = null;
 
@@ -42,9 +42,9 @@ public class CanchaDAOImp implements CanchaDAO {
                 Cancha cancha = new Cancha();
                 cancha.setCanchaId(resultSet.getInt("cancha_id"));
                 cancha.setNroCancha(resultSet.getInt("nro_cancha"));
-                cancha.setImagenCancha(resultSet.getString("imagen_cancha"));
                 cancha.setPrecioDia(resultSet.getDouble("precio_dia"));
                 cancha.setPrecioNoche(resultSet.getDouble("precio_noche"));
+                cancha.setImagenCancha(resultSet.getString("imagen_cancha"));
                 canchas.add(cancha);
             }
 
