@@ -6,6 +6,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
 </head>
 <body>
 <header>
@@ -25,9 +26,12 @@
                         <label for="username" class="font-weight-bold">Usuario:</label>
                         <input type="text" class="form-control" id="username" name="username" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group position-relative">
                         <label for="password" class="font-weight-bold">Contraseña:</label>
                         <input type="password" class="form-control" id="password" name="password" required>
+                        <span id="togglePassword" style="cursor: pointer; position: absolute; right: 10px; top: 38px;">
+                            <i class="fas fa-eye" id="eyeIcon"></i>
+                        </span>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
                 </form>
@@ -39,5 +43,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="JS/login.js"></script> <!-- Link to your external JS file -->
 </body>
 </html>

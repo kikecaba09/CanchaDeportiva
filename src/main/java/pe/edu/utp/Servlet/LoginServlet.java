@@ -33,7 +33,12 @@ public class LoginServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Aquí podrías redirigir al login si intentan acceder directamente
-        request.getRequestDispatcher("index.html").forward(request, response);
+        HttpSession session = request.getSession(false);
+        // Check if the user is already logged in
+        if (session != null && session.getAttribute("usuario") != null) {
+            response.sendRedirect("/listarCanchas"); // Redirect to the main page
+        } else {
+            request.getRequestDispatcher("index.html").forward(request, response);
+        }
     }
 }
