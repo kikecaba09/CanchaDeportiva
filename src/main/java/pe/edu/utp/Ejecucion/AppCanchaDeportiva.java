@@ -4,6 +4,7 @@ import pe.edu.utp.Servlet.Canchas.ActualizarCanchaServlet;
 import pe.edu.utp.Servlet.Canchas.AgregarCanchaServlet;
 import pe.edu.utp.Servlet.Canchas.EliminarCanchaServlet;
 import pe.edu.utp.Servlet.Login.CerrarSesionServlet;
+import pe.edu.utp.Servlet.Login.PerfilServlet;
 import pe.edu.utp.Servlet.Reservar.CanchasDisponible;
 import pe.edu.utp.Servlet.Reservar.CanchasNoDisponible;
 import pe.edu.utp.Servlet.Canchas.ListarCanchaServlet;
@@ -19,6 +20,7 @@ public class AppCanchaDeportiva {
         JettyUTP webserver = new JettyUTP(8080, path);
         webserver.addServlet(LoginServlet.class,"/login");
         webserver.addServlet(CerrarSesionServlet.class,"/cerrarSesion");
+        webserver.addServlet(PerfilServlet.class,"/perfil");
         webserver.addServlet(AgregarCanchaServlet.class,"/agregarCancha");
         webserver.addServlet(ActualizarCanchaServlet.class,"/actualizarCancha");
         webserver.addServlet(EliminarCanchaServlet.class,"/eliminarCancha");
