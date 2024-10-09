@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
         if (usuario != null) {
             HttpSession session = request.getSession(true);
             session.setAttribute("usuario", usuario);
-            response.sendRedirect("HTML/dashboard.html");
+            response.sendRedirect("/listarCanchas");
         } else {
             request.setAttribute("error", "Usuario o contraseña incorrectos.");
             request.getRequestDispatcher("index.html").forward(request, response);

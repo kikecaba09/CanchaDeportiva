@@ -3,18 +3,20 @@ package pe.edu.utp.Model;
 public class Cancha {
 
     private int canchaId;
-    private String nroCancha;
+    private int nroCancha;
     private double precioDia;
     private double precioNoche;
+    private String imagenCancha;
     private String horaAbierto;
     private String horaCerrado;
 
-    public Cancha(int canchaId, String nroCancha, double precioDia, double precioNoche,
-                  String horaAbierto, String horaCerrado) {
+    public Cancha(int canchaId, int nroCancha, double precioDia, double precioNoche,
+                  String imagenCancha, String horaAbierto, String horaCerrado) {
         this.canchaId = canchaId;
         this.nroCancha = nroCancha;
         this.precioDia = precioDia;
         this.precioNoche = precioNoche;
+        this.imagenCancha = imagenCancha;
         this.horaAbierto = horaAbierto;
         this.horaCerrado = horaCerrado;
     }
@@ -30,11 +32,11 @@ public class Cancha {
         this.canchaId = canchaId;
     }
 
-    public String getNroCancha() {
+    public int getNroCancha() {
         return nroCancha;
     }
 
-    public void setNroCancha(String nroCancha) {
+    public void setNroCancha(int nroCancha) {
         this.nroCancha = nroCancha;
     }
 
@@ -52,6 +54,14 @@ public class Cancha {
 
     public void setPrecioNoche(double precioNoche) {
         this.precioNoche = precioNoche;
+    }
+
+    public String getImagenCancha() {
+        return imagenCancha;
+    }
+
+    public void setImagenCancha(String imagenCancha) {
+        this.imagenCancha = imagenCancha;
     }
 
     public String getHoraAbierto() {
@@ -74,9 +84,10 @@ public class Cancha {
     public String toString() {
         return "Cancha{" +
                 "canchaId=" + canchaId +
-                ", nroCancha='" + nroCancha + '\'' +
+                ", nroCancha=" + nroCancha +
                 ", precioDia=" + precioDia +
                 ", precioNoche=" + precioNoche +
+                ", imagenCancha='" + imagenCancha + '\'' +
                 ", horaAbierto='" + horaAbierto + '\'' +
                 ", horaCerrado='" + horaCerrado + '\'' +
                 '}';
