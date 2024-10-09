@@ -1,4 +1,4 @@
-package pe.edu.utp.Servlet;
+package pe.edu.utp.Servlet.Login;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
