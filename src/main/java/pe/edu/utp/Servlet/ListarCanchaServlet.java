@@ -42,7 +42,7 @@ public class ListarCanchaServlet extends HttpServlet {
 
         // Header con logo y título
         out.println("<header class='bg-success text-white p-3 d-flex align-items-center'>");
-        out.println("<img src='img/logo.png' alt='Logo' class='logo mr-3'>");
+        out.println("<img src='img/importante/logo.png' alt='Logo' class='logo mr-3'>");
         out.println("<h1 class='m-0' style='font-size: 1.8rem;'>SHUMPI Soccer Club</h1>");
         out.println("<button class='navbar-toggler ml-auto' type='button' data-toggle='collapse' data-target='#navbarNav'>");
         out.println("<span class='navbar-toggler-icon'></span>");
@@ -77,8 +77,8 @@ public class ListarCanchaServlet extends HttpServlet {
         for (Cancha cancha : canchas) {
             out.println("<div class='col-md-6 mb-4'>");
             out.println("<div class='card'>");
-            out.println("<h5 class='card-title'>Cancha" + cancha.getNroCancha() + "</h5>");
-            out.println("<img src='img/cancha" + cancha.getImagenCancha() + "class='card-img-top' alt='Cancha " + cancha.getNroCancha() + "'>");
+            out.println("<h5 class='card-title'>Cancha " + cancha.getNroCancha() + "</h5>");
+            out.println("<img src='img/canchasDeportivas/" + cancha.getImagenCancha() + "class='card-img-top' alt='Cancha " + cancha.getNroCancha() + "'>");
             out.println("<div class='card-body'>");
             out.println("<p class='card-text'><strong>Precio Día:</strong> S/" + cancha.getPrecioDia() + "<br><strong>Precio Noche:</strong> S/" + cancha.getPrecioNoche() + "</p>");
             out.println("<a href='#' class='btn btn-success'>Reservar</a>");
