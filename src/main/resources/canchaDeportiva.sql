@@ -4,10 +4,10 @@ USE CanchaDeportiva;
 -- Tabla Cancha
 CREATE TABLE Cancha (
                         cancha_id INT AUTO_INCREMENT PRIMARY KEY,
-                        centro_id INT NOT NULL,
                         nro_cancha INT NOT NULL,
                         precio_dia DECIMAL(10,2) NOT NULL,
                         precio_noche DECIMAL(10,2) NOT NULL,
+                        imagen_cancha VARCHAR(100) NOT NULL,
                         hora_abierto TIME NOT NULL,
                         hora_cerrado TIME NOT NULL
 );

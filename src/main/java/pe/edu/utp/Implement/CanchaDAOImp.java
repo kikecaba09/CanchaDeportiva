@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CanchaDAOImp implements CanchaDAO {
+
     @Override
     public void agregarCancha(Cancha cancha) {
 
@@ -28,31 +29,7 @@ public class CanchaDAOImp implements CanchaDAO {
 
     @Override
     public List<Cancha> listarCanchas() {
-        List<Cancha> canchas = new ArrayList<>();
-        String sql = "SELECT cancha_id, nro_cancha, precio_dia, precio_noche FROM Cancha"; // Ajusta la consulta según sea necesario
-
-        Connection conexion = null;
-
-        try {
-            conexion = ConexionBD.obtenerConexion();
-            PreparedStatement preparedStatement = conexion.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                Cancha cancha = new Cancha();
-                cancha.setCanchaId(resultSet.getInt("cancha_id"));
-                cancha.setNroCancha(resultSet.getString("nro_cancha"));
-                cancha.setPrecioDia(resultSet.getDouble("precio_dia"));
-                cancha.setPrecioNoche(resultSet.getDouble("precio_noche"));
-                canchas.add(cancha);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error al obtener las canchas: " + e.getMessage());
-        } finally {
-            ConexionBD.cerrarConexion(conexion); // Cerrar conexión
-        }
-
-        return canchas;
+        return List.of();
     }
+
 }
