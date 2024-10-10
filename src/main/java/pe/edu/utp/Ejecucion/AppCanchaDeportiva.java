@@ -20,7 +20,8 @@ public class AppCanchaDeportiva {
         JettyUTP webserver = new JettyUTP(8080, path);
         webserver.addServlet(LoginServlet.class,"/login");
         webserver.addServlet(CerrarSesionServlet.class,"/cerrarSesion");
-        webserver.addServlet(PerfilServlet.class,"/perfil");
+        webserver.addServlet(PerfilServlet.class,"/miPerfil" +
+                "");
         webserver.addServlet(AgregarCanchaServlet.class,"/agregarCancha");
         webserver.addServlet(ActualizarCanchaServlet.class,"/actualizarCancha");
         webserver.addServlet(EliminarCanchaServlet.class,"/eliminarCancha");

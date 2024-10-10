@@ -6,17 +6,19 @@ public class Cliente {
 
     private int clienteId;
     private String nombre;
-    private String apellido;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
     private String nroIdentidad;
     private String telefono;
     private String email;
     private Date fechaNacimiento;
 
-    public Cliente(int clienteId, String nombre, String apellido, String nroIdentidad,
-                   String telefono, String email, Date fechaNacimiento) {
+    public Cliente(int clienteId, String nombre, String apellidoPaterno, String apellidoMaterno,
+                   String nroIdentidad, String telefono, String email, Date fechaNacimiento) {
         this.clienteId = clienteId;
         this.nombre = nombre;
-        this.apellido = apellido;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
         this.nroIdentidad = nroIdentidad;
         this.telefono = telefono;
         this.email = email;
@@ -42,12 +44,20 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
     }
 
     public String getNroIdentidad() {
@@ -87,7 +97,8 @@ public class Cliente {
         return "Cliente{" +
                 "clienteId=" + clienteId +
                 ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
+                ", apellidoPaterno='" + apellidoPaterno + '\'' +
+                ", apellidoMaterno='" + apellidoMaterno + '\'' +
                 ", nroIdentidad='" + nroIdentidad + '\'' +
                 ", telefono='" + telefono + '\'' +
                 ", email='" + email + '\'' +
