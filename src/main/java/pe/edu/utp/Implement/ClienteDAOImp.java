@@ -6,6 +6,7 @@ import pe.edu.utp.Reposity.ClienteDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ClienteDAOImp implements ClienteDAO {
@@ -65,4 +66,29 @@ public class ClienteDAOImp implements ClienteDAO {
         return cliente;
     }
 
+    @Override
+    public Cliente obtenerClientePorId(int idCliente) {
+        Cliente cliente = null;
+        String query = "SELECT * FROM cliente WHERE clienteId = ?";
+
+        try (Connection connection = ConexionBD.obtenerConexion();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, idCliente);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                cliente = new Cliente();
+                cliente.setClienteId(resultSet.getInt("clienteId"));
+                cliente.setNombre(resultSet.getString("nombre"));
+                cliente.setApellidoPaterno(resultSet.getString("apellidoPaterno"));
+                cliente.setApellidoMaterno(resultSet.getString("apellidoMaterno"));
+                cliente.setNroIdentidad(resultSet.getString("nroIdentidad"));
+                cliente.setTelefono(resultSet.getString("telefono"));
+                cliente.setEmail(resultSet.getString("email"));
+                cliente.setFechaNacimiento(resultSet.getDate("fechaNacimiento"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cliente;
+    }
 }

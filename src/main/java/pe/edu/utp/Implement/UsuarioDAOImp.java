@@ -58,4 +58,26 @@ public class UsuarioDAOImp implements UsuarioDAO {
         }
         return usuario;
     }
+
+    @Override
+    public Usuario obtenerUsuarioPorId(int idUsuario) {
+        Usuario usuario = null;
+        String query = "SELECT * FROM usuario WHERE idUsuario = ?";
+        try (Connection connection = ConexionBD.obtenerConexion();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, idUsuario);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                usuario = new Usuario();
+                usuario.setIdUsuario(resultSet.getInt("idUsuario"));
+                usuario.setUsername(resultSet.getString("username"));
+                usuario.setPassword(resultSet.getString("password")); // No se recomienda enviar la contraseña
+                usuario.setIdRol(resultSet.getInt("idRol"));
+                usuario.setIdCliente(resultSet.getInt("idCliente"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuario;
+    }
 }

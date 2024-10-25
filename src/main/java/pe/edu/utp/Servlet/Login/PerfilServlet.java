@@ -7,56 +7,65 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import pe.edu.utp.Implement.ClienteDAOImp;
+import pe.edu.utp.Implement.RolDAOImp;
+import pe.edu.utp.Implement.UsuarioDAOImp;
+import pe.edu.utp.Model.Usuario;
 import pe.edu.utp.Model.Cliente;
+import pe.edu.utp.Model.Rol;
+import pe.edu.utp.Reposity.UsuarioDAO;
 import pe.edu.utp.Reposity.ClienteDAO;
-
+import pe.edu.utp.Reposity.RolDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet("/miPerfil")
 public class PerfilServlet extends HttpServlet {
 
-    private ClienteDAO clienteDAO;
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Inicializa las implementaciones de los DAOs en cada solicitud
+        UsuarioDAO usuarioDAO = new UsuarioDAOImp();
+        ClienteDAO clienteDAO = new ClienteDAOImp();
+        RolDAO rolDAO = new RolDAOImp();
 
-    @Override
-    public void init() {
-        // Instancia del DAOImpl
-        clienteDAO = new ClienteDAOImp();  // Usando el ClienteDAOImpl
+        // Obtiene la sesión actual
+        HttpSession session = request.getSession();
+        Integer idUsuario = (Integer) session.getAttribute("user_id"); // Asumiendo que guardaste el idUsuario en la sesión
+
+        if (idUsuario != null) {
+            // Busca el usuario en la base de datos
+            Usuario usuario = usuarioDAO.obtenerUsuarioPorId(idUsuario);
+            if (usuario != null) {
+                Cliente cliente = clienteDAO.obtenerClientePorId(usuario.getIdCliente());
+                Rol rol = rolDAO.obtenerRolPorId(usuario.getIdRol());
+
+                // Prepara la respuesta JSON
+                response.setContentType("application/json");
+                PrintWriter out = response.getWriter();
+                out.println("{");
+                out.println("\"nombre\": \"" + (cliente != null ? cliente.getNombre() : "") + "\",");
+                out.println("\"apellidoPaterno\": \"" + (cliente != null ? cliente.getApellidoPaterno() : "") + "\",");
+                out.println("\"apellidoMaterno\": \"" + (cliente != null ? cliente.getApellidoMaterno() : "") + "\",");
+                out.println("\"nroIdentidad\": \"" + (cliente != null ? cliente.getNroIdentidad() : "") + "\",");
+                out.println("\"telefono\": \"" + (cliente != null ? cliente.getTelefono() : "") + "\",");
+                out.println("\"email\": \"" + (cliente != null ? cliente.getEmail() : "") + "\",");
+                out.println("\"fechaNacimiento\": \"" + (cliente != null ? cliente.getFechaNacimiento() : "") + "\"");
+                out.println("\"rol\": \"" + (rol != null ? rol.getRol() : "") + "\",");
+                out.println("}");
+                out.println("}");
+                out.println("}");
+            } else {
+                // Si no se encuentra el usuario, responde con un mensaje de error
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Usuario no encontrado");
+            }
+        } else {
+            // Si no hay sesión activa, responde con un mensaje de error
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha iniciado sesión");
+        }
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Obtener la sesión actual
-        HttpSession session = request.getSession(false);
-
-        if (session == null) {
-            // Si no hay sesión activa, devolver un error
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha iniciado sesión.");
-            return;
-        }
-
-        // Obtener el ID del usuario de la sesión
-        Integer userId = (Integer) session.getAttribute("user_id");
-
-        if (userId == null) {
-            // Si el ID del usuario es nulo, devolver un error
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El ID del usuario es nulo.");
-            return;
-        }
-
-        try {
-            // Obtener los datos del cliente a partir del userId usando el DAO
-            Cliente cliente = clienteDAO.obtenerClientePorUserId(userId);
-
-            if (cliente != null) {
-                // Pasar los datos del cliente a la JSP
-                request.setAttribute("cliente", cliente);
-                request.getRequestDispatcher("perfil.jsp").forward(request, response);
-            } else {
-                // Si no se encuentra el cliente, devolver un error
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Cliente no encontrado.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtener los datos del cliente.");
-        }
+    @Override
+    public void destroy() {
+        super.destroy();
+        // Libera recursos, si es necesario
     }
 }

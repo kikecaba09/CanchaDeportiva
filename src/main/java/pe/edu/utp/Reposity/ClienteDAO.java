@@ -10,4 +10,5 @@ public interface ClienteDAO {
     void eliminarCliente(int clienteId); // Cumple RF-04
     List<Cliente> listarClientes();// Cumple RF-04
     Cliente obtenerClientePorUserId(int userId);
+    Cliente obtenerClientePorId(int idCliente);
 }

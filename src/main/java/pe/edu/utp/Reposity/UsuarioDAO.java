@@ -10,5 +10,6 @@ public interface UsuarioDAO {
     void eliminarUsuario(int userId); // Cumple RF-02
     List<Usuario> listarUsuarios(); // Cumple RF-02
     Usuario obtenerUsuario(String username, String password);
+    Usuario obtenerUsuarioPorId(int idUsuario);
 
 }

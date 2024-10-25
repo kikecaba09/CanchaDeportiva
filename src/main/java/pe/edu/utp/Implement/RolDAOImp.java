@@ -1,7 +1,12 @@
 package pe.edu.utp.Implement;
 
+import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Rol;
 import pe.edu.utp.Reposity.RolDAO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class RolDAOImp implements RolDAO {
@@ -24,5 +29,25 @@ public class RolDAOImp implements RolDAO {
     @Override
     public List<Rol> listarRoles() {
         return List.of();
+    }
+
+    @Override
+    public Rol obtenerRolPorId(int idRol) {
+        Rol rol = null;
+        String query = "SELECT * FROM rol WHERE rolId = ?";
+
+        try (Connection connection = ConexionBD.obtenerConexion();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, idRol);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                rol = new Rol();
+                rol.setRolId(resultSet.getInt("rolId"));
+                rol.setRol(resultSet.getString("rol"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rol;
     }
 }

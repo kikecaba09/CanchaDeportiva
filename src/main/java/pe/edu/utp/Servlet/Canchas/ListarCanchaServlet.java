@@ -79,7 +79,7 @@ public class ListarCanchaServlet extends HttpServlet {
         out.println("    background-color: #e0e0e0;");
         out.println("}");
         out.println("nav.sidebar .nav-link i {");
-        out.println("    margin-right: 10px;"); // Espacio entre icono y texto
+        out.println("    margin-right: 10px;");
         out.println("}");
         out.println(".card:hover {");
         out.println("    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);");
@@ -90,6 +90,26 @@ public class ListarCanchaServlet extends HttpServlet {
         out.println("    height: 300px;");
         out.println("    object-fit: cover;");
         out.println("}");
+        out.println(".btn-reservar {");
+        out.println("    background-color: #28a745;");
+        out.println("    color: #fff;");
+        out.println("    font-size: 1rem;");
+        out.println("    font-weight: bold;");
+        out.println("    padding: 13px 40px;");
+        out.println("    border: none;");
+        out.println("    border-radius: 40px;");
+        out.println("    display: inline-flex;");
+        out.println("    align-items: center;");
+        out.println("    transition: background-color 0.3s, transform 0.2s;");
+        out.println("}");
+        out.println(".btn-reservar:hover {");
+        out.println("    background-color: #218838;");
+        out.println("    transform: scale(1.05);");
+        out.println("}");
+        out.println(".btn-reservar i {");
+        out.println("    margin-right: 8px;");
+        out.println("    font-size: 1.2rem;");
+        out.println("}");
         out.println("</style>");
 
         // JavaScript para alternar la visibilidad del submenú
@@ -98,8 +118,8 @@ public class ListarCanchaServlet extends HttpServlet {
         out.println("    $('.nav-link[data-toggle]').click(function(event) {");
         out.println("        event.preventDefault();");
         out.println("        var submenu = $($(this).data('toggle'));");
-        out.println("        $('.submenu').not(submenu).hide();"); // Oculta otros submenús
-        out.println("        submenu.toggle();"); // Alterna el submenú actual");
+        out.println("        $('.submenu').not(submenu).hide();");
+        out.println("        submenu.toggle();");
         out.println("    });");
         out.println("});");
         out.println("</script>");
@@ -145,8 +165,6 @@ public class ListarCanchaServlet extends HttpServlet {
 
         out.println("<div class='d-flex justify-content-between align-items-center mb-4 mt-4'>");
         out.println("<h1 class='m-0'>Reservas</h1>");
-        out.println("<a href='agregarCancha.html' class='btn btn-primary'>");
-        out.println("<i class='fas fa-plus'></i> Agregar Cancha</a>");
         out.println("</div>");
 
         // Mostrar las canchas desde la base de datos
@@ -179,13 +197,8 @@ public class ListarCanchaServlet extends HttpServlet {
             out.println("<p class='card-text'><strong>Precio Noche:</strong> S/" + cancha.getPrecioNoche() + "</p>");
             out.println("</div>");
 
-            // Botones de acción
-            out.println("<a href='actualizarCancha?id=" + cancha.getCanchaId() + "' class='btn btn-warning'>");
-            out.println("<i class='fas fa-edit'></i> Actualizar</a>");
-            out.println("<a href='eliminarCancha?id=" + cancha.getCanchaId() + "' class='btn btn-danger'>");
-            out.println("<i class='fas fa-trash'></i> Eliminar</a>");
-            out.println("<a href='reservarCancha?id=" + cancha.getCanchaId() + "' class='btn btn-success'>");
-            out.println("<i class='fas fa-calendar-check'></i> Reservar</a>");
+            out.println("<a href='reservarCancha?id=" + cancha.getCanchaId() + "' class='btn btn-success btn-reservar'>");
+            out.println("<i class='fas fa-book'></i> Reservar</a>");
 
             out.println("</div>"); // cerrar card-body
             out.println("</div>"); // cerrar card
