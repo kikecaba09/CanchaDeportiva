@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/registrarCajero.css">
+    <title>Registro de Cajero</title>
+</head>
+<body>
+<div class="navbar">
+    <h1>Admin</h1>
+</div>
+
+<div class="container">
+    <div class="form-container">
+        <h2>REGISTRAR CAJERO</h2>
+        <form action="RegistrarCajeroServlet" method="post">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apellido">Apellido Paterno:</label>
+            <input type="text" id="apellido" name="apellido" required>
+
+            <label for="documento">Nro Documento:</label>
+            <input type="text" id="documento" name="documento" required>
+
+            <label for="telefono">Nro Telefono:</label>
+            <input type="text" id="telefono" name="telefono" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+
+            <div class="button-container">
+                <button type="submit" class="register-btn">Registrar</button>
+                <button type="reset" class="clear-btn">Limpiar</button>
+            </div>
+        </form>
+
+        <button class="view-users-btn" onclick="window.location.href='verUsuarios.html'">Ver todos los Cajeros</button>
+    </div>
+</div>
+</body>
+</html>
