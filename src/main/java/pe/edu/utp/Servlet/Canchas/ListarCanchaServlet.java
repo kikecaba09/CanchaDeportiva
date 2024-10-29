@@ -151,8 +151,8 @@ public class ListarCanchaServlet extends HttpServlet {
         out.println("</ul>");
         out.println("<li class='nav-item'><a class='nav-link' data-toggle='#adminMenu' href='#'><i class='fas fa-user-shield'></i> Administrador</a></li>");
         out.println("<ul id='adminMenu' class='submenu'>");
-        out.println("<a class='nav-link' href='registrarCajero.html'><i class='fas fa-user-plus'></i> Registrar</a>");
-        out.println("<a class='nav-link' href='administrarCajero.html'><i class='fas fa-user-cog'></i> Administrar cajero</a>");
+        out.println("<a class='nav-link' href='HTML/registrarCajero.html'><i class='fas fa-user-plus'></i> Registrar</a>");
+        out.println("<a class='nav-link' href='/administrarCajeros'><i class='fas fa-user-cog'></i> Administrar cajero</a>");
         out.println("<a class='nav-link' href='administrarCanchas.html'><i class='fas fa-football-ball'></i> Administrar canchas</a>");
         out.println("</ul>");
         out.println("<li class='nav-item'><a class='nav-link' href='cerrarSesion.html'><i class='fas fa-sign-out-alt'></i> Cerrar sesión</a></li>");

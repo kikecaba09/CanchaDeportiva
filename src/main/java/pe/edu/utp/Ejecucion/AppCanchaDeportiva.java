@@ -1,5 +1,6 @@
 package pe.edu.utp.Ejecucion;
 
+import pe.edu.utp.Servlet.Cajeros.registrarCajeroServlet;
 import pe.edu.utp.Servlet.Canchas.ActualizarCanchaServlet;
 import pe.edu.utp.Servlet.Canchas.AgregarCanchaServlet;
 import pe.edu.utp.Servlet.Canchas.EliminarCanchaServlet;
@@ -21,6 +22,7 @@ public class AppCanchaDeportiva {
         webserver.addServlet(LoginServlet.class,"/login");
         webserver.addServlet(CerrarSesionServlet.class,"/cerrarSesion");
         webserver.addServlet(PerfilServlet.class,"/miPerfil");
+        webserver.addServlet(registrarCajeroServlet.class,"/registrarCajero");
         webserver.addServlet(AgregarCanchaServlet.class,"/agregarCancha");
         webserver.addServlet(ActualizarCanchaServlet.class,"/actualizarCancha");
         webserver.addServlet(EliminarCanchaServlet.class,"/eliminarCancha");
