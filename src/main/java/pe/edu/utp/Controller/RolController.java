@@ -1,4 +1,4 @@
-package pe.edu.utp.Implement;
+package pe.edu.utp.Controller;
 
 import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Rol;
@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class RolDAOImp implements RolDAO {
+public class RolController implements RolDAO {
 
     @Override
     public void agregarRol(Rol rol) {
@@ -34,7 +34,7 @@ public class RolDAOImp implements RolDAO {
     @Override
     public Rol obtenerRolPorId(int idRol) {
         Rol rol = null;
-        String query = "SELECT * FROM rol WHERE rolId = ?";
+        String query = "SELECT * FROM rol WHERE rol_id = ?";
 
         try (Connection connection = ConexionBD.obtenerConexion();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -42,7 +42,7 @@ public class RolDAOImp implements RolDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 rol = new Rol();
-                rol.setRolId(resultSet.getInt("rolId"));
+                rol.setRolId(resultSet.getInt("rol_id"));
                 rol.setRol(resultSet.getString("rol"));
             }
         } catch (SQLException e) {

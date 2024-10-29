@@ -1,10 +1,10 @@
-package pe.edu.utp.Implement;
+package pe.edu.utp.Controller;
 
 import pe.edu.utp.Model.Pago;
 import pe.edu.utp.Reposity.PagoDAO;
 import java.util.List;
 
-public class PagoDAOImp implements PagoDAO {
+public class PagoController implements PagoDAO {
     @Override
     public void registrarPago(Pago pago) {
 

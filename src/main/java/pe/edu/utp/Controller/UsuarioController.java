@@ -1,4 +1,4 @@
-package pe.edu.utp.Implement;
+package pe.edu.utp.Controller;
 
 import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Usuario;
@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UsuarioDAOImp implements UsuarioDAO {
+public class UsuarioController implements UsuarioDAO {
 
     @Override
     public void agregarUsuario(Usuario usuario) {
@@ -62,14 +62,14 @@ public class UsuarioDAOImp implements UsuarioDAO {
     @Override
     public Usuario obtenerUsuarioPorId(int idUsuario) {
         Usuario usuario = null;
-        String query = "SELECT * FROM usuario WHERE idUsuario = ?";
+        String query = "SELECT * FROM usuario WHERE user_id = ?";
         try (Connection connection = ConexionBD.obtenerConexion();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, idUsuario);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 usuario = new Usuario();
-                usuario.setIdUsuario(resultSet.getInt("idUsuario"));
+                usuario.setIdUsuario(resultSet.getInt("user_id"));
                 usuario.setUsername(resultSet.getString("username"));
                 usuario.setPassword(resultSet.getString("password")); // No se recomienda enviar la contraseña
                 usuario.setIdRol(resultSet.getInt("idRol"));

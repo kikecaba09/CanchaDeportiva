@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil</title>
+    <link rel="stylesheet" href="/css/miPerfil.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<!-- Menú de navegación a la izquierda -->
+<nav class="col-md-3 bg-light sidebar" style="height: 100vh; background-color: lightgreen; padding: 0; width: 30%;">
+    <div class="sidebar-sticky">
+        <header class="bg-success text-white p-3 d-flex align-items-center">
+            <img src="img/importante/logo.png" alt="Logo" class="logo mr-3" style="max-width: 30%; height: auto;">
+            <h1 class="m-0" style="font-size: 1.5rem;">SHUMPI Soccer Club</h1>
+        </header>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="#reservarMenu" href="#">
+                    <i class="fas fa-calendar-plus"></i> Reservar
+                </a>
+            </li>
+            <ul id="reservarMenu" class="submenu">
+                <li><a class="nav-link" href="canchasDisponibles.html"><i class="fas fa-check"></i> Canchas disponibles</a></li>
+                <li><a class="nav-link" href="canchasNoDisponibles.html"><i class="fas fa-times"></i> Canchas no disponibles</a></li>
+                <li><a class="nav-link" href="calendarioDisponibilidad.html"><i class="fas fa-calendar-alt"></i> Calendario disponibilidad</a></li>
+            </ul>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="#configuracionMenu" href="#">
+                    <i class="fas fa-cog"></i> Configuración
+                </a>
+            </li>
+            <ul id="configuracionMenu" class="submenu">
+                <li><a class="nav-link" href="HTML/miPerfil.html"><i class="fas fa-user"></i> Mi perfil</a></li>
+            </ul>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="#adminMenu" href="#">
+                    <i class="fas fa-user-shield"></i> Administrador
+                </a>
+            </li>
+            <ul id="adminMenu" class="submenu">
+                <li><a class="nav-link" href="registrarCajero.html"><i class="fas fa-user-plus"></i> Registrar</a></li>
+                <li><a class="nav-link" href="administrarCajero.html"><i class="fas fa-user-cog"></i> Administrar cajero</a></li>
+                <li><a class="nav-link" href="administrarCanchas.html"><i class="fas fa-football-ball"></i> Administrar canchas</a></li>
+            </ul>
+            <li class="nav-item">
+                <a class="nav-link" href="cerrarSesion.html"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<header>
+    <h1>Mi Perfil</h1>
+</header>
+<div id="perfil-container">
+    <div id="perfil-header">MI PERFIL</div>
+    <div id="perfil-form">
+        <label for="nombre">Nombres:</label>
+        <input type="text" id="nombre" name="nombre">
+
+        <label for="apellidoPaterno">Apellido Paterno:</label>
+        <input type="text" id="apellidoPaterno" name="apellidoPaterno">
+
+        <label for="nroIdentidad">Nro Documento:</label>
+        <input type="text" id="nroIdentidad" name="nroIdentidad">
+
+        <label for="telefono">Nro Teléfono:</label>
+        <input type="text" id="telefono" name="telefono">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+
+        <label for="fechaNacimiento">Fecha Nacimiento:</label>
+        <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+
+        <button type="button">Editar</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            url: '/miPerfil',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                $('#nombre').val(data.nombre);
+                $('#apellidoPaterno').val(data.apellidoPaterno);
+                $('#nroIdentidad').val(data.nroIdentidad);
+                $('#telefono').val(data.telefono);
+                $('#email').val(data.email);
+                $('#fechaNacimiento').val(data.fechaNacimiento);
+            },
+            error: function(xhr) {
+                if (xhr.status === 401) {
+                    alert('No se ha iniciado sesión.');
+                } else {
+                    alert('Error al cargar el perfil: ' + xhr.responseText);
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

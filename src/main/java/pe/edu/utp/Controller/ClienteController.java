@@ -1,4 +1,4 @@
-package pe.edu.utp.Implement;
+package pe.edu.utp.Controller;
 
 import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Cliente;
@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ClienteDAOImp implements ClienteDAO {
+public class ClienteController implements ClienteDAO {
 
     @Override
     public void agregarCliente(Cliente cliente) {
@@ -69,7 +69,7 @@ public class ClienteDAOImp implements ClienteDAO {
     @Override
     public Cliente obtenerClientePorId(int idCliente) {
         Cliente cliente = null;
-        String query = "SELECT * FROM cliente WHERE clienteId = ?";
+        String query = "SELECT * FROM cliente WHERE cliente_id = ?";
 
         try (Connection connection = ConexionBD.obtenerConexion();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -77,7 +77,7 @@ public class ClienteDAOImp implements ClienteDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 cliente = new Cliente();
-                cliente.setClienteId(resultSet.getInt("clienteId"));
+                cliente.setClienteId(resultSet.getInt("cliente_id"));
                 cliente.setNombre(resultSet.getString("nombre"));
                 cliente.setApellidoPaterno(resultSet.getString("apellidoPaterno"));
                 cliente.setApellidoMaterno(resultSet.getString("apellidoMaterno"));

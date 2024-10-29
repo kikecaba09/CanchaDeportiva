@@ -1,0 +1,155 @@
+/* miPerfil.css */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+nav.sidebar {
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, width 0.3s;
+    width: 250px;
+    background-color: #dff0d8;
+    height: 100vh; /* Altura completa para la barra lateral */
+    position: fixed; /* Fijar la posición de la barra lateral */
+}
+
+nav.sidebar header {
+    background-color: #4CAF50;
+    padding: 15px;
+    text-align: center;
+}
+
+nav.sidebar .logo {
+    max-width: 60%; /* Ajustar el tamaño del logo */
+    height: auto; /* Mantener la relación de aspecto */
+}
+
+nav.sidebar .nav-link {
+    color: #333;
+    padding: 15px 20px;
+    border-radius: 5px;
+    display: flex; /* Alinear elementos horizontalmente */
+    align-items: center; /* Centrar iconos y texto */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav.sidebar .nav-link:hover {
+    background-color: #c8e6c9;
+    color: #007bff;
+}
+
+nav.sidebar .nav-item {
+    margin-bottom: 1rem;
+}
+
+.submenu {
+    display: none;
+    padding-left: 20px;
+}
+
+.submenu .nav-link {
+    background-color: #f9f9f9;
+    color: #555;
+}
+
+.submenu .nav-link:hover {
+    background-color: #e0e0e0;
+}
+
+nav.sidebar .nav-link i {
+    margin-right: 10px;
+}
+
+
+header {
+    width: 100%;
+    text-align: center;
+    background-color: #00c900;
+    padding: 15px 0;
+    color: white;
+}
+
+h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+#perfil-container {
+    width: 400px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+#perfil-header {
+    background-color: #00c900;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px 5px 0 0;
+}
+
+#perfil-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#perfil-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+#perfil-form input[type="text"],
+#perfil-form input[type="email"],
+#perfil-form input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#perfil-form input[type="text"]:focus,
+#perfil-form input[type="email"]:focus,
+#perfil-form input[type="date"]:focus {
+    border-color: #00c900;
+    outline: none;
+}
+
+#perfil-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #00c900;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#perfil-form button:hover {
+    background-color: #009a00;
+}

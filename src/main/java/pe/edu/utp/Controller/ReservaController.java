@@ -1,10 +1,10 @@
-package pe.edu.utp.Implement;
+package pe.edu.utp.Controller;
 
 import pe.edu.utp.Model.Reserva;
 import pe.edu.utp.Reposity.ReservaDAO;
 import java.util.List;
 
-public class ReservaDAOImp implements ReservaDAO {
+public class ReservaController implements ReservaDAO {
 
     @Override
     public void realizarReserva(Reserva reserva) {

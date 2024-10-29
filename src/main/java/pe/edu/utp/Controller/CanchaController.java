@@ -1,4 +1,4 @@
-package pe.edu.utp.Implement;
+package pe.edu.utp.Controller;
 
 import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Cancha;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CanchaDAOImp implements CanchaDAO {
+public class CanchaController implements CanchaDAO {
     @Override
     public void agregarCancha(Cancha cancha) {
 
