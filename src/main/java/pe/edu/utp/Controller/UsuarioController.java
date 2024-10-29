@@ -2,7 +2,7 @@ package pe.edu.utp.Controller;
 
 import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Usuario;
-import pe.edu.utp.Reposity.UsuarioDAO;
+import pe.edu.utp.DAO.UsuarioDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

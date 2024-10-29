@@ -1,7 +1,7 @@
 package pe.edu.utp.Controller;
 
 import pe.edu.utp.Model.Pago;
-import pe.edu.utp.Reposity.PagoDAO;
+import pe.edu.utp.DAO.PagoDAO;
 import java.util.List;
 
 public class PagoController implements PagoDAO {

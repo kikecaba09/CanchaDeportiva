@@ -1,4 +1,4 @@
-package pe.edu.utp.Reposity;
+package pe.edu.utp.DAO;
 
 import pe.edu.utp.Model.Cancha;
 import java.util.List;

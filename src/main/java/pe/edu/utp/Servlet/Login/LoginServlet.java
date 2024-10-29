@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import pe.edu.utp.Controller.UsuarioController;
 import pe.edu.utp.Model.Usuario;
-import pe.edu.utp.Reposity.UsuarioDAO;
+import pe.edu.utp.DAO.UsuarioDAO;
 import java.io.IOException;
 
 @WebServlet("/login")

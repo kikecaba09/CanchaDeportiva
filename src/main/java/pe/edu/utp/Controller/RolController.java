@@ -2,7 +2,7 @@ package pe.edu.utp.Controller;
 
 import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Rol;
-import pe.edu.utp.Reposity.RolDAO;
+import pe.edu.utp.DAO.RolDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

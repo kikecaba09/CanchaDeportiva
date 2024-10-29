@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pe.edu.utp.Controller.CanchaController;
 import pe.edu.utp.Model.Cancha;
-import pe.edu.utp.Reposity.CanchaDAO;
+import pe.edu.utp.DAO.CanchaDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;

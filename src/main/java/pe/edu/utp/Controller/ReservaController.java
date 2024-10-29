@@ -1,7 +1,7 @@
 package pe.edu.utp.Controller;
 
 import pe.edu.utp.Model.Reserva;
-import pe.edu.utp.Reposity.ReservaDAO;
+import pe.edu.utp.DAO.ReservaDAO;
 import java.util.List;
 
 public class ReservaController implements ReservaDAO {

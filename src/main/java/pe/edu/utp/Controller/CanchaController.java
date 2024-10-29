@@ -2,7 +2,7 @@ package pe.edu.utp.Controller;
 
 import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Cancha;
-import pe.edu.utp.Reposity.CanchaDAO;
+import pe.edu.utp.DAO.CanchaDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

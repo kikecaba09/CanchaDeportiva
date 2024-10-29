@@ -11,9 +11,9 @@ import pe.edu.utp.Controller.UsuarioController;
 import pe.edu.utp.Model.Usuario;
 import pe.edu.utp.Model.Cliente;
 import pe.edu.utp.Model.Rol;
-import pe.edu.utp.Reposity.UsuarioDAO;
-import pe.edu.utp.Reposity.ClienteDAO;
-import pe.edu.utp.Reposity.RolDAO;
+import pe.edu.utp.DAO.UsuarioDAO;
+import pe.edu.utp.DAO.ClienteDAO;
+import pe.edu.utp.DAO.RolDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 
