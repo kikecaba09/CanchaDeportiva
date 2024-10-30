@@ -1,14 +1,12 @@
 package pe.edu.utp.Ejecucion;
 
+import pe.edu.utp.Servlet.Cajeros.ListarCajerosServlet;
 import pe.edu.utp.Servlet.Cajeros.registrarCajeroServlet;
-import pe.edu.utp.Servlet.Canchas.ActualizarCanchaServlet;
-import pe.edu.utp.Servlet.Canchas.AgregarCanchaServlet;
-import pe.edu.utp.Servlet.Canchas.EliminarCanchaServlet;
+import pe.edu.utp.Servlet.Canchas.*;
 import pe.edu.utp.Servlet.Login.CerrarSesionServlet;
 import pe.edu.utp.Servlet.Login.PerfilServlet;
 import pe.edu.utp.Servlet.Reservar.CanchasDisponible;
 import pe.edu.utp.Servlet.Reservar.CanchasNoDisponible;
-import pe.edu.utp.Servlet.Canchas.ListarCanchaServlet;
 import pe.edu.utp.Servlet.Login.LoginServlet;
 import pe.edu.utp.utils.JettyUTP;
 import java.net.URL;
@@ -23,10 +21,13 @@ public class AppCanchaDeportiva {
         webserver.addServlet(CerrarSesionServlet.class,"/cerrarSesion");
         webserver.addServlet(PerfilServlet.class,"/miPerfil");
         webserver.addServlet(registrarCajeroServlet.class,"/registrarCajero");
+        webserver.addServlet(ListarCajerosServlet.class,"/listarCajeros");
+        webserver.addServlet(AdministrarCanchasServlet.class,"/administrarCancha");
         webserver.addServlet(AgregarCanchaServlet.class,"/agregarCancha");
         webserver.addServlet(ActualizarCanchaServlet.class,"/actualizarCancha");
         webserver.addServlet(EliminarCanchaServlet.class,"/eliminarCancha");
         webserver.addServlet(ListarCanchaServlet.class,"/listarCanchas");
+        webserver.addServlet(ReservarCancha.class,"/ReservarCancha");
         webserver.addServlet(CanchasDisponible.class,"/canchasDisponible");
         webserver.addServlet(CanchasNoDisponible.class,"/canchasNoDisponible");
 

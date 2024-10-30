@@ -49,12 +49,11 @@ public class ClienteController implements ClienteDAO {
             if (rs.next()) {
                 cliente = new Cliente();
                 cliente.setNombre(rs.getString("nombre"));
-                cliente.setApellidoPaterno(rs.getString("apellidoPaterno"));
-                cliente.setApellidoMaterno(rs.getString("apellidoMaterno"));
+                cliente.setApellido(rs.getString("apellido"));
                 cliente.setNroIdentidad(rs.getString("nro_identidad"));
                 cliente.setTelefono(rs.getString("telefono"));
                 cliente.setEmail(rs.getString("email"));
-                cliente.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
+                cliente.setFechaNacimiento(rs.getString("fecha_nacimiento"));
             }
             rs.close();
             ps.close();
@@ -79,12 +78,11 @@ public class ClienteController implements ClienteDAO {
                 cliente = new Cliente();
                 cliente.setClienteId(resultSet.getInt("cliente_id"));
                 cliente.setNombre(resultSet.getString("nombre"));
-                cliente.setApellidoPaterno(resultSet.getString("apellidoPaterno"));
-                cliente.setApellidoMaterno(resultSet.getString("apellidoMaterno"));
+                cliente.setApellido(resultSet.getString("apellido"));
                 cliente.setNroIdentidad(resultSet.getString("nroIdentidad"));
                 cliente.setTelefono(resultSet.getString("telefono"));
                 cliente.setEmail(resultSet.getString("email"));
-                cliente.setFechaNacimiento(resultSet.getDate("fechaNacimiento"));
+                cliente.setFechaNacimiento(resultSet.getString("fechaNacimiento"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

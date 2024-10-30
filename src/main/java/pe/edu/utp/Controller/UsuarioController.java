@@ -1,12 +1,11 @@
 package pe.edu.utp.Controller;
 
 import pe.edu.utp.Ejecucion.ConexionBD;
+import pe.edu.utp.Model.Cliente;
 import pe.edu.utp.Model.Usuario;
 import pe.edu.utp.DAO.UsuarioDAO;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioController implements UsuarioDAO {
@@ -79,5 +78,80 @@ public class UsuarioController implements UsuarioDAO {
             e.printStackTrace();
         }
         return usuario;
+    }
+
+    @Override
+    public boolean registrarCajero(Cliente cliente, Usuario user) {
+        Connection conexion = null;
+        CallableStatement callableStatement = null;
+
+        try {
+            conexion = ConexionBD.obtenerConexion();
+            String sql = "{CALL CrearUsuarioCajero(?, ?, ?, ?, ?, ?, ?, ?)}"; // Asegúrate de que el procedimiento almacenado coincida
+            callableStatement = conexion.prepareCall(sql);
+
+            // Establecer parámetros del procedimiento almacenado
+            callableStatement.setString(1, cliente.getNombre());
+            callableStatement.setString(2, cliente.getApellido());
+            callableStatement.setString(3, cliente.getNroIdentidad());
+            callableStatement.setString(4, cliente.getTelefono());
+            callableStatement.setString(5, cliente.getEmail());
+            callableStatement.setString(8,cliente.getFechaNacimiento());
+            callableStatement.setString(6, user.getUsername());
+            callableStatement.setString(7, user.getPassword());
+
+            // Ejecutar el procedimiento almacenado
+            int filasAfectadas = callableStatement.executeUpdate();
+            return filasAfectadas > 0; // Retorna verdadero si se insertó al menos una fila
+
+        } catch (SQLException e) {
+            System.out.println("Error al registrar cajero: " + e.getMessage());
+            return false; // Retorna falso si ocurre un error
+
+        } finally {
+            // Cerrar la conexión y el CallableStatement
+            ConexionBD.cerrarConexion(conexion);
+            if (callableStatement != null) {
+                try {
+                    callableStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<Usuario> listarUsuariosCajeros() {
+        List<Usuario> cajeros = new ArrayList<>();
+        String sql = "CALL ListarUsuariosCajeros()"; // Llamar al procedimiento almacenado
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                Cliente cliente = new Cliente();
+
+                cliente.setNombre(rs.getString("nombre"));
+                cliente.setApellido(rs.getString("apellido"));
+                cliente.setNroIdentidad(rs.getString("nro_identidad"));
+                cliente.setTelefono(rs.getString("telefono"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setFechaNacimiento(rs.getString("fecha_nacimiento"));
+                usuario.setUsername(rs.getString("username"));
+                usuario.setPassword(rs.getString("password"));
+
+                // Asignar el cliente al usuario
+                usuario.setCliente(cliente);
+
+                cajeros.add(usuario); // Agregar el usuario a la lista
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return cajeros; // Retornar la lista de cajeros
     }
 }

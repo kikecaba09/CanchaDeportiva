@@ -7,13 +7,15 @@ public class Usuario {
     private String password;
     private int idRol;
     private int idCliente;
+    private Cliente cliente;
 
-    public Usuario(int idUsuario, String username, String password, int idRol, int idCliente) {
+    public Usuario(int idUsuario, String username, String password, int idRol, int idCliente, Cliente cliente) {
         this.idUsuario = idUsuario;
         this.username = username;
         this.password = password;
         this.idRol = idRol;
         this.idCliente = idCliente;
+        this.cliente = cliente;
     }
 
     public Usuario() {
@@ -59,14 +61,23 @@ public class Usuario {
         this.idCliente = idCliente;
     }
 
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
-                "idUsuario='" + idUsuario + '\'' +
+                "idUsuario=" + idUsuario +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", idRol=" + idRol +
                 ", idCliente=" + idCliente +
+                ", cliente=" + cliente +
                 '}';
     }
 }

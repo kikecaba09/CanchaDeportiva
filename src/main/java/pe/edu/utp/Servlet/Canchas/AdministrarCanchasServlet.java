@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet("/listarCanchas")
-public class ListarCanchaServlet extends HttpServlet {
+@WebServlet("/administrarCancha")
+public class AdministrarCanchasServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
@@ -164,7 +164,9 @@ public class ListarCanchaServlet extends HttpServlet {
         out.println("<main role='main' class='col-md-9 ml-sm-auto px-4'>");
 
         out.println("<div class='d-flex justify-content-between align-items-center mb-4 mt-4'>");
-        out.println("<h1 class='m-0'>Reservas</h1>");
+        out.println("<h1 class='m-0'>Administrar Canchas</h1>");
+        // Botón para agregar cancha
+        out.println("<a href='agregarCancha.html' class='btn btn-primary'><i class='fas fa-plus'></i> Agregar Cancha</a>");
         out.println("</div>");
 
         // Mostrar las canchas desde la base de datos
@@ -197,8 +199,13 @@ public class ListarCanchaServlet extends HttpServlet {
             out.println("<p class='card-text'><strong>Precio Noche:</strong> S/" + cancha.getPrecioNoche() + "</p>");
             out.println("</div>");
 
-            out.println("<a href='/ReservarCancha?id=" + cancha.getCanchaId() + "' class='btn btn-success btn-reservar'>");
-            out.println("<i class='fas fa-book'></i> Reservar</a>");
+            // Botones de acción: Editar y Eliminar
+            out.println("<div class='d-flex justify-content-center mb-3'>");
+            out.println("<a href='editarCancha?id=" + cancha.getCanchaId() + "' class='btn btn-warning mr-2'>");
+            out.println("<i class='fas fa-edit'></i> Editar</a>");
+            out.println("<a href='eliminarCancha?id=" + cancha.getCanchaId() + "' class='btn btn-danger'>");
+            out.println("<i class='fas fa-trash'></i> Eliminar</a>");
+            out.println("</div>");
 
             out.println("</div>"); // cerrar card-body
             out.println("</div>"); // cerrar card

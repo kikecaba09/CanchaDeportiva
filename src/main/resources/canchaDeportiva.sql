@@ -124,3 +124,217 @@ INSERT INTO Pago (reserva_id, metodo_pago, monto, fecha_pago) VALUES
                                                                   (8, 'Yape', 65.00, '2024-10-01'),
                                                                   (9, 'Efectivo', 50.00, '2024-10-02'),
                                                                   (10, 'Yape', 55.00, '2024-10-03');
+
+DELIMITER //
+
+CREATE PROCEDURE CrearUsuarioCajero(
+    IN p_nombre VARCHAR(100),
+    IN p_apellido VARCHAR(100),
+    IN p_nro_identidad VARCHAR(20),
+    IN p_telefono VARCHAR(15),
+    IN p_email VARCHAR(100),
+    IN p_fecha_nacimiento DATE,
+    IN p_username VARCHAR(50),
+    IN p_password VARCHAR(255)
+)
+BEGIN
+    DECLARE v_cliente_id INT;
+    DECLARE v_rol_id INT;
+
+    -- Obtener el rol_id para el rol de "Cajero"
+SELECT rol_id INTO v_rol_id FROM Rol WHERE rol = 'Cajero';
+
+-- Insertar en la tabla Cliente y obtener el cliente_id generado
+INSERT INTO Cliente (nombre, apellido, nro_identidad, telefono, email, fecha_nacimiento)
+VALUES (p_nombre, p_apellido, p_nro_identidad, p_telefono, p_email, p_fecha_nacimiento);
+
+SET v_cliente_id = LAST_INSERT_ID();
+
+    -- Insertar en la tabla User con el cliente_id y rol_id de cajero
+INSERT INTO User (cliente_id, rol_id, username, password)
+VALUES (v_cliente_id, v_rol_id, p_username, p_password);
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE ListarUsuariosCajeros()
+BEGIN
+SELECT u.user_id,
+       c.nombre,
+       c.apellido,
+       c.nro_identidad,
+       c.telefono,
+       c.email,
+       c.fecha_nacimiento,
+       u.username,
+       u.password
+FROM User u
+         JOIN Cliente c ON u.cliente_id = c.cliente_id
+         JOIN Rol r ON u.rol_id = r.rol_id
+WHERE r.rol = 'Cajero';
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE ActualizarUsuarioCajero(
+    IN p_user_id INT,
+    IN p_nombre VARCHAR(100),
+    IN p_apellido VARCHAR(100),
+    IN p_nro_identidad VARCHAR(20),
+    IN p_telefono VARCHAR(15),
+    IN p_email VARCHAR(100),
+    IN p_fecha_nacimiento DATE,
+    IN p_username VARCHAR(50),
+    IN p_password VARCHAR(255)
+)
+BEGIN
+    DECLARE v_rol_id INT;
+
+    -- Obtener el rol_id de "Cajero" para verificar el rol del usuario
+SELECT rol_id INTO v_rol_id FROM Rol WHERE rol = 'Cajero';
+
+-- Actualizar en la tabla Cliente
+UPDATE Cliente c
+    JOIN User u ON u.cliente_id = c.cliente_id
+    SET c.nombre = p_nombre,
+        c.apellido = p_apellido,
+        c.nro_identidad = p_nro_identidad,
+        c.telefono = p_telefono,
+        c.email = p_email,
+        c.fecha_nacimiento = p_fecha_nacimiento,
+        u.username = p_username,
+        u.password = p_password
+WHERE u.user_id = p_user_id AND u.rol_id = v_rol_id;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE EliminarUsuarioCajero(
+    IN p_user_id INT
+)
+BEGIN
+    DECLARE v_rol_id INT;
+
+    -- Obtener el rol_id de "Cajero" para verificar el rol del usuario
+SELECT rol_id INTO v_rol_id FROM Rol WHERE rol = 'Cajero';
+
+-- Eliminar al usuario y su información asociada en Cliente solo si tiene el rol de "Cajero"
+DELETE c, u
+    FROM Cliente c
+    JOIN User u ON u.cliente_id = c.cliente_id
+    WHERE u.user_id = p_user_id AND u.rol_id = v_rol_id;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE CrearCancha(
+    IN p_nro_cancha INT,
+    IN p_precio_dia DECIMAL(10,2),
+    IN p_precio_noche DECIMAL(10,2),
+    IN p_imagen_cancha VARCHAR(100),
+    IN p_hora_abierto TIME,
+    IN p_hora_cerrado TIME,
+    IN p_estado VARCHAR(50)
+)
+BEGIN
+INSERT INTO Cancha (nro_cancha, precio_dia, precio_noche, imagen_cancha, hora_abierto, hora_cerrado, estado)
+VALUES (p_nro_cancha, p_precio_dia, p_precio_noche, p_imagen_cancha, p_hora_abierto, p_hora_cerrado, p_estado);
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE ActualizarCancha(
+    IN p_cancha_id INT,
+    IN p_nro_cancha INT,
+    IN p_precio_dia DECIMAL(10,2),
+    IN p_precio_noche DECIMAL(10,2),
+    IN p_imagen_cancha VARCHAR(100),
+    IN p_hora_abierto TIME,
+    IN p_hora_cerrado TIME,
+    IN p_estado VARCHAR(50)
+)
+BEGIN
+UPDATE Cancha
+SET nro_cancha = p_nro_cancha,
+    precio_dia = p_precio_dia,
+    precio_noche = p_precio_noche,
+    imagen_cancha = p_imagen_cancha,
+    hora_abierto = p_hora_abierto,
+    hora_cerrado = p_hora_cerrado,
+    estado = p_estado
+WHERE cancha_id = p_cancha_id;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE EliminarCancha(
+    IN p_cancha_id INT
+)
+BEGIN
+DELETE FROM Cancha
+WHERE cancha_id = p_cancha_id;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE ReservarCancha(
+    IN p_user_id INT,
+    IN p_cancha_id INT,
+    IN p_precio_reserva DECIMAL(10,2),
+    IN p_fecha_reserva DATE,
+    IN p_hora_inicio TIME,
+    IN p_hora_fin TIME,
+    IN p_estado_reserva VARCHAR(50)
+)
+BEGIN
+    DECLARE v_rol_id INT;
+
+    -- Verificar que el usuario sea un cliente
+SELECT rol_id INTO v_rol_id
+FROM User
+WHERE user_id = p_user_id;
+
+IF v_rol_id = (SELECT rol_id FROM Rol WHERE rol = 'cliente') THEN
+        -- Insertar la reserva si el usuario es un cliente
+        INSERT INTO Reserva (
+            user_id,
+            cancha_id,
+            precio_reserva,
+            fecha_reserva,
+            hora_inicio,
+            hora_fin,
+            estado_reserva
+        )
+        VALUES (
+            p_user_id,
+            p_cancha_id,
+            p_precio_reserva,
+            p_fecha_reserva,
+            p_hora_inicio,
+            p_hora_fin,
+            p_estado_reserva
+        );
+ELSE
+        -- Si el usuario no es un cliente, lanzar un error
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El usuario no tiene permisos para hacer una reserva';
+END IF;
+END //
+
+DELIMITER ;

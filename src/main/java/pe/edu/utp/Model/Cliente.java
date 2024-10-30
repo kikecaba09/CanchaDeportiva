@@ -6,19 +6,16 @@ public class Cliente {
 
     private int clienteId;
     private String nombre;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
+    private String apellido;
     private String nroIdentidad;
     private String telefono;
     private String email;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
 
-    public Cliente(int clienteId, String nombre, String apellidoPaterno, String apellidoMaterno,
-                   String nroIdentidad, String telefono, String email, Date fechaNacimiento) {
+    public Cliente(int clienteId, String nombre, String apellido, String nroIdentidad, String telefono, String email, String fechaNacimiento) {
         this.clienteId = clienteId;
         this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
+        this.apellido = apellido;
         this.nroIdentidad = nroIdentidad;
         this.telefono = telefono;
         this.email = email;
@@ -44,20 +41,12 @@ public class Cliente {
         this.nombre = nombre;
     }
 
-    public String getApellidoPaterno() {
-        return apellidoPaterno;
+    public String getApellido() {
+        return apellido;
     }
 
-    public void setApellidoPaterno(String apellidoPaterno) {
-        this.apellidoPaterno = apellidoPaterno;
-    }
-
-    public String getApellidoMaterno() {
-        return apellidoMaterno;
-    }
-
-    public void setApellidoMaterno(String apellidoMaterno) {
-        this.apellidoMaterno = apellidoMaterno;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getNroIdentidad() {
@@ -84,11 +73,11 @@ public class Cliente {
         this.email = email;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -97,12 +86,11 @@ public class Cliente {
         return "Cliente{" +
                 "clienteId=" + clienteId +
                 ", nombre='" + nombre + '\'' +
-                ", apellidoPaterno='" + apellidoPaterno + '\'' +
-                ", apellidoMaterno='" + apellidoMaterno + '\'' +
+                ", apellido='" + apellido + '\'' +
                 ", nroIdentidad='" + nroIdentidad + '\'' +
                 ", telefono='" + telefono + '\'' +
                 ", email='" + email + '\'' +
-                ", fechaNacimiento=" + fechaNacimiento +
+                ", fechaNacimiento='" + fechaNacimiento + '\'' +
                 '}';
     }
 }

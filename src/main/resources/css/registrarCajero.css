@@ -60,9 +60,11 @@ label {
     color: #333;
 }
 
+/* Estilos para los campos de texto, email, contraseña y fecha */
 input[type="text"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="date"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -89,8 +91,16 @@ input[type="password"] {
     background-color: #00b300;
 }
 
+.register-btn:hover, .clear-btn:hover {
+    background-color: #007700;
+}
+
 .view-users-btn {
     background-color: #007BFF; /* Color azul para el botón "Ver todos los usuarios" */
     margin-top: 20px; /* Espaciado superior para el botón */
     width: 100%; /* Hacerlo más ancho */
+}
+
+.view-users-btn:hover {
+    background-color: #0056b3;
 }

@@ -39,12 +39,11 @@ public class PerfilServlet extends HttpServlet {
                 PrintWriter out = response.getWriter();
                 out.println("{");
                 out.println("\"nombre\": \"" + (cliente != null ? cliente.getNombre() : "") + "\",");
-                out.println("\"apellidoPaterno\": \"" + (cliente != null ? cliente.getApellidoPaterno() : "") + "\",");
-                out.println("\"apellidoMaterno\": \"" + (cliente != null ? cliente.getApellidoMaterno() : "") + "\",");
-                out.println("\"nroIdentidad\": \"" + (cliente != null ? cliente.getNroIdentidad() : "") + "\",");
+                out.println("\"apellido\": \"" + (cliente != null ? cliente.getApellido() : "") + "\",");
+                out.println("\"nro_identidad\": \"" + (cliente != null ? cliente.getNroIdentidad() : "") + "\",");
                 out.println("\"telefono\": \"" + (cliente != null ? cliente.getTelefono() : "") + "\",");
                 out.println("\"email\": \"" + (cliente != null ? cliente.getEmail() : "") + "\",");
-                out.println("\"fechaNacimiento\": \"" + (cliente != null ? cliente.getFechaNacimiento() : "") + "\",");
+                out.println("\"fecha_nacimiento\": \"" + (cliente != null ? cliente.getFechaNacimiento() : "") + "\",");
                 out.println("\"rol\": \"" + (rol != null ? rol.getRol() : "") + "\"");
                 out.println("}");
                 out.flush(); // Asegúrate de vaciar el stream
