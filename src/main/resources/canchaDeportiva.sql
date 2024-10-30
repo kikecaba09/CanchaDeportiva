@@ -221,19 +221,29 @@ CREATE PROCEDURE EliminarUsuarioCajero(
     IN p_user_id INT
 )
 BEGIN
+    DECLARE v_cliente_id INT;
     DECLARE v_rol_id INT;
 
-    -- Obtener el rol_id de "Cajero" para verificar el rol del usuario
+    -- Obtener el rol_id de "Cajero"
 SELECT rol_id INTO v_rol_id FROM Rol WHERE rol = 'Cajero';
 
--- Eliminar al usuario y su información asociada en Cliente solo si tiene el rol de "Cajero"
-DELETE c, u
-    FROM Cliente c
-    JOIN User u ON u.cliente_id = c.cliente_id
-    WHERE u.user_id = p_user_id AND u.rol_id = v_rol_id;
+-- Verificar que el usuario existe y es cajero
+SELECT cliente_id INTO v_cliente_id
+FROM User
+WHERE user_id = p_user_id AND rol_id = v_rol_id;
+
+-- Si se encontró el cliente_id, proceder a eliminar
+IF v_cliente_id IS NOT NULL THEN
+        -- Primero eliminar el usuario
+DELETE FROM User WHERE user_id = p_user_id;
+
+-- Luego eliminar el cliente
+DELETE FROM Cliente WHERE cliente_id = v_cliente_id;
+END IF;
 END //
 
 DELIMITER ;
+
 
 DELIMITER //
 

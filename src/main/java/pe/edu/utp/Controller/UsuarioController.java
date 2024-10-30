@@ -11,26 +11,6 @@ import java.util.List;
 public class UsuarioController implements UsuarioDAO {
 
     @Override
-    public void agregarUsuario(Usuario usuario) {
-
-    }
-
-    @Override
-    public void modificarUsuario(Usuario usuario) {
-
-    }
-
-    @Override
-    public void eliminarUsuario(int userId) {
-
-    }
-
-    @Override
-    public List<Usuario> listarUsuarios() {
-        return List.of();
-    }
-
-    @Override
     public Usuario obtenerUsuario(String username, String password) {
         Usuario usuario = null;
         Connection conexion = null;
@@ -153,5 +133,39 @@ public class UsuarioController implements UsuarioDAO {
         }
 
         return cajeros; // Retornar la lista de cajeros
+    }
+
+    @Override
+    public void actualizarUsuarioCajero(Usuario usuario) {
+        String sql = "CALL ActualizarUsuarioCajero(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, usuario.getIdUsuario());
+            ps.setString(2, usuario.getCliente().getNombre());
+            ps.setString(3, usuario.getCliente().getApellido());
+            ps.setString(4, usuario.getCliente().getNroIdentidad());
+            ps.setString(5, usuario.getCliente().getTelefono());
+            ps.setString(6, usuario.getCliente().getEmail());
+            ps.setString(7, usuario.getCliente().getFechaNacimiento());
+            ps.setString(8, usuario.getUsername());
+            ps.setString(9, usuario.getPassword());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void eliminarUsuarioCajero(int userId) {
+        String query = "CALL EliminarUsuarioCajero(?)";
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejo de excepciones aquí
+        }
     }
 }
