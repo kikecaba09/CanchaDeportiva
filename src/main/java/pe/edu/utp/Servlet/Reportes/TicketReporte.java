@@ -11,6 +11,7 @@ import pe.edu.utp.Model.Reserva;
 import pe.edu.utp.Model.Cliente;
 import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 import java.time.LocalTime;
@@ -65,6 +66,7 @@ public class TicketReporte extends HttpServlet {
             // Variables para calcular los totales
             double totalPrecio = 0.0;
             long totalHoras = 0;
+            long totalMinutos=0;
 
             // Establecer el tipo de contenido de la respuesta (HTML)
             response.setContentType("text/html");
@@ -92,7 +94,7 @@ public class TicketReporte extends HttpServlet {
                             padding: 30px;
                             border-radius: 8px;
                             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-                            max-width: 700px;
+                            max-width: 850px;
                             margin: 0 auto;
                             border: 2px solid #3498db;
                         }
@@ -149,6 +151,30 @@ public class TicketReporte extends HttpServlet {
                         .highlight {
                             color: #e74c3c;
                         }
+                        .footer {
+                                text-align: center;
+                                margin-top: 30px;
+                            }
+                    
+                            .footer a {
+                                font-size: 18px;
+                                color: #fff;
+                                background-color: #3498db;
+                                padding: 10px 20px;
+                                text-decoration: none;
+                                border-radius: 5px;
+                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                                transition: background-color 0.3s ease, transform 0.2s ease;
+                            }
+                    
+                            .footer a:hover {
+                                background-color: #2980b9;
+                                transform: scale(1.05);
+                            }
+                    
+                            .footer a:active {
+                                background-color: #1c6f94;
+                            }
                     </style>""");
             out.println("</head>");
             out.println("<body>");
@@ -169,7 +195,7 @@ public class TicketReporte extends HttpServlet {
             out.println("<p><strong>DNI:</strong> " + cliente.getNroIdentidad() + "</p>");
 
             // Mostrar la fecha actual como la fecha de la reserva
-            out.println("<p><strong>Fecha de Reserva:</strong> " + LocalDate.now() + "</p>");
+            out.println("<p><strong>Fecha de creacion del Reporte:</strong> " + LocalDate.now() + "</p>");
 
             // Mostrar los detalles de las reservas
             if (reservas.isEmpty()) {
@@ -177,35 +203,59 @@ public class TicketReporte extends HttpServlet {
             } else {
                 out.println("<h3>Detalles de las Reservas</h3>");
                 out.println("<table border='1' width='100%'>");
-                out.println("<tr><th>Fecha</th><th>Hora</th><th>Cancha</th><th>Precio</th><th>Horas Reservadas</th></tr>");
+                out.println("<tr><th>Fecha</th><th>Hora</th><th>Cancha</th><th>Precio</th><th>Tiempo de Reserva</th><th>Estado de la reserva</th></tr>");
+                // Crear un formateador de hora en formato de 12 horas con am/pm
+                DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("h:mm a");
+
                 for (Reserva reserva : reservas) {
                     LocalTime horaInicio = LocalTime.parse(reserva.getHoraInicio());
                     LocalTime horaFin = LocalTime.parse(reserva.getHoraFin());
-                    long horasReservadas = ChronoUnit.HOURS.between(horaInicio, horaFin);
 
-                    totalPrecio += reserva.getPrecioReserva();
+                    // Formatear las horas de inicio y fin
+                    String horaInicioFormateada = horaInicio.format(formatoHora);
+                    String horaFinFormateada = horaFin.format(formatoHora);
+
+                    // Calcular las horas y minutos reservados
+                    long horasReservadas = ChronoUnit.HOURS.between(horaInicio, horaFin);
+                    long minutosReservados = ChronoUnit.MINUTES.between(horaInicio, horaFin) % 60;  // Solo minutos adicionales
+
+                    // Verificar si el estado de la reserva es "Pagado"
+                    if ("Pagado".equalsIgnoreCase(reserva.getEstadoReserva())) {
+                        totalPrecio += reserva.getPrecioReserva();
+                    }
+
+                    // Sumar al total de horas y minutos
                     totalHoras += horasReservadas;
+                    totalMinutos += minutosReservados;
+
+                    // Ajustar si los minutos superan 60
+                    if (totalMinutos >= 60) {
+                        totalHoras += totalMinutos / 60;  // Agregar las horas completas
+                        totalMinutos = totalMinutos % 60; // Dejar solo los minutos restantes
+                    }
 
                     out.println("<tr>");
                     out.println("<td>" + reserva.getFechaReserva() + "</td>");
-                    out.println("<td>" + reserva.getHoraInicio() + " - " + reserva.getHoraFin() + "</td>");
+                    out.println("<td>" + horaInicioFormateada + " - " + horaFinFormateada + "</td>");
                     out.println("<td>" + reserva.getCanchaId() + "</td>");
                     out.println("<td>" + reserva.getPrecioReserva() + "</td>");
-                    out.println("<td>" + horasReservadas + "h</td>");
+                    out.println("<td>" + horasReservadas + "h " + minutosReservados + "m</td>");
+                    out.println("<td>" + reserva.getEstadoReserva() + "</td>");
                     out.println("</tr>");
                 }
+
                 out.println("</table>");
             }
 
             // Mostrar los totales
             out.println("<div class='totals'>");
             out.println("<p><strong>IMPORTE TOTAL                            :</strong> s/ " + totalPrecio + "</p>");
-            out.println("<p><strong>Total de Horas Reservadas:</strong> " + totalHoras + " horas</p>");
+            out.println("<p><strong>Total de Horas Reservadas:</strong> " + totalHoras + " horas y " + totalMinutos + " minutos</p>");
             out.println("</div>");
-
-            // Mostrar el footer
             out.println("<div class='footer'>");
-            out.println("<p>Gracias por su preferencia.</p>");
+            out.println("<p><a href='/exportarExcel?cliente_id=" + clienteId + "'>Exportar a Excel</a></p>");
+            // Agregar el botón para exportar a PDF
+            out.println("<p><a href='/exportarPdf?cliente_id=" + clienteId + "'>Exportar a PDF</a></p>");
             out.println("</div>");
             out.println("</div>");
             out.println("</body>");
