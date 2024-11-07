@@ -4,143 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendario de Reservas</title>
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.2/main.min.css' rel='stylesheet' />
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.11.2/main.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@5.11.2/main.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@5.11.2/main.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.11.2/locales/es.global.min.js'></script>
-    <style>
-        /* Estilos generales */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f9;
-            color: #333;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            color: #007bff;
-            text-align: center;
-            margin: 20px 0;
-            font-weight: 600;
-        }
-
-        /* Estilo para el contenedor del calendario */
-        #calendar {
-            width: 100%;
-            height: 90vh;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            box-sizing: border-box;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Estilos de las horas */
-        .fc-timegrid-slot {
-            padding-top: 16px !important;
-            padding-bottom: 16px !important;
-            border-bottom: 1px solid #e1e4e8;  /* Línea de separación entre las horas */
-        }
-
-        /* Etiquetas de las horas */
-        .fc-timegrid-slot-label {
-            line-height: 3;
-            font-size: 16px;
-            color: #495057;
-            font-weight: 500;
-        }
-
-        /* Estilo para los eventos */
-        .fc-timegrid-event {
-            border-radius: 8px;
-            font-size: 14px;
-            padding: 10px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Estilo para el texto del evento */
-        .fc-timegrid-event .fc-event-title {
-            font-weight: bold;
-            font-size: 14px;
-            color: #ffffff;
-        }
-
-        /* Colores dinámicos para los eventos */
-        .fc-timegrid-event[data-background-color='success'] {
-            background-color: #28a745 !important;
-            border-color: #28a745 !important;
-        }
-        .fc-timegrid-event[data-background-color='danger'] {
-            background-color: #dc3545 !important;
-            border-color: #dc3545 !important;
-        }
-        .fc-timegrid-event[data-background-color='info'] {
-            background-color: #17a2b8 !important;
-            border-color: #17a2b8 !important;
-        }
-
-        /* Colores de fondo cuando hay un evento */
-        .fc-daygrid-day.fc-day-today {
-            background-color: #e9ecef;
-            border-radius: 8px;
-        }
-
-        /* Agregar transición en los eventos al hacer hover */
-        .fc-timegrid-event:hover {
-            background-color: #343a40 !important;
-            border-color: #343a40 !important;
-            cursor: pointer;
-        }
-
-        /* Barra lateral y navegación */
-        .fc-toolbar {
-            background-color: #007bff;
-            color: #fff;
-            border-radius: 8px;
-            padding: 12px;
-        }
-
-        .fc-button {
-            background-color: #0056b3;
-            border-color: #0056b3;
-            color: #fff;
-            font-weight: 600;
-            border-radius: 6px;
-        }
-
-        .fc-button:hover {
-            background-color: #003f7f;
-            border-color: #003f7f;
-        }
-
-        /* Fondo del calendario cuando no hay eventos */
-        .fc-timegrid-axis {
-            background-color: #f8f9fa;
-        }
-
-        /* Ajustes para los días */
-        .fc-daygrid-day-number {
-            font-size: 18px;
-            font-weight: 600;
-            color: #007bff;
-        }
-
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.2/main.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.11.2/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@5.11.2/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@5.11.2/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.15/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.11.2/locales/es.global.min.js"></script>
+    <link rel="stylesheet" href="/css/calendario.css">
 </head>
 <body>
 <h1>Calendario de Reservas</h1>
 <div id='calendar'></div>
+
+<!-- Modal para mostrar los detalles de la reserva -->
+<div class="modal fade" id="reservaModal" tabindex="-1" role="dialog" aria-labelledby="reservaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reservaModalLabel">Detalles de la Reserva</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Cliente:</strong> <span id="nombre"></span></p>
+                <p><strong>Apellido:</strong> <span id="apellido"></span></p>
+                <p><strong>Número de Cancha:</strong> <span id="nro_cancha"></span></p>
+                <p><strong>Fecha de Reserva:</strong> <span id="fechaReserva"></span></p>
+                <p><strong>Hora de Inicio:</strong> <span id="horaInicio"></span></p>
+                <p><strong>Hora de Fin:</strong> <span id="horaFin"></span></p>
+                <p><strong>Estado de la Reserva:</strong> <span id="estadoReserva"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -151,20 +55,30 @@
             firstDay: 1,
             slotMinTime: '07:00:00',
             slotMaxTime: '24:00:00',
-            slotDuration: '02:00:00', // Intervalo de dos horas
+            slotDuration: '02:00:00',
+            slotLabelFormat: {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: false
+            },
             events: function(fetchInfo, successCallback, failureCallback) {
-                fetch('/calendario')  // Cambié la URL a tu servlet
+                fetch('/calendario') // Cambié la URL a tu servlet
                     .then(response => response.json())
                     .then(data => {
-                        var events = data.map(reserva => {
+                        var events = data.map((reserva, cliente, cancha) => {
                             return {
                                 title: reserva.title,
                                 start: reserva.start,
                                 end: reserva.end,
-                                backgroundColor: reserva.backgroundColor,  // Color dinámico
-                                borderColor: reserva.borderColor,      // Asegura que el borde también tenga el mismo color
+                                backgroundColor: reserva.backgroundColor,
+                                borderColor: reserva.borderColor,
                                 extendedProps: {
-                                    backgroundColor: reserva.backgroundColor
+                                    clienteNombre: cliente.clienteNombre,
+                                    clienteApellido: cliente.clienteApellido,
+                                    numeroCancha: cancha.numeroCancha,
+                                    horaInicio: reserva.horaInicio,
+                                    horaFin: reserva.horaFin,
+                                    estadoReserva: reserva.estadoReserva
                                 }
                             };
                         });
@@ -178,23 +92,22 @@
             },
             editable: false,
             selectable: false,
-            allDaySlot: false,
-            slotLabelFormat: {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            },
-            eventTimeFormat: {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            },
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'timeGridWeek,timeGridDay'
-            },
-            themeSystem: 'bootstrap5',
+            eventClick: function(info) {
+                var event = info.event;
+
+                // Mostrar los detalles en el modal
+                document.getElementById('nombre').textContent = event.extendedProps.clienteNombre;
+                document.getElementById('apellido').textContent = event.extendedProps.clienteApellido;
+                document.getElementById('nro_cancha').textContent = event.extendedProps.numeroCancha;
+                document.getElementById('fechaReserva').textContent = event.start.toLocaleDateString();
+                document.getElementById('horaInicio').textContent = event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                document.getElementById('horaFin').textContent = event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                document.getElementById('estadoReserva').textContent = event.extendedProps.estadoReserva;
+
+                // Mostrar el modal
+                var myModal = new bootstrap.Modal(document.getElementById('reservaModal'));
+                myModal.show();
+            }
         });
 
         calendar.render();

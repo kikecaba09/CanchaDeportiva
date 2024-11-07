@@ -1,9 +1,10 @@
 package pe.edu.utp.Controller;
 
 import pe.edu.utp.Ejecucion.ConexionBD;
+import pe.edu.utp.Model.Cancha;
+import pe.edu.utp.Model.Cliente;
 import pe.edu.utp.Model.Reserva;
 import pe.edu.utp.DAO.ReservaDAO;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,17 +58,23 @@ public class ReservaController implements ReservaDAO {
     @Override
     public List<Reserva> obtenerTodasLasReservas() {
         List<Reserva> reservas = new ArrayList<>();
-        String query = "SELECT * FROM Reserva";  // Obtener todas las reservas
+        String query = "SELECT c.nombre, c.apellido, can.nro_cancha, r.reserva_id, r.precio_reserva, r.fecha_reserva, r.hora_inicio, r.hora_fin, r.estado_reserva " +
+                "FROM Reserva r " +
+                "JOIN Cliente c ON r.user_id = c.cliente_id " +
+                "JOIN Cancha can ON r.cancha_id = can.cancha_id";
 
         try (Connection conn = ConexionBD.obtenerConexion();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setNombre(rs.getString("nombre"));
+                cliente.setApellido(rs.getString("apellido"));
+                Cancha cancha = new Cancha();
+                cancha.setNroCancha(rs.getInt("nro_cancha"));
                 Reserva reserva = new Reserva();
                 reserva.setReservaId(rs.getInt("reserva_id"));
-                reserva.setUserId(rs.getInt("user_id"));
-                reserva.setCanchaId(rs.getInt("cancha_id"));
                 reserva.setPrecioReserva(rs.getDouble("precio_reserva"));
                 reserva.setFechaReserva(rs.getDate("fecha_reserva"));
                 reserva.setHoraInicio(rs.getString("hora_inicio"));
@@ -75,11 +82,9 @@ public class ReservaController implements ReservaDAO {
                 reserva.setEstadoReserva(rs.getString("estado_reserva"));
                 reservas.add(reserva);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return reservas;
     }
 }
