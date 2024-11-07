@@ -147,7 +147,7 @@ public class ListarCanchaServlet extends HttpServlet {
         out.println("</ul>");
         out.println("<li class='nav-item'><a class='nav-link' data-toggle='#configuracionMenu' href='#'><i class='fas fa-cog'></i> Configuración</a></li>");
         out.println("<ul id='configuracionMenu' class='submenu'>");
-        out.println("<a class='nav-link' href='/miPerfil'><i class='fas fa-user'></i>Mi perfil</a>");
+        out.println("<a class='nav-link' href='HTML/miPerfil.html'><i class='fas fa-user'></i>Mi perfil</a>");
         out.println("</ul>");
         out.println("<li class='nav-item'><a class='nav-link' data-toggle='#adminMenu' href='#'><i class='fas fa-user-shield'></i> Administrador</a></li>");
         out.println("<ul id='adminMenu' class='submenu'>");
@@ -155,7 +155,22 @@ public class ListarCanchaServlet extends HttpServlet {
         out.println("<a class='nav-link' href='/listarCajeros'><i class='fas fa-user-cog'></i> Administrar cajero</a>");
         out.println("<a class='nav-link' href='/administrarCancha'><i class='fas fa-football-ball'></i> Administrar canchas</a>");
         out.println("</ul>");
-        out.println("<li class='nav-item'><a class='nav-link' href='cerrarSesion.html'><i class='fas fa-sign-out-alt'></i> Cerrar sesión</a></li>");
+        out.println("""
+                <li class='nav-item'>
+                  <a class='nav-link' data-toggle='#reporteMenu' href='#'>
+                    <i class='fas fa-file-alt'></i> Reportes
+                  </a>
+                </li>
+                <ul id='reporteMenu' class='submenu'>
+                  <a class='nav-link' href='/listarClientes'>
+                    <i class='fas fa-ticket-alt'></i> Ticket de Ventas
+                  </a>
+                  <a class='nav-link' href='/listarCajeros'>
+                    <i class='fas fa-chart-line'></i> Reportes Generales
+                  </a>
+                </ul>
+                """);
+        out.println("<li class='nav-item'><a class='nav-link' href='index.html'><i class='fas fa-sign-out-alt'></i> Cerrar sesión</a></li>");
         out.println("</ul>");
         out.println("</div>");
         out.println("</nav>");

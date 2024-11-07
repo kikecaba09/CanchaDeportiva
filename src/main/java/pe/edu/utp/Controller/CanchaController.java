@@ -3,6 +3,7 @@ package pe.edu.utp.Controller;
 import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Cancha;
 import pe.edu.utp.DAO.CanchaDAO;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,5 +56,26 @@ public class CanchaController implements CanchaDAO {
         }
 
         return canchas;
+    }
+
+    @Override
+    public Cancha obtenerCanchaPorId(int idCancha) {
+        Cancha cancha = null;
+        String query = "SELECT * FROM Cancha WHERE cancha_id = ?";
+
+        try (Connection conexion = ConexionBD.obtenerConexion();
+             PreparedStatement preparedStatement = conexion.prepareStatement(query)) {
+            preparedStatement.setInt(1, idCancha);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                cancha = new Cancha();
+                cancha.setCanchaId(resultSet.getInt("cancha_id"));
+                cancha.setNroCancha(resultSet.getInt("nro_cancha"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cancha;
     }
 }

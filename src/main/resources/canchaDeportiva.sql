@@ -44,14 +44,14 @@ CREATE TABLE User (
 -- Tabla Reserva
 CREATE TABLE Reserva (
                          reserva_id INT AUTO_INCREMENT PRIMARY KEY,
-                         user_id INT NOT NULL,
+                         cliente_id INT NOT NULL,
                          cancha_id INT NOT NULL,
                          precio_reserva DECIMAL(10,2) NOT NULL,
                          fecha_reserva DATE NOT NULL,
                          hora_inicio TIME NOT NULL,
                          hora_fin TIME NOT NULL,
                          estado_reserva VARCHAR(50),
-                         FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+                         FOREIGN KEY (cliente_id) REFERENCES Cliente(cliente_id) ON DELETE CASCADE ON UPDATE CASCADE,
                          FOREIGN KEY (cancha_id) REFERENCES Cancha(cancha_id)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -101,26 +101,26 @@ INSERT INTO User (cliente_id, rol_id, username, password) VALUES
                                                               (9, 2, 'jhernandez', 'password123'),    -- cajero
                                                               (10, 3, 'lramirez', 'password123');     -- cliente
 
-INSERT INTO Reserva (user_id, cancha_id, precio_reserva, fecha_reserva, hora_inicio, hora_fin, estado_reserva) VALUES
-                                                                                                                   (3, 1, 50.00, '2024-11-01', '10:00:00', '12:00:00', 'Confirmada'),
-                                                                                                                   (4, 2, 55.00, '2024-11-02', '13:00:00', '15:00:00', 'Pendiente'),
-                                                                                                                   (7, 3, 60.00, '2024-11-03', '17:00:00', '19:00:00', 'Cancelada'),
-                                                                                                                   (8, 4, 65.00, '2024-11-04', '14:00:00', '16:00:00', 'Confirmada'),
-                                                                                                                   (10, 1, 50.00, '2024-11-05', '18:00:00', '20:00:00', 'Confirmada'),
-                                                                                                                   (3, 2, 55.00, '2024-11-06', '08:00:00', '10:00:00', 'Pendiente'),
-                                                                                                                   (4, 3, 60.00, '2024-11-07', '15:00:00', '17:00:00', 'Confirmada'),
-                                                                                                                   (7, 4, 65.00, '2024-11-08', '09:00:00', '11:00:00', 'Cancelada'),
-                                                                                                                   (8, 1, 50.00, '2024-11-09', '16:00:00', '18:00:00', 'Confirmada'),
-                                                                                                                   (10, 3, 55.00, '2024-11-10', '12:00:00', '14:00:00', 'Pendiente'),
-                                                                                                                   (9, 2, 60.00, '2024-11-11', '10:00:00', '12:00:00', 'Confirmada'),
-                                                                                                                   (5, 3, 55.00, '2024-11-12', '14:00:00', '16:00:00', 'Confirmada'),
-                                                                                                                   (6, 4, 65.00, '2024-11-13', '11:00:00', '13:00:00', 'Pendiente'),
-                                                                                                                   (2, 1, 50.00, '2024-11-14', '08:00:00', '10:00:00', 'Cancelada'),
-                                                                                                                   (1, 2, 55.00, '2024-11-15', '16:00:00', '18:00:00', 'Confirmada'),
-                                                                                                                   (5, 4, 60.00, '2024-11-16', '18:00:00', '20:00:00', 'Pendiente'),
-                                                                                                                   (6, 1, 50.00, '2024-11-17', '09:00:00', '11:00:00', 'Confirmada'),
-                                                                                                                   (2, 3, 55.00, '2024-11-18', '13:00:00', '15:00:00', 'Cancelada'),
-                                                                                                                   (9, 4, 65.00, '2024-11-19', '10:00:00', '12:00:00', 'Confirmada');
+INSERT INTO Reserva (cliente_id, cancha_id, precio_reserva, fecha_reserva, hora_inicio, hora_fin, estado_reserva) VALUES
+                                                                                                                      (3, 1, 50.00, '2024-11-01', '10:00:00', '12:00:00', 'Confirmada'),
+                                                                                                                      (4, 2, 55.00, '2024-11-02', '13:00:00', '15:00:00', 'Pendiente'),
+                                                                                                                      (7, 3, 60.00, '2024-11-03', '17:00:00', '19:00:00', 'Cancelada'),
+                                                                                                                      (8, 4, 65.00, '2024-11-04', '14:00:00', '16:00:00', 'Confirmada'),
+                                                                                                                      (10, 1, 50.00, '2024-11-05', '18:00:00', '20:00:00', 'Confirmada'),
+                                                                                                                      (3, 2, 55.00, '2024-11-06', '08:00:00', '10:00:00', 'Pendiente'),
+                                                                                                                      (4, 3, 60.00, '2024-11-07', '15:00:00', '17:00:00', 'Confirmada'),
+                                                                                                                      (7, 4, 65.00, '2024-11-08', '09:00:00', '11:00:00', 'Cancelada'),
+                                                                                                                      (8, 1, 50.00, '2024-11-09', '16:00:00', '18:00:00', 'Confirmada'),
+                                                                                                                      (10, 3, 55.00, '2024-11-10', '12:00:00', '14:00:00', 'Pendiente'),
+                                                                                                                      (3, 2, 60.00, '2024-11-11', '10:00:00', '12:00:00', 'Confirmada'),
+                                                                                                                      (4, 3, 55.00, '2024-11-12', '14:00:00', '16:00:00', 'Confirmada'),
+                                                                                                                      (7, 4, 65.00, '2024-11-13', '11:00:00', '13:00:00', 'Pendiente'),
+                                                                                                                      (8, 1, 50.00, '2024-11-14', '08:00:00', '10:00:00', 'Cancelada'),
+                                                                                                                      (10, 2, 55.00, '2024-11-15', '16:00:00', '18:00:00', 'Confirmada'),
+                                                                                                                      (3, 4, 60.00, '2024-11-16', '18:00:00', '20:00:00', 'Pendiente'),
+                                                                                                                      (4, 1, 50.00, '2024-11-17', '09:00:00', '11:00:00', 'Confirmada'),
+                                                                                                                      (7, 3, 55.00, '2024-11-18', '13:00:00', '15:00:00', 'Cancelada'),
+                                                                                                                      (8, 4, 65.00, '2024-11-19', '10:00:00', '12:00:00', 'Confirmada');
 
 
 INSERT INTO Pago (reserva_id, metodo_pago, monto, fecha_pago) VALUES
@@ -355,6 +355,31 @@ ELSE
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'El usuario no tiene permisos para hacer una reserva';
 END IF;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE ListarClientes()
+BEGIN
+SELECT
+    c.cliente_id,
+    c.nombre,
+    c.apellido,
+    c.nro_identidad,
+    c.telefono,
+    c.email,
+    c.fecha_nacimiento,
+    r.rol
+FROM
+    User u
+        JOIN
+    Cliente c ON u.cliente_id = c.cliente_id
+        JOIN
+    Rol r ON u.rol_id = r.rol_id
+WHERE
+    r.rol = 'Cliente';
 END //
 
 DELIMITER ;

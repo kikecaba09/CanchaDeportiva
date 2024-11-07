@@ -11,4 +11,5 @@ public interface ClienteDAO {
     List<Cliente> listarClientes();// Cumple RF-04
     Cliente obtenerClientePorUserId(int userId);
     Cliente obtenerClientePorId(int idCliente);
+
 }

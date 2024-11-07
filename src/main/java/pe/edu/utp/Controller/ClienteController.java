@@ -3,10 +3,9 @@ package pe.edu.utp.Controller;
 import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Cliente;
 import pe.edu.utp.DAO.ClienteDAO;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteController implements ClienteDAO {
@@ -28,7 +27,41 @@ public class ClienteController implements ClienteDAO {
 
     @Override
     public List<Cliente> listarClientes() {
-        return List.of();
+        List<Cliente> clientes = new ArrayList<>();
+        Connection conexion = null;
+
+        try {
+            // Obtener conexión con la base de datos
+            conexion = ConexionBD.obtenerConexion();
+            // Llamar al procedimiento almacenado ListarClientes
+            String sql = "{CALL ListarClientes()}";
+            CallableStatement stmt = conexion.prepareCall(sql);
+
+            // Ejecutar el procedimiento almacenado
+            ResultSet rs = stmt.executeQuery();
+
+            // Procesar los resultados
+            while (rs.next()) {
+                Cliente cliente = new Cliente();
+                cliente.setClienteId(rs.getInt("cliente_id"));
+                cliente.setNombre(rs.getString("nombre"));
+                cliente.setApellido(rs.getString("apellido"));
+                cliente.setNroIdentidad(rs.getString("nro_identidad"));
+                cliente.setTelefono(rs.getString("telefono"));
+                cliente.setEmail(rs.getString("email"));
+                cliente.setFechaNacimiento(rs.getString("fecha_nacimiento"));
+                clientes.add(cliente);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar la conexión
+            ConexionBD.cerrarConexion(conexion);
+        }
+
+        return clientes;
     }
 
     @Override
@@ -65,28 +98,31 @@ public class ClienteController implements ClienteDAO {
         return cliente;
     }
 
+
     @Override
     public Cliente obtenerClientePorId(int idCliente) {
         Cliente cliente = null;
-        String query = "SELECT * FROM cliente WHERE cliente_id = ?";
+        String query = "SELECT * FROM Cliente WHERE cliente_id = ?";
 
-        try (Connection connection = ConexionBD.obtenerConexion();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection conexion = ConexionBD.obtenerConexion();
+             PreparedStatement preparedStatement = conexion.prepareStatement(query)) {
             preparedStatement.setInt(1, idCliente);
             ResultSet resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next()) {
                 cliente = new Cliente();
                 cliente.setClienteId(resultSet.getInt("cliente_id"));
                 cliente.setNombre(resultSet.getString("nombre"));
                 cliente.setApellido(resultSet.getString("apellido"));
-                cliente.setNroIdentidad(resultSet.getString("nroIdentidad"));
+                cliente.setNroIdentidad(resultSet.getString("nro_identidad"));
                 cliente.setTelefono(resultSet.getString("telefono"));
                 cliente.setEmail(resultSet.getString("email"));
-                cliente.setFechaNacimiento(resultSet.getString("fechaNacimiento"));
+                cliente.setFechaNacimiento(resultSet.getString("fecha_nacimiento"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return cliente;
     }
+
 }

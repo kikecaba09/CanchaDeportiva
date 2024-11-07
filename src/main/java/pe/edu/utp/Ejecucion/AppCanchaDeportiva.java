@@ -7,6 +7,8 @@ import pe.edu.utp.Servlet.Cajeros.registrarCajeroServlet;
 import pe.edu.utp.Servlet.Canchas.*;
 import pe.edu.utp.Servlet.Login.CerrarSesionServlet;
 import pe.edu.utp.Servlet.Login.PerfilServlet;
+import pe.edu.utp.Servlet.Reportes.ListarClientesServlet;
+import pe.edu.utp.Servlet.Reportes.TicketReporte;
 import pe.edu.utp.Servlet.Reservar.CalendarioReserva;
 import pe.edu.utp.Servlet.Reservar.CanchasDisponible;
 import pe.edu.utp.Servlet.Reservar.CanchasNoDisponible;
@@ -36,6 +38,8 @@ public class AppCanchaDeportiva {
         webserver.addServlet(CanchasDisponible.class,"/canchasDisponible");
         webserver.addServlet(CanchasNoDisponible.class,"/canchasNoDisponible");
         webserver.addServlet(CalendarioReserva.class,"/calendario");
+        webserver.addServlet(ListarClientesServlet.class,"/listarClientes");
+        webserver.addServlet(TicketReporte.class,"/ticket");
 
         URL myURL = new URL("http://localhost:8080");
         System.out.println("*********************************************************");

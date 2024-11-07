@@ -1,7 +1,7 @@
 package pe.edu.utp.DAO;
 
+import pe.edu.utp.Model.Cliente;
 import pe.edu.utp.Model.Reserva;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -13,4 +13,5 @@ public interface ReservaDAO {
     void validarDisponibilidad(int canchaId, String fecha, String horaInicio, int duracion); // Cumple RF-07
     void reservarCancha(Reserva reserva) throws SQLException;
     List<Reserva> obtenerTodasLasReservas();
+    List<Reserva> listarReservasPorCliente(Cliente cliente);
 }

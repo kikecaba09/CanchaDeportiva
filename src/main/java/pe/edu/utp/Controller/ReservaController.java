@@ -60,7 +60,7 @@ public class ReservaController implements ReservaDAO {
         List<Reserva> reservas = new ArrayList<>();
         String query = "SELECT c.nombre, c.apellido, can.nro_cancha, r.reserva_id, r.precio_reserva, r.fecha_reserva, r.hora_inicio, r.hora_fin, r.estado_reserva " +
                 "FROM Reserva r " +
-                "JOIN Cliente c ON r.user_id = c.cliente_id " +
+                "JOIN Cliente c ON c.cliente_id = c.cliente_id " +
                 "JOIN Cancha can ON r.cancha_id = can.cancha_id";
 
         try (Connection conn = ConexionBD.obtenerConexion();
@@ -68,11 +68,6 @@ public class ReservaController implements ReservaDAO {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Cliente cliente = new Cliente();
-                cliente.setNombre(rs.getString("nombre"));
-                cliente.setApellido(rs.getString("apellido"));
-                Cancha cancha = new Cancha();
-                cancha.setNroCancha(rs.getInt("nro_cancha"));
                 Reserva reserva = new Reserva();
                 reserva.setReservaId(rs.getInt("reserva_id"));
                 reserva.setPrecioReserva(rs.getDouble("precio_reserva"));
@@ -85,6 +80,41 @@ public class ReservaController implements ReservaDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return reservas;
+    }
+
+    @Override
+    public List<Reserva> listarReservasPorCliente(Cliente cliente) {
+        List<Reserva> reservas = new ArrayList<>();
+        String query = "SELECT c.nombre, c.apellido, can.nro_cancha, r.reserva_id, r.precio_reserva, r.fecha_reserva, r.hora_inicio, r.hora_fin, r.estado_reserva " +
+                "FROM Reserva r " +
+                "JOIN Cliente c ON r.cliente_id = c.cliente_id " +
+                "JOIN Cancha can ON r.cancha_id = can.cancha_id " +
+                "WHERE c.cliente_id = ?";  // Filtra por cliente_id
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, cliente.getClienteId()); // Suponiendo que el ID del cliente es un entero
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Cancha cancha = new Cancha();
+                    cancha.setNroCancha(rs.getInt("nro_cancha"));
+                    Reserva reserva = new Reserva();
+                    reserva.setReservaId(rs.getInt("reserva_id"));
+                    reserva.setPrecioReserva(rs.getDouble("precio_reserva"));
+                    reserva.setFechaReserva(rs.getDate("fecha_reserva"));
+                    reserva.setHoraInicio(rs.getString("hora_inicio"));
+                    reserva.setHoraFin(rs.getString("hora_fin"));
+                    reserva.setEstadoReserva(rs.getString("estado_reserva"));
+                    reservas.add(reserva);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return reservas;
     }
 }
