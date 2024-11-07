@@ -12,4 +12,5 @@ public interface ReservaDAO {
     List<Reserva> listarReservas(); // Cumple RF-06
     void validarDisponibilidad(int canchaId, String fecha, String horaInicio, int duracion); // Cumple RF-07
     void reservarCancha(Reserva reserva) throws SQLException;
+    List<Reserva> obtenerTodasLasReservas();
 }

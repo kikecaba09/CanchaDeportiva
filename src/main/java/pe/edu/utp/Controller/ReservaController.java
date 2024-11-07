@@ -4,9 +4,8 @@ import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Reserva;
 import pe.edu.utp.DAO.ReservaDAO;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReservaController implements ReservaDAO {
@@ -53,5 +52,34 @@ public class ReservaController implements ReservaDAO {
             if (cstmt != null) cstmt.close();
             if (conn != null) conn.close();
         }
+    }
+
+    @Override
+    public List<Reserva> obtenerTodasLasReservas() {
+        List<Reserva> reservas = new ArrayList<>();
+        String query = "SELECT * FROM Reserva";  // Obtener todas las reservas
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Reserva reserva = new Reserva();
+                reserva.setReservaId(rs.getInt("reserva_id"));
+                reserva.setUserId(rs.getInt("user_id"));
+                reserva.setCanchaId(rs.getInt("cancha_id"));
+                reserva.setPrecioReserva(rs.getDouble("precio_reserva"));
+                reserva.setFechaReserva(rs.getDate("fecha_reserva"));
+                reserva.setHoraInicio(rs.getString("hora_inicio"));
+                reserva.setHoraFin(rs.getString("hora_fin"));
+                reserva.setEstadoReserva(rs.getString("estado_reserva"));
+                reservas.add(reserva);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return reservas;
     }
 }

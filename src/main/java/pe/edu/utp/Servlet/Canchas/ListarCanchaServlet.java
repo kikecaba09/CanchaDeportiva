@@ -143,11 +143,11 @@ public class ListarCanchaServlet extends HttpServlet {
         out.println("<ul id='reservarMenu' class='submenu'>");
         out.println("<a class='nav-link' href='canchasDisponibles.html'><i class='fas fa-check'></i> Canchas disponibles</a>");
         out.println("<a class='nav-link' href='canchasNoDisponibles.html'><i class='fas fa-times'></i> Canchas no disponibles</a>");
-        out.println("<a class='nav-link' href='calendarioDisponibilidad.html'><i class='fas fa-calendar-alt'></i> Calendario disponibilidad</a>");
+        out.println("<a class='nav-link' href='HTML/calendarioReserva.html'><i class='fas fa-calendar-alt'></i> Calendario disponibilidad</a>");
         out.println("</ul>");
         out.println("<li class='nav-item'><a class='nav-link' data-toggle='#configuracionMenu' href='#'><i class='fas fa-cog'></i> Configuración</a></li>");
         out.println("<ul id='configuracionMenu' class='submenu'>");
-        out.println("<a class='nav-link' href='HTML/miPerfil.html'><i class='fas fa-user'></i>Mi perfil</a>");
+        out.println("<a class='nav-link' href='/miPerfil'><i class='fas fa-user'></i>Mi perfil</a>");
         out.println("</ul>");
         out.println("<li class='nav-item'><a class='nav-link' data-toggle='#adminMenu' href='#'><i class='fas fa-user-shield'></i> Administrador</a></li>");
         out.println("<ul id='adminMenu' class='submenu'>");
