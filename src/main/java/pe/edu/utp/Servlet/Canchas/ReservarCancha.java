@@ -24,32 +24,19 @@ public class ReservarCancha extends HttpServlet {
         String telefono = request.getParameter("telefono");
         String email = request.getParameter("email");
         String fechaNacimiento = request.getParameter("fecha_nacimiento");
-        String canchaIdStr = request.getParameter("cancha_id");
-
-        // Validar que cancha_id no esté vacío o nulo
-        if (canchaIdStr == null || canchaIdStr.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El ID de la cancha es necesario.");
-            return;
-        }
+        int canchaId = Integer.parseInt(request.getParameter("cancha_id"));
+        String horaInicio = request.getParameter("hora_inicio");
+        String horaFin = request.getParameter("hora_fin");
 
         try {
-            int canchaId = Integer.parseInt(canchaIdStr); // Intentar convertir a entero
-            String horaInicio = request.getParameter("hora_inicio");
-            String horaFin = request.getParameter("hora_fin");
+            // Llamar al método del DAO
+            String resultado = reservaDAO.reservarCancha(nombre, apellido, nroIdentidad, telefono, email, fechaNacimiento, canchaId, horaInicio, horaFin);
 
-            try {
-                // Llamar al método del DAO
-                String resultado = reservaDAO.reservarCancha(nombre, apellido, nroIdentidad, telefono, email, fechaNacimiento, canchaId, horaInicio, horaFin);
-
-                // Enviar resultado al cliente
-                response.getWriter().println("<p>" + resultado + "</p>");
-            } catch (SQLException e) {
-                e.printStackTrace();
-                response.getWriter().println("<p>Error al realizar la reserva: " + e.getMessage() + "</p>");
-            }
-        } catch (NumberFormatException e) {
-            // Si la conversión de cancha_id falla, enviar un error
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de cancha inválido.");
+            // Enviar resultado al cliente
+            response.getWriter().println("<p>" + resultado + "</p>");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.getWriter().println("<p>Error al realizar la reserva: " + e.getMessage() + "</p>");
         }
     }
 }
