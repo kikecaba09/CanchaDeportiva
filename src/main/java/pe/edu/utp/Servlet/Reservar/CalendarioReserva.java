@@ -49,6 +49,8 @@ public class CalendarioReserva extends HttpServlet {
 
             // Agregar el color dinámico
             out.print("\"backgroundColor\":\"" + color + "\",");
+            // Agregar el estado de la reserva al JSON
+            out.print("\"status\":\"" + reserva.getEstadoReserva() + "\",");
             out.print("\"borderColor\":\"" + color + "\"");
             out.print("}");
 

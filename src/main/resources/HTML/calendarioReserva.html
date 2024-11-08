@@ -55,7 +55,7 @@
             firstDay: 1,
             slotMinTime: '07:00:00',
             slotMaxTime: '24:00:00',
-            slotDuration: '02:00:00',
+            slotDuration: '01:30:00',
             slotLabelFormat: {
                 hour: 'numeric',
                 minute: '2-digit',
@@ -65,25 +65,32 @@
                 fetch('/calendario') // Cambié la URL a tu servlet
                     .then(response => response.json())
                     .then(data => {
-                        var events = data.map((reserva, cliente, cancha) => {
-                            return {
-                                title: reserva.title,
-                                start: reserva.start,
-                                end: reserva.end,
-                                backgroundColor: reserva.backgroundColor,
-                                borderColor: reserva.borderColor,
-                                extendedProps: {
-                                    clienteNombre: cliente.clienteNombre,
-                                    clienteApellido: cliente.clienteApellido,
-                                    numeroCancha: cancha.numeroCancha,
-                                    horaInicio: reserva.horaInicio,
-                                    horaFin: reserva.horaFin,
-                                    estadoReserva: reserva.estadoReserva
-                                }
-                            };
+                        let uniqueEvents = [];
+                        let seenEvents = new Set();
+
+                        data.forEach(reserva => {
+                            let eventKey = `${reserva.start}-${reserva.end}-${reserva.numeroCancha}`;
+                            if (!seenEvents.has(eventKey)) {
+                                seenEvents.add(eventKey);
+                                uniqueEvents.push({
+                                    title: "Reserva",
+                                    start: reserva.start,
+                                    end: reserva.end,
+                                    backgroundColor: reserva.backgroundColor,
+                                    borderColor: reserva.borderColor,
+                                    extendedProps: {
+                                        clienteNombre: reserva.clienteNombre,
+                                        clienteApellido: reserva.clienteApellido,
+                                        numeroCancha: reserva.numeroCancha,
+                                        horaInicio: reserva.horaInicio,
+                                        horaFin: reserva.horaFin,
+                                        estadoReserva: reserva.estadoReserva
+                                    }
+                                });
+                            }
                         });
 
-                        successCallback(events);
+                        successCallback(uniqueEvents);
                     })
                     .catch(error => {
                         console.error('Error al obtener las reservas:', error);

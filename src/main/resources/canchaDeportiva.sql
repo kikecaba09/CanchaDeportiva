@@ -35,8 +35,8 @@ CREATE TABLE User (
                       user_id INT AUTO_INCREMENT PRIMARY KEY,
                       cliente_id INT NOT NULL,
                       rol_id INT NOT NULL,
-                      username VARCHAR(50) NOT NULL,
-                      password VARCHAR(255) NOT NULL,
+                      username VARCHAR(50),
+                      password VARCHAR(255),
                       FOREIGN KEY (cliente_id) REFERENCES Cliente(cliente_id) ON DELETE CASCADE ON UPDATE CASCADE,
                       FOREIGN KEY (rol_id) REFERENCES Rol(rol_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -344,6 +344,7 @@ BEGIN
     DECLARE v_hora_cerrado TIME;
     DECLARE v_precio_dia DECIMAL(10,2);
     DECLARE v_precio_noche DECIMAL(10,2);
+    DECLARE v_rol_id INT;
 
     -- Obtener la información de la cancha
 SELECT hora_abierto, hora_cerrado, precio_dia, precio_noche
@@ -374,7 +375,13 @@ VALUES (p_cliente_nombre, p_cliente_apellido, p_nro_identidad, p_telefono, p_ema
 -- Obtener el ID del cliente recién insertado
 SET @cliente_id = LAST_INSERT_ID();
 
-    -- Insertar la reserva
+    -- Insertar el usuario con rol de cliente (ID del rol 'cliente' se obtiene desde la tabla Rol)
+SELECT rol_id INTO v_rol_id FROM Rol WHERE rol = 'cliente';
+
+INSERT INTO User (cliente_id, rol_id, username, password)
+VALUES (@cliente_id, v_rol_id, NULL, NULL);
+
+-- Insertar la reserva
 INSERT INTO Reserva (cliente_id, cancha_id, precio_reserva, fecha_reserva, hora_inicio, hora_fin, estado_reserva)
 VALUES (@cliente_id, p_cancha_id, v_precio, v_fecha_reserva, p_hora_inicio, p_hora_fin, 'Pendiente');
 
@@ -382,6 +389,7 @@ SET p_resultado = 'Reserva realizada con éxito.';
 END //
 
 DELIMITER ;
+
 
 DELIMITER //
 
