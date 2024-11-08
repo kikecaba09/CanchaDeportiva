@@ -326,47 +326,59 @@ DELIMITER ;
 DELIMITER //
 
 CREATE PROCEDURE ReservarCancha(
-    IN p_user_id INT,
+    IN p_cliente_nombre VARCHAR(100),
+    IN p_cliente_apellido VARCHAR(100),
+    IN p_nro_identidad VARCHAR(20),
+    IN p_telefono VARCHAR(15),
+    IN p_email VARCHAR(100),
+    IN p_fecha_nacimiento DATE,
     IN p_cancha_id INT,
-    IN p_precio_reserva DECIMAL(10,2),
-    IN p_fecha_reserva DATE,
     IN p_hora_inicio TIME,
     IN p_hora_fin TIME,
-    IN p_estado_reserva VARCHAR(50)
+    OUT p_resultado VARCHAR(255)
 )
 BEGIN
-    DECLARE v_rol_id INT;
+    DECLARE v_precio DECIMAL(10,2);
+    DECLARE v_fecha_reserva DATE;
+    DECLARE v_hora_abierto TIME;
+    DECLARE v_hora_cerrado TIME;
+    DECLARE v_precio_dia DECIMAL(10,2);
+    DECLARE v_precio_noche DECIMAL(10,2);
 
-    -- Verificar que el usuario sea un cliente
-SELECT rol_id INTO v_rol_id
-FROM User
-WHERE user_id = p_user_id;
+    -- Obtener la información de la cancha
+SELECT hora_abierto, hora_cerrado, precio_dia, precio_noche
+INTO v_hora_abierto, v_hora_cerrado, v_precio_dia, v_precio_noche
+FROM Cancha
+WHERE cancha_id = p_cancha_id;
 
-IF v_rol_id = (SELECT rol_id FROM Rol WHERE rol = 'cliente') THEN
-        -- Insertar la reserva si el usuario es un cliente
-        INSERT INTO Reserva (
-            user_id,
-            cancha_id,
-            precio_reserva,
-            fecha_reserva,
-            hora_inicio,
-            hora_fin,
-            estado_reserva
-        )
-        VALUES (
-            p_user_id,
-            p_cancha_id,
-            p_precio_reserva,
-            p_fecha_reserva,
-            p_hora_inicio,
-            p_hora_fin,
-            p_estado_reserva
-        );
-ELSE
-        -- Si el usuario no es un cliente, lanzar un error
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'El usuario no tiene permisos para hacer una reserva';
+-- Verificar que las horas de inicio y fin estén dentro del horario de apertura y cierre
+IF p_hora_inicio < v_hora_abierto OR p_hora_fin > v_hora_cerrado THEN
+        SET p_resultado = 'Error: La hora de la reserva está fuera del horario permitido de la cancha.';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = p_resultado;
 END IF;
+
+    -- Determinar si el precio es de día o de noche
+    IF HOUR(p_hora_inicio) >= 6 AND HOUR(p_hora_inicio) < 18 THEN
+        SET v_precio = v_precio_dia;
+ELSE
+        SET v_precio = v_precio_noche;
+END IF;
+
+    -- Obtener la fecha actual para la reserva
+    SET v_fecha_reserva = CURDATE();
+
+    -- Insertar los datos del cliente
+INSERT INTO Cliente (nombre, apellido, nro_identidad, telefono, email, fecha_nacimiento)
+VALUES (p_cliente_nombre, p_cliente_apellido, p_nro_identidad, p_telefono, p_email, p_fecha_nacimiento);
+
+-- Obtener el ID del cliente recién insertado
+SET @cliente_id = LAST_INSERT_ID();
+
+    -- Insertar la reserva
+INSERT INTO Reserva (cliente_id, cancha_id, precio_reserva, fecha_reserva, hora_inicio, hora_fin, estado_reserva)
+VALUES (@cliente_id, p_cancha_id, v_precio, v_fecha_reserva, p_hora_inicio, p_hora_fin, 'Pendiente');
+
+SET p_resultado = 'Reserva realizada con éxito.';
 END //
 
 DELIMITER ;

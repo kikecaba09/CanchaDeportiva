@@ -211,8 +211,7 @@ public class ListarCanchaServlet extends HttpServlet {
             out.println("<p class='card-text mr-5'><strong>Precio Día:</strong> S/" + cancha.getPrecioDia() + "</p>");
             out.println("<p class='card-text'><strong>Precio Noche:</strong> S/" + cancha.getPrecioNoche() + "</p>");
             out.println("</div>");
-
-            out.println("<a href='/ReservarCancha?id=" + cancha.getCanchaId() + "' class='btn btn-success btn-reservar'>");
+            out.println("<a href='HTML/reservarCancha.html?cancha_id=" + cancha.getCanchaId() + "' class='btn btn-success btn-reservar'>");
             out.println("<i class='fas fa-book'></i> Reservar</a>");
 
             out.println("</div>"); // cerrar card-body

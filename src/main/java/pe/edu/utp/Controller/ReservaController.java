@@ -32,28 +32,49 @@ public class ReservaController implements ReservaDAO {
     }
 
     @Override
-    public void reservarCancha(Reserva reserva) throws SQLException {
-        Connection conn = null;
-        CallableStatement cstmt = null;
+    public String reservarCancha(String nombre, String apellido, String nroIdentidad, String telefono, String email,
+                                 String fechaNacimiento, int canchaId, String horaInicio, String horaFin) throws SQLException {
+        Connection conexion = null;
+        CallableStatement stmt = null;
+        String resultado = "";
 
         try {
-            conn = ConexionBD.obtenerConexion();
-            cstmt = conn.prepareCall("{CALL ReservarCancha(?, ?, ?, ?, ?, ?, ?)}");
-            cstmt.setInt(1, reserva.getUserId());
-            cstmt.setInt(2, reserva.getCanchaId());
-            cstmt.setDouble(3, reserva.getPrecioReserva());
-            cstmt.setDate(4, new java.sql.Date(reserva.getFechaReserva().getTime()));
-            cstmt.setTime(5, java.sql.Time.valueOf(reserva.getHoraInicio()));
-            cstmt.setTime(6, java.sql.Time.valueOf(reserva.getHoraFin()));
-            cstmt.setString(7, reserva.getEstadoReserva());
-            cstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new SQLException("Error al reservar la cancha: " + e.getMessage(), e);
+            // Obtener la conexión a la base de datos
+            conexion = ConexionBD.obtenerConexion();
+
+            // Llamar al procedimiento almacenado
+            String sql = "{CALL ReservarCancha(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+            stmt = conexion.prepareCall(sql);
+
+            // Configurar los parámetros de entrada
+            stmt.setString(1, nombre);
+            stmt.setString(2, apellido);
+            stmt.setString(3, nroIdentidad);
+            stmt.setString(4, telefono);
+            stmt.setString(5, email);
+            stmt.setString(6, fechaNacimiento);
+            stmt.setInt(7, canchaId);
+            stmt.setString(8, horaInicio);
+            stmt.setString(9, horaFin);
+
+            // Configurar el parámetro de salida
+            stmt.registerOutParameter(10, java.sql.Types.VARCHAR);
+
+            // Ejecutar el procedimiento
+            stmt.execute();
+
+            // Obtener el resultado del procedimiento
+            resultado = stmt.getString(10);
         } finally {
-            if (cstmt != null) cstmt.close();
-            if (conn != null) conn.close();
+            if (stmt != null) stmt.close();
+            if (conexion != null) ConexionBD.cerrarConexion(conexion);
         }
+
+        return resultado;
     }
+
+
+
 
     @Override
     public List<Reserva> obtenerTodasLasReservas() {

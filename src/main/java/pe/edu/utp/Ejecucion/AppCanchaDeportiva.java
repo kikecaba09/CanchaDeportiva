@@ -33,7 +33,7 @@ public class AppCanchaDeportiva {
         webserver.addServlet(ActualizarCanchaServlet.class,"/actualizarCancha");
         webserver.addServlet(EliminarCanchaServlet.class,"/eliminarCancha");
         webserver.addServlet(ListarCanchaServlet.class,"/listarCanchas");
-        webserver.addServlet(ReservarCancha.class,"/ReservarCancha");
+        webserver.addServlet(ReservarCancha.class,"/reservarCancha");
         webserver.addServlet(CanchasDisponible.class,"/canchasDisponible");
         webserver.addServlet(CanchasNoDisponible.class,"/canchasNoDisponible");
         webserver.addServlet(CalendarioReserva.class,"/calendario");
