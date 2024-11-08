@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Gráficos</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            gap: 55px; /* Espacio entre los campos */
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 30%;
+        }
+
+        label {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="date"] {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #graficos {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .grafico-container {
+            width: 48%;
+        }
+
+        canvas {
+            width: 100% !important;
+            max-width: 100%;
+            height: 300px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            font-size: 1.6em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Estilo responsivo */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+
+            canvas {
+                height: 250px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h3 {
+                font-size: 1.4em;
+            }
+
+            label, input, button {
+                font-size: 1em;
+            }
+
+            #graficos {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .grafico-container {
+                width: 100%;
+            }
+
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Reportes de Reservas generales</h1>
+</header>
+
+<div class="container">
+    <form id="formulario" method="get">
+        <div class="form-group">
+            <label for="fechaInicio">Fecha de inicio:</label>
+            <input type="date" id="fechaInicio" name="fechaInicio" required>
+        </div>
+        <div class="form-group">
+            <label for="fechaFin">Fecha de fin:</label>
+            <input type="date" id="fechaFin" name="fechaFin" required>
+        </div>
+        <div class="form-group">
+            <button type="submit">Generar Gráficos</button>
+        </div>
+    </form>
+
+    <div id="graficos">
+        <div class="grafico-container">
+            <h3>Reporte de Reservas Por Mes</h3>
+            <canvas id="graficoBarras"></canvas>
+        </div>
+
+        <div class="grafico-container">
+            <h3>Reporte de Reservas Diarios</h3>
+            <canvas id="graficoLineal"></canvas>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button id="limpiar">Limpiar</button>
+        <button id="imprimir">Imprimir Reporte</button>
+    </div>
+</div>
+
+<script>
+    // Esta función se ejecutará para mostrar los gráficos
+    function renderChart(dataBarras, dataLineal) {
+        // Gráfico de Barras
+        const ctxBarras = document.getElementById('graficoBarras').getContext('2d');
+        new Chart(ctxBarras, {
+            type: 'bar',
+            data: {
+                labels: dataBarras.labels,
+                datasets: [{
+                    label: 'Reservas por fecha',
+                    data: dataBarras.data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Gráfico Lineal
+        const ctxLineal = document.getElementById('graficoLineal').getContext('2d');
+        new Chart(ctxLineal, {
+            type: 'line',
+            data: {
+                labels: dataLineal.labels,
+                datasets: [{
+                    label: 'Reservas por fecha',
+                    data: dataLineal.data,
+                    fill: false,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Maneja el envío del formulario de manera asíncrona
+    document.getElementById('formulario').onsubmit = function(event) {
+        event.preventDefault(); // Prevenir el envío tradicional del formulario
+
+        // Obtener las fechas seleccionadas
+        const fechaInicio = document.getElementById('fechaInicio').value;
+        const fechaFin = document.getElementById('fechaFin').value;
+
+        // Hacer la solicitud Fetch para obtener los datos del gráfico
+        fetch(`/reporteGeneral?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
+            .then(response => response.json())
+            .then(data => {
+                // Llamar a la función renderChart para mostrar los gráficos
+                renderChart(data.barras, data.lineal);
+            })
+            .catch(error => {
+                console.error('Error al obtener los datos:', error);
+            });
+    };
+
+    // Botón Limpiar
+    document.getElementById('limpiar').onclick = function() {
+        document.getElementById('fechaInicio').value = '';
+        document.getElementById('fechaFin').value = '';
+        document.getElementById('graficoBarras').getContext('2d').clearRect(0, 0, 600, 400);
+        document.getElementById('graficoLineal').getContext('2d').clearRect(0, 0, 600, 400);
+    };
+
+    // Botón Imprimir
+    document.getElementById('imprimir').onclick = function() {
+        window.print();
+    };
+</script>
+
+</body>
+</html>

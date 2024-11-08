@@ -7,10 +7,7 @@ import pe.edu.utp.Servlet.Cajeros.registrarCajeroServlet;
 import pe.edu.utp.Servlet.Canchas.*;
 import pe.edu.utp.Servlet.Login.CerrarSesionServlet;
 import pe.edu.utp.Servlet.Login.PerfilServlet;
-import pe.edu.utp.Servlet.Reportes.ExportarReporteExcel;
-import pe.edu.utp.Servlet.Reportes.ExportarReportePDF;
-import pe.edu.utp.Servlet.Reportes.ListarClientesServlet;
-import pe.edu.utp.Servlet.Reportes.TicketReporte;
+import pe.edu.utp.Servlet.Reportes.*;
 import pe.edu.utp.Servlet.Reservar.CalendarioReserva;
 import pe.edu.utp.Servlet.Reservar.CanchasDisponible;
 import pe.edu.utp.Servlet.Reservar.CanchasNoDisponible;
@@ -23,7 +20,7 @@ public class AppCanchaDeportiva {
     public static void main(String[] args) throws Exception {
         String path = "src\\main\\resources\\";
 
-        JettyUTP webserver = new JettyUTP(8080, path);
+        JettyUTP webserver = new JettyUTP(8081, path);
         webserver.addServlet(LoginServlet.class,"/login");
         webserver.addServlet(CerrarSesionServlet.class,"/cerrarSesion");
         webserver.addServlet(PerfilServlet.class,"/miPerfil");
@@ -44,8 +41,9 @@ public class AppCanchaDeportiva {
         webserver.addServlet(TicketReporte.class,"/ticket");
         webserver.addServlet(ExportarReporteExcel.class,"/exportarExcel");
         webserver.addServlet(ExportarReportePDF.class,"/exportarPdf");
+        webserver.addServlet(ReporteGeneral.class,"/reporteGeneral");
 
-        URL myURL = new URL("http://localhost:8080");
+        URL myURL = new URL("http://localhost:8081");
         System.out.println("*********************************************************");
         System.out.println("CLICK AQUI PARA ABRIR LA APLICACION:" + myURL);
         System.out.println("*********************************************************");

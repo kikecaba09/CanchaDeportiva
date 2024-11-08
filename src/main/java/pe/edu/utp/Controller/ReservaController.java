@@ -117,4 +117,51 @@ public class ReservaController implements ReservaDAO {
 
         return reservas;
     }
+
+    @Override
+    public List<Reserva> obtenerReservasPorRango(String fechaInicio, String fechaFin) {
+        List<Reserva> reservas = new ArrayList<>();
+        Connection conexion = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            // Obtener la conexión a la base de datos utilizando ConexionBD
+            conexion = ConexionBD.obtenerConexion();
+
+            // Consulta SQL para obtener las reservas en el rango de fechas
+            String query = "SELECT * FROM Reserva WHERE fecha_reserva BETWEEN ? AND ?";
+            stmt = conexion.prepareStatement(query);
+            stmt.setString(1, fechaInicio);
+            stmt.setString(2, fechaFin);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                // Crear el objeto Reserva con los datos obtenidos de la consulta
+                Reserva reserva = new Reserva(
+                        rs.getInt("reserva_id"),
+                        rs.getInt("cliente_id"),
+                        rs.getInt("cancha_id"),
+                        rs.getDouble("precio_reserva"),
+                        rs.getDate("fecha_reserva"),
+                        rs.getString("hora_inicio"),
+                        rs.getString("hora_fin"),
+                        rs.getString("estado_reserva")
+                );
+                reservas.add(reserva);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Cerrar la conexión y otros recursos
+            ConexionBD.cerrarConexion(conexion);
+            try {
+                if (stmt != null) stmt.close();
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return reservas;
+    }
 }

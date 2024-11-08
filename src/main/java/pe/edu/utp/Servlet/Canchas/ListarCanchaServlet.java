@@ -165,7 +165,7 @@ public class ListarCanchaServlet extends HttpServlet {
                   <a class='nav-link' href='/listarClientes'>
                     <i class='fas fa-ticket-alt'></i> Ticket de Ventas
                   </a>
-                  <a class='nav-link' href='/listarCajeros'>
+                  <a class='nav-link' href='HTML/reporteGeneral.html'>
                     <i class='fas fa-chart-line'></i> Reportes Generales
                   </a>
                 </ul>

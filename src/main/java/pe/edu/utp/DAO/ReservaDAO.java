@@ -14,4 +14,6 @@ public interface ReservaDAO {
     void reservarCancha(Reserva reserva) throws SQLException;
     List<Reserva> obtenerTodasLasReservas();
     List<Reserva> listarReservasPorCliente(Cliente cliente);
+
+    List<Reserva> obtenerReservasPorRango(String fechaInicio, String fechaFin);
 }

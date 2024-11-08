@@ -65,6 +65,8 @@ public class TicketReporte extends HttpServlet {
 
             // Variables para calcular los totales
             double totalPrecio = 0.0;
+            double totalPagado = 0.0;
+            double deuda = 0.0;
             long totalHoras = 0;
             long totalMinutos=0;
 
@@ -138,43 +140,60 @@ public class TicketReporte extends HttpServlet {
                             background-color: #f2f2f2;
                         }
                         .totals {
-                            background-color: #ecf0f1;
-                            padding: 15px;
-                            margin-top: 20px;
-                            border-radius: 8px;
-                            border: 1px solid #ddd;
-                        }
-                        .totals p {
-                            font-size: 18px;
-                            font-weight: bold;
-                        }
-                        .highlight {
-                            color: #e74c3c;
-                        }
-                        .footer {
-                                text-align: center;
-                                margin-top: 30px;
-                            }
-                    
-                            .footer a {
+                                background-color: #ecf0f1;
+                                padding: 20px;
+                                margin-top: 20px;
+                                border-radius: 8px;
+                                border: 1px solid #ddd;
+                                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
                                 font-size: 18px;
-                                color: #fff;
-                                background-color: #3498db;
-                                padding: 10px 20px;
-                                text-decoration: none;
-                                border-radius: 5px;
-                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                                transition: background-color 0.3s ease, transform 0.2s ease;
                             }
                     
-                            .footer a:hover {
-                                background-color: #2980b9;
-                                transform: scale(1.05);
+                            .totals-row {
+                                display: flex;
+                                justify-content: space-between; /* Alinea los elementos a los extremos */
+                                margin-bottom: 10px;
                             }
                     
-                            .footer a:active {
-                                background-color: #1c6f94;
+                            .totals-row p {
+                                margin: 0;
+                                font-weight: normal;
+                                color: #333;
+                                line-height: 1.6;
                             }
+                    
+                            .totals-row strong {
+                                color: #2c3e50;
+                            }
+                    
+                            .total-amount {
+                                color: #e74c3c;
+                                font-weight: bold;
+                                text-align: right;
+                                margin-left: auto;
+                            }
+                    
+                            .totals p:last-child {
+                                font-size: 20px;
+                                font-weight: bold;
+                                color: #3498db;
+                            }
+                            .export-links {
+                                        display: flex; /* Esto coloca los elementos uno al lado del otro */
+                                        gap: 10px; /* Espacio entre los enlaces */
+                                        font-family: Arial, sans-serif; /* Fuente para que se vea bien */
+                                    }
+                                    .export-links a {
+                                        text-decoration: none; /* Quita el subrayado */
+                                        padding: 10px 20px; /* Agrega algo de padding */
+                                        border-radius: 5px; /* Bordes redondeados */
+                                        color: white; /* Color del texto */
+                                        background-color: #007bff; /* Fondo azul */
+                                        transition: background-color 0.3s; /* Efecto de transición */
+                                    }
+                                    .export-links a:hover {
+                                        background-color: #0056b3; /* Cambio de color al pasar el ratón */
+                                    }
                     </style>""");
             out.println("</head>");
             out.println("<body>");
@@ -219,9 +238,14 @@ public class TicketReporte extends HttpServlet {
                     long horasReservadas = ChronoUnit.HOURS.between(horaInicio, horaFin);
                     long minutosReservados = ChronoUnit.MINUTES.between(horaInicio, horaFin) % 60;  // Solo minutos adicionales
 
+                    // Verificar si el estado de la reserva no es "Cancelado"
+                    if (!"Cancelado".equalsIgnoreCase(reserva.getEstadoReserva())) {
+                        totalPrecio += reserva.getPrecioReserva();  // Sumar al importe total
+                    }
+
                     // Verificar si el estado de la reserva es "Pagado"
                     if ("Pagado".equalsIgnoreCase(reserva.getEstadoReserva())) {
-                        totalPrecio += reserva.getPrecioReserva();
+                        totalPagado += reserva.getPrecioReserva();  // Sumar al total pagado
                     }
 
                     // Sumar al total de horas y minutos
@@ -247,15 +271,32 @@ public class TicketReporte extends HttpServlet {
                 out.println("</table>");
             }
 
+            // Calcular la deuda
+            deuda = totalPrecio - totalPagado;
+
             // Mostrar los totales
             out.println("<div class='totals'>");
-            out.println("<p><strong>IMPORTE TOTAL                            :</strong> s/ " + totalPrecio + "</p>");
-            out.println("<p><strong>Total de Horas Reservadas:</strong> " + totalHoras + " horas y " + totalMinutos + " minutos</p>");
+            out.println("<div class='totals-row'>");
+            out.println("<p><strong>IMPORTE TOTAL</strong></p>");
+            out.println("<p><span class='total-amount'>" + totalPrecio + "</span></p>");
             out.println("</div>");
-            out.println("<div class='footer'>");
-            out.println("<p><a href='/exportarExcel?cliente_id=" + clienteId + "'>Exportar a Excel</a></p>");
-            // Agregar el botón para exportar a PDF
-            out.println("<p><a href='/exportarPdf?cliente_id=" + clienteId + "'>Exportar a PDF</a></p>");
+            out.println("<div class='totals-row'>");
+            out.println("<p><strong>Total Pagado</strong></p>");
+            out.println("<p><span class='total-amount'>" + totalPagado + "</span></p>");
+            out.println("</div>");
+            out.println("<div class='totals-row'>");
+            out.println("<p><strong>Deuda a Pagar</strong></p>");
+            out.println("<p><span class='total-amount'>" + deuda + "</span></p>");
+            out.println("</div>");
+            out.println("<div class='totals-row'>");
+            out.println("<p><strong>Total de Horas Reservadas</strong></p>");
+            out.println("<p><span class='total-amount'>" + totalHoras + " horas y " + totalMinutos + " minutos</span></p>");
+            out.println("</div>");
+            out.println("</div>");
+            out.println("</div>");
+            out.println("<div class='export-links'>");
+            out.println("<a href='/exportarExcel?cliente_id=" + clienteId + "'>Exportar a Excel</a>");
+            out.println("<a href='/exportarPdf?cliente_id=" + clienteId + "'>Exportar a PDF</a>");
             out.println("</div>");
             out.println("</div>");
             out.println("</body>");
@@ -264,7 +305,6 @@ public class TicketReporte extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "El parámetro 'clienteId' no es válido.");
         }
     }
-
 
     // Método para generar un número de ticket aleatorio
     private String generarNumeroTicket() {

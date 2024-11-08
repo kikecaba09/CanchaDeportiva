@@ -241,7 +241,7 @@ public class ListarClientesServlet extends HttpServlet {
             out.println("<td>" + cliente.getFechaNacimiento() + "</td>");
 
             // Botón o enlace para ver las reservas del cliente
-            out.println("<td><a href='/ticket?cliente_id=" + cliente.getClienteId() + "'>Ver Reservas</a></td>");
+            out.println("<td><a href='/ticket?cliente_id=" + cliente.getClienteId() + "'>Generar Reportes</a></td>");
             out.println("</tr>");
         }
 
