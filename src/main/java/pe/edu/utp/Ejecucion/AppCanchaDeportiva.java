@@ -9,9 +9,8 @@ import pe.edu.utp.Servlet.Login.CerrarSesionServlet;
 import pe.edu.utp.Servlet.Login.PerfilServlet;
 import pe.edu.utp.Servlet.Reportes.*;
 import pe.edu.utp.Servlet.Reservar.CalendarioReserva;
-import pe.edu.utp.Servlet.Reservar.CanchasDisponible;
-import pe.edu.utp.Servlet.Reservar.CanchasNoDisponible;
 import pe.edu.utp.Servlet.Login.LoginServlet;
+import pe.edu.utp.Servlet.Reservar.ReservarCancha;
 import pe.edu.utp.utils.JettyUTP;
 import java.net.URL;
 
@@ -34,8 +33,6 @@ public class AppCanchaDeportiva {
         webserver.addServlet(EliminarCanchaServlet.class,"/eliminarCancha");
         webserver.addServlet(ListarCanchaServlet.class,"/listarCanchas");
         webserver.addServlet(ReservarCancha.class,"/reservarCancha");
-        webserver.addServlet(CanchasDisponible.class,"/canchasDisponible");
-        webserver.addServlet(CanchasNoDisponible.class,"/canchasNoDisponible");
         webserver.addServlet(CalendarioReserva.class,"/calendario");
         webserver.addServlet(ListarClientesServlet.class,"/listarClientes");
         webserver.addServlet(TicketReporte.class,"/ticket");

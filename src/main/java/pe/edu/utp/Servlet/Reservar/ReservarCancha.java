@@ -1,4 +1,4 @@
-package pe.edu.utp.Servlet.Canchas;
+package pe.edu.utp.Servlet.Reservar;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

@@ -59,6 +59,41 @@ public class ListarCajerosServlet extends HttpServlet {
         out.println(".alert { display: none; padding: 15px; margin-bottom: 20px; border-radius: 5px; }");
         out.println(".alert.success { background-color: #4CAF50; color: white; }");
         out.println(".alert.error { background-color: #f44336; color: white; }");
+        out.println("    .action-buttons {");
+        out.println("        display: flex;");
+        out.println("        justify-content: center;");
+        out.println("        gap: 10px;");
+        out.println("        margin-bottom: 20px;");
+        out.println("    }");
+        out.println("    .action-buttons a {");
+        out.println("        display: inline-flex;");
+        out.println("        align-items: center;");
+        out.println("        justify-content: center;");
+        out.println("        text-decoration: none;");
+        out.println("        padding: 10px 15px;");
+        out.println("        font-size: 14px;");
+        out.println("        font-weight: bold;");
+        out.println("        border-radius: 5px;");
+        out.println("        transition: background-color 0.3s ease;");
+        out.println("    }");
+        out.println("    .action-buttons .btn-warning {");
+        out.println("        color: #fff;");
+        out.println("        background-color: #f0ad4e;");
+        out.println("        border: 1px solid #eea236;");
+        out.println("    }");
+        out.println("    .action-buttons .btn-warning:hover {");
+        out.println("        background-color: #ec971f;");
+        out.println("        border-color: #d58512;");
+        out.println("    }");
+        out.println("    .action-buttons .btn-danger {");
+        out.println("        color: #fff;");
+        out.println("        background-color: #d9534f;");
+        out.println("        border: 1px solid #d43f3a;");
+        out.println("    }");
+        out.println("    .action-buttons .btn-danger:hover {");
+        out.println("        background-color: #c9302c;");
+        out.println("        border-color: #ac2925;");
+        out.println("    }");
         out.println("</style>");
         out.println("</head>");
         out.println("<body>");
@@ -90,11 +125,14 @@ public class ListarCajerosServlet extends HttpServlet {
             out.println("<td>" + cajero.getPassword() + "</td>"); // Mostrar Password
             out.println("<td>");
             // Botones de acción: Editar y Eliminar
-            out.println("<div class='d-flex justify-content-center mb-3'>");
-            out.println("<a href='/editarCajero?id=" + cajero.getIdUsuario() + "' class='btn btn-warning mr-2'>");
-            out.println("<i class='fas fa-edit'></i> Editar</a>");
-            out.println("<a href='/eliminarCajero?id=" + cajero.getIdUsuario() + "' class='btn btn-danger'>");
-            out.println("<i class='fas fa-trash'></i> Eliminar</a>");
+            out.println("<div class='action-buttons'>");
+            out.println("    <a href='/editarCajero?id=" + cajero.getIdUsuario() + "' class='btn btn-warning'>");
+            out.println("        <i class='fas fa-edit'></i> Editar");
+            out.println("    </a>");
+            out.println("    <a href='/eliminarCajero?id=" + cajero.getIdUsuario() + "' class='btn btn-danger'>");
+            out.println("        <i class='fas fa-trash'></i> Eliminar");
+            out.println("    </a>");
+            out.println("</div>");
             out.println("</div>");
             out.println("</form>");
             out.println("</form>");
@@ -103,7 +141,6 @@ public class ListarCajerosServlet extends HttpServlet {
             out.println("</td>");
             out.println("</tr>");
         }
-
         out.println("</table>");
         out.println("</div>"); // Close container
         out.println("</body>");
