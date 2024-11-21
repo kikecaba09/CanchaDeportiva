@@ -335,6 +335,7 @@ CREATE PROCEDURE ReservarCancha(
     IN p_cancha_id INT,
     IN p_hora_inicio TIME,
     IN p_hora_fin TIME,
+    IN p_metodo_pago VARCHAR(50),
     OUT p_resultado VARCHAR(255)
 )
 BEGIN
@@ -345,6 +346,7 @@ BEGIN
     DECLARE v_precio_dia DECIMAL(10,2);
     DECLARE v_precio_noche DECIMAL(10,2);
     DECLARE v_rol_id INT;
+    DECLARE v_reserva_id INT;
 
     -- Obtener la información de la cancha
 SELECT hora_abierto, hora_cerrado, precio_dia, precio_noche
@@ -355,6 +357,20 @@ WHERE cancha_id = p_cancha_id;
 -- Verificar que las horas de inicio y fin estén dentro del horario de apertura y cierre
 IF p_hora_inicio < v_hora_abierto OR p_hora_fin > v_hora_cerrado THEN
         SET p_resultado = 'Error: La hora de la reserva está fuera del horario permitido de la cancha.';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = p_resultado;
+END IF;
+
+    -- Verificar cruce de horarios con otras reservas
+    IF EXISTS (
+        SELECT 1
+        FROM Reserva
+        WHERE cancha_id = p_cancha_id
+          AND estado_reserva = 'Pendiente'
+          AND ((p_hora_inicio >= hora_inicio AND p_hora_inicio < hora_fin)
+            OR (p_hora_fin > hora_inicio AND p_hora_fin <= hora_fin)
+            OR (p_hora_inicio <= hora_inicio AND p_hora_fin >= hora_fin))
+    ) THEN
+        SET p_resultado = 'Error: La reserva se cruza con otra existente.';
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = p_resultado;
 END IF;
 
@@ -375,7 +391,7 @@ VALUES (p_cliente_nombre, p_cliente_apellido, p_nro_identidad, p_telefono, p_ema
 -- Obtener el ID del cliente recién insertado
 SET @cliente_id = LAST_INSERT_ID();
 
-    -- Insertar el usuario con rol de cliente (ID del rol 'cliente' se obtiene desde la tabla Rol)
+    -- Insertar el usuario con rol de cliente
 SELECT rol_id INTO v_rol_id FROM Rol WHERE rol = 'cliente';
 
 INSERT INTO User (cliente_id, rol_id, username, password)
@@ -385,10 +401,18 @@ VALUES (@cliente_id, v_rol_id, NULL, NULL);
 INSERT INTO Reserva (cliente_id, cancha_id, precio_reserva, fecha_reserva, hora_inicio, hora_fin, estado_reserva)
 VALUES (@cliente_id, p_cancha_id, v_precio, v_fecha_reserva, p_hora_inicio, p_hora_fin, 'Pendiente');
 
-SET p_resultado = 'Reserva realizada con éxito.';
+-- Obtener el ID de la reserva recién insertada
+SET v_reserva_id = LAST_INSERT_ID();
+
+    -- Registrar el pago en la tabla Pago
+INSERT INTO Pago (reserva_id, metodo_pago, monto, fecha_pago)
+VALUES (v_reserva_id, p_metodo_pago, v_precio, CURDATE());
+
+SET p_resultado = 'Reserva y pago realizados con éxito.';
 END //
 
 DELIMITER ;
+
 
 
 DELIMITER //

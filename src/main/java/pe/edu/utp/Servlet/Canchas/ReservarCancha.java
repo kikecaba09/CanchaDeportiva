@@ -27,10 +27,11 @@ public class ReservarCancha extends HttpServlet {
         int canchaId = Integer.parseInt(request.getParameter("cancha_id"));
         String horaInicio = request.getParameter("hora_inicio");
         String horaFin = request.getParameter("hora_fin");
+        String metodoPago = request.getParameter("metodo_pago");
 
         try {
             // Llamar al método del DAO
-            String resultado = reservaDAO.reservarCancha(nombre, apellido, nroIdentidad, telefono, email, fechaNacimiento, canchaId, horaInicio, horaFin);
+            String resultado = reservaDAO.reservarCancha(nombre, apellido, nroIdentidad, telefono, email, fechaNacimiento, canchaId, horaInicio, horaFin, metodoPago);
 
             // Enviar resultado al cliente
             response.getWriter().println("<p>" + resultado + "</p>");
