@@ -156,16 +156,22 @@ public class UsuarioController implements UsuarioDAO {
     }
 
     @Override
-    public void eliminarUsuarioCajero(int userId) {
-        String query = "CALL EliminarUsuarioCajero(?)";
+    public boolean eliminarUsuarioCajero(int userId) {
+        String sql = "DELETE FROM user WHERE user_id = ?";
 
-        try (Connection conn = ConexionBD.obtenerConexion();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, userId);
-            pstmt.executeUpdate();
+        try (Connection conexion = ConexionBD.obtenerConexion();
+             PreparedStatement preparedStatement = conexion.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, userId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Cajero eliminada exitosamente.");
+            }
+
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Manejo de excepciones aquí
+            System.out.println("Error al eliminar el Cajero: " + e.getMessage());
         }
+        return false;
     }
 }

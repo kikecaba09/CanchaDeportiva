@@ -1,34 +1,28 @@
 package pe.edu.utp.Servlet.Cajeros;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import pe.edu.utp.Controller.UsuarioController;
-import pe.edu.utp.DAO.UsuarioDAO;
 
 import java.io.IOException;
 
 @WebServlet("/EliminarCajero")
 public class EliminarCajero extends HttpServlet {
-    private UsuarioDAO userDAO;
+    private static final long serialVersionUID = 1L;
 
-    @Override
-    public void init() {
-        userDAO = new UsuarioController();
-    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        String idCajero = request.getParameter("id");
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int userId = Integer.parseInt(request.getParameter("user_id"));
+        UsuarioController usuarioController = new UsuarioController();
+        boolean success = usuarioController.eliminarUsuarioCajero(Integer.parseInt(idCajero)); // Llamar al método de eliminar en el controller
 
-        try {
-            userDAO.eliminarUsuarioCajero(userId);
-            response.sendRedirect("/listarCajeros");
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("listarUsuariosCajeros.jsp?error=Error al eliminar el usuario");
+        if (success) {
+            response.sendRedirect("/listarCajeros"); // Redirigir a la página de administración de canchas
+        } else {
+            response.sendRedirect("/listarCajeros"); // Si hubo algún error, redirigir a una página de error
         }
     }
 }

@@ -90,11 +90,10 @@ public class ListarCajerosServlet extends HttpServlet {
             out.println("<td>" + cajero.getPassword() + "</td>"); // Mostrar Password
             out.println("<td>");
             out.println("<div style='display: flex; gap: 10px;'>"); // Usa flexbox para los botones
-            out.println("<a href='/ActualizarCajero?id=" + cajero.getIdUsuario() + "' class='button edit'><i class='fas fa-edit'></i> Editar</a>");
-            out.println("<form action='/EliminarCajero' method='post' style='display:inline;'>");
-            out.println("<input type='hidden' name='user_id' value='" + cajero.getIdUsuario() + "'>");
-            out.println("<button type='submit' class='button delete'>");
-            out.println("<i class='fas fa-trash'></i> Eliminar</button>");
+            out.println("<a href='/ActualizarCajero?id=" + cajero.getIdUsuario()+ "' class='btn btn-warning mr-2'>");
+            out.println("<i class='fas fa-edit'></i> Editar</a>");
+            out.println("<a href='/EliminarCajero?id=" + cajero.getIdUsuario() + "' class='btn btn-danger'>");
+            out.println("<i class='fas fa-trash'></i> Eliminar</a>");
             out.println("</form>");
             out.println("</form>");
             out.println("</form>");

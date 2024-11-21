@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservar Cancha</title>
-    <!-- Vinculación con Google Fonts para una tipografía moderna -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -29,9 +28,8 @@
             border-radius: 10px;
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
             padding: 40px;
-            max-width: 800px;
+            max-width: 1000px;
             width: 100%;
-            margin: 20px;
         }
 
         h1 {
@@ -43,9 +41,9 @@
         }
 
         form {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
             background-color: #32e10e;
             padding: 25px;
             border-radius: 12px;
@@ -53,12 +51,11 @@
         }
 
         .form-group {
-            width: 48%;
-            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         .form-group label {
-            display: block;
             font-weight: 600;
             margin-bottom: 8px;
             color: #000000;
@@ -66,7 +63,6 @@
         }
 
         input, select {
-            width: 100%;
             padding: 14px;
             border: 2px solid #ddd;
             border-radius: 8px;
@@ -84,7 +80,7 @@
         }
 
         button {
-            width: 100%;
+            grid-column: span 3;
             padding: 16px;
             background-color: #101111;
             color: white;
@@ -106,48 +102,27 @@
             transform: translateY(0);
         }
 
-        .form-group select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-color: #fff;
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Down_arrow_icon.svg/1024px-Down_arrow_icon.svg.png');
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            padding-right: 35px;
-        }
-
-        .form-group select:focus {
-            border-color: #4CAF50;
-            background-color: #f9f9f9;
-        }
-
-        /* Ajustes para pantallas pequeñas */
-        @media (max-width: 768px) {
-            .form-group {
-                width: 100%;
+        @media (max-width: 1024px) {
+            form {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        /* Detalles de fondo y contenedor */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #eff3ef, #fcfcfc);
-            z-index: -1;
-        }
+        @media (max-width: 768px) {
+            form {
+                grid-template-columns: 1fr;
+            }
 
+            button {
+                grid-column: span 1;
+            }
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Reservar Cancha</h1>
     <form action="/reservarCancha" method="post">
-        <!-- Campo oculto para recibir el cancha_id -->
         <input type="hidden" name="cancha_id" id="cancha_id">
 
         <div class="form-group">
@@ -204,7 +179,6 @@
 </div>
 
 <script>
-    // Este script obtiene el cancha_id de la URL y lo asigna al campo oculto
     window.onload = function() {
         const urlParams = new URLSearchParams(window.location.search);
         const canchaId = urlParams.get('cancha_id');

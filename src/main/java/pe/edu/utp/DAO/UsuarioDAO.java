@@ -11,5 +11,5 @@ public interface UsuarioDAO {
     boolean registrarCajero(Cliente cliente, Usuario user);
     List<Usuario> listarUsuariosCajeros();
     void actualizarUsuarioCajero(Usuario usuario);
-    void eliminarUsuarioCajero(int idUsuario);
+    boolean eliminarUsuarioCajero(int idUsuario);
 }
