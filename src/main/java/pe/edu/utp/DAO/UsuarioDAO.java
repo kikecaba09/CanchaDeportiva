@@ -8,8 +8,8 @@ public interface UsuarioDAO {
 
     Usuario obtenerUsuario(String username, String password);
     Usuario obtenerUsuarioPorId(int idUsuario);
+    boolean eliminarCajero(int idCajero);
     boolean registrarCajero(Cliente cliente, Usuario user);
     List<Usuario> listarUsuariosCajeros();
     void actualizarUsuarioCajero(Usuario usuario);
-    boolean eliminarUsuarioCajero(int idUsuario);
 }

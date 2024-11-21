@@ -149,32 +149,37 @@ INSERT INTO Pago (reserva_id, metodo_pago, monto, fecha_pago) VALUES
 
 DELIMITER //
 
-CREATE PROCEDURE CrearUsuarioCajero(
-    IN p_nombre VARCHAR(100),
-    IN p_apellido VARCHAR(100),
-    IN p_nro_identidad VARCHAR(20),
-    IN p_telefono VARCHAR(15),
-    IN p_email VARCHAR(100),
-    IN p_fecha_nacimiento DATE,
-    IN p_username VARCHAR(50),
-    IN p_password VARCHAR(255)
+CREATE PROCEDURE RegistrarCajero(
+    IN nombre VARCHAR(100),
+    IN apellido VARCHAR(100),
+    IN nro_identidad VARCHAR(20),
+    IN telefono VARCHAR(15),
+    IN email VARCHAR(100),
+    IN fecha_nacimiento DATE,
+    IN username VARCHAR(50),
+    IN password_hash VARCHAR(255) -- La contraseña debe llegar ya encriptada
 )
 BEGIN
-    DECLARE v_cliente_id INT;
-    DECLARE v_rol_id INT;
+    DECLARE cliente_id INT;
+    DECLARE rol_id INT DEFAULT 2; -- Asignamos directamente el rol_id de "cajero" (suponiendo que es 2)
 
-    -- Obtener el rol_id para el rol de "Cajero"
-SELECT rol_id INTO v_rol_id FROM Rol WHERE rol = 'Cajero';
+    -- Iniciar la transacción
+START TRANSACTION;
 
--- Insertar en la tabla Cliente y obtener el cliente_id generado
+-- Insertar en la tabla Cliente
 INSERT INTO Cliente (nombre, apellido, nro_identidad, telefono, email, fecha_nacimiento)
-VALUES (p_nombre, p_apellido, p_nro_identidad, p_telefono, p_email, p_fecha_nacimiento);
+VALUES (nombre, apellido, nro_identidad, telefono, email, fecha_nacimiento);
 
-SET v_cliente_id = LAST_INSERT_ID();
+-- Obtener el cliente_id generado
+SET cliente_id = LAST_INSERT_ID();
 
-    -- Insertar en la tabla User con el cliente_id y rol_id de cajero
+    -- Insertar en la tabla User con rol_id ya asignado
 INSERT INTO User (cliente_id, rol_id, username, password)
-VALUES (v_cliente_id, v_rol_id, p_username, p_password);
+VALUES (cliente_id, rol_id, username, password_hash);
+
+-- Confirmar la transacción
+COMMIT;
+
 END //
 
 DELIMITER ;
