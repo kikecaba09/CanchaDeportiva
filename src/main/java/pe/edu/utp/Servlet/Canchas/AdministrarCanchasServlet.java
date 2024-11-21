@@ -141,9 +141,8 @@ public class AdministrarCanchasServlet extends HttpServlet {
         out.println("<ul class='nav flex-column'>");
         out.println("<li class='nav-item'><a class='nav-link' data-toggle='#reservarMenu' href='#'><i class='fas fa-calendar-plus'></i> Reservar</a></li>");
         out.println("<ul id='reservarMenu' class='submenu'>");
-        out.println("<a class='nav-link' href='canchasDisponibles.html'><i class='fas fa-check'></i> Canchas disponibles</a>");
-        out.println("<a class='nav-link' href='canchasNoDisponibles.html'><i class='fas fa-times'></i> Canchas no disponibles</a>");
-        out.println("<a class='nav-link' href='calendarioDisponibilidad.html'><i class='fas fa-calendar-alt'></i> Calendario disponibilidad</a>");
+        out.println("<a class='nav-link' href='/listarCanchas'><i class='fas fa-check'></i> Canchas disponibles</a>");
+        out.println("<a class='nav-link' href='HTML/calendarioReserva.html'><i class='fas fa-calendar-alt'></i> Calendario disponibilidad</a>");
         out.println("</ul>");
         out.println("<li class='nav-item'><a class='nav-link' data-toggle='#configuracionMenu' href='#'><i class='fas fa-cog'></i> Configuración</a></li>");
         out.println("<ul id='configuracionMenu' class='submenu'>");
@@ -155,7 +154,22 @@ public class AdministrarCanchasServlet extends HttpServlet {
         out.println("<a class='nav-link' href='/listarCajeros'><i class='fas fa-user-cog'></i> Administrar cajero</a>");
         out.println("<a class='nav-link' href='/administrarCancha'><i class='fas fa-football-ball'></i> Administrar canchas</a>");
         out.println("</ul>");
-        out.println("<li class='nav-item'><a class='nav-link' href='cerrarSesion.html'><i class='fas fa-sign-out-alt'></i> Cerrar sesión</a></li>");
+        out.println("""
+                <li class='nav-item'>
+                  <a class='nav-link' data-toggle='#reporteMenu' href='#'>
+                    <i class='fas fa-file-alt'></i> Reportes
+                  </a>
+                </li>
+                <ul id='reporteMenu' class='submenu'>
+                  <a class='nav-link' href='/listarClientes'>
+                    <i class='fas fa-ticket-alt'></i> Ticket de Ventas
+                  </a>
+                  <a class='nav-link' href='HTML/reporteGeneral.html'>
+                    <i class='fas fa-chart-line'></i> Reportes Generales
+                  </a>
+                </ul>
+                """);
+        out.println("<li class='nav-item'><a class='nav-link' href='index.html'><i class='fas fa-sign-out-alt'></i> Cerrar sesión</a></li>");
         out.println("</ul>");
         out.println("</div>");
         out.println("</nav>");

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservar Cancha</title>
+    <!-- Vinculación con Google Fonts para una tipografía moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -12,9 +14,9 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #e9ecef;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            color: #020202;
             padding: 20px;
             display: flex;
             justify-content: center;
@@ -23,27 +25,31 @@
         }
 
         .container {
-            background-color: #fff;
+            background-color: #2fe00b;
             border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
             padding: 40px;
-            max-width: 900px;
+            max-width: 800px;
             width: 100%;
             margin: 20px;
         }
 
         h1 {
             text-align: center;
-            color: #0056b3;
-            font-size: 28px;
-            margin-bottom: 30px;
-            font-weight: bold;
+            color: #050505;
+            font-size: 36px;
+            margin-bottom: 40px;
+            font-weight: 600;
         }
 
         form {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
+            background-color: #32e10e;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
         }
 
         .form-group {
@@ -51,43 +57,69 @@
             margin-bottom: 20px;
         }
 
-        label {
+        .form-group label {
             display: block;
-            font-weight: bold;
-            margin-bottom: 6px;
-            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #000000;
+            font-size: 16px;
         }
 
-        input {
+        input, select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 15px;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
             transition: border-color 0.3s;
         }
 
-        input:focus {
-            border-color: #0056b3;
+        input:focus, select:focus {
+            border-color: #fefffe;
             outline: none;
+        }
+
+        input[type="date"], input[type="time"] {
+            padding-left: 12px;
         }
 
         button {
             width: 100%;
-            padding: 12px;
-            background-color: #0056b3;
+            padding: 16px;
+            background-color: #101111;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 18px;
-            font-weight: bold;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s ease;
             margin-top: 20px;
         }
 
         button:hover {
-            background-color: #003d80;
+            background-color: #ff0000;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .form-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #fff;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Down_arrow_icon.svg/1024px-Down_arrow_icon.svg.png');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 35px;
+        }
+
+        .form-group select:focus {
+            border-color: #4CAF50;
+            background-color: #f9f9f9;
         }
 
         /* Ajustes para pantallas pequeñas */
@@ -105,15 +137,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, #0056b3, #007bff);
+            background: linear-gradient(135deg, #eff3ef, #fcfcfc);
             z-index: -1;
         }
 
-        .container {
-            background-color: white;
-            border-radius: 12px;
-            overflow: hidden;
-        }
     </style>
 </head>
 <body>
@@ -171,7 +198,6 @@
                 <option value="Yape">Yape</option>
             </select>
         </div>
-
 
         <button type="submit">Reservar</button>
     </form>
