@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CanchaController implements CanchaDAO {
+
     @Override
     public void agregarCancha(Cancha cancha) {
         String sql = "INSERT INTO Cancha (nro_cancha, precio_dia, precio_noche, imagen_cancha, hora_abierto, hora_cerrado) VALUES (?, ?, ?, ?, ?, ?)";

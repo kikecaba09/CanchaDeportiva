@@ -110,6 +110,133 @@ public class AdministrarCanchasServlet extends HttpServlet {
         out.println("    margin-right: 8px;");
         out.println("    font-size: 1.2rem;");
         out.println("}");
+        out.println("/* Diseño general del modal */");
+        out.println(".modal-content {");
+        out.println("    border-radius: 20px;");
+        out.println("    border: none;");
+        out.println("    box-shadow: 0px 10px 50px rgba(0, 0, 0, 0.3);");
+        out.println("    overflow: hidden;");
+        out.println("    background: linear-gradient(135deg, #ffffff, #f8f9fa);");
+        out.println("}");
+
+        out.println("/* Encabezado del modal */");
+        out.println(".modal-header {");
+        out.println("    background-color: #343a40; /* Gris oscuro */");
+        out.println("    color: #f8f9fa;");
+        out.println("    padding: 20px;");
+        out.println("    border-bottom: 3px solid #007bff;");
+        out.println("    text-align: center;");
+        out.println("}");
+
+        out.println(".modal-title {");
+        out.println("    font-family: 'Arial', sans-serif;");
+        out.println("    font-weight: bold;");
+        out.println("    font-size: 1.8rem;");
+        out.println("    margin: 0;");
+        out.println("    letter-spacing: 1px;");
+        out.println("}");
+
+        out.println(".modal-header .close {");
+        out.println("    color: #ffffff;");
+        out.println("    font-size: 1.5rem;");
+        out.println("    opacity: 0.8;");
+        out.println("}");
+
+        out.println(".modal-header .close:hover {");
+        out.println("    opacity: 1;");
+        out.println("    transform: scale(1.2);");
+        out.println("}");
+
+        out.println("/* Cuerpo del modal */");
+        out.println(".modal-body {");
+        out.println("    padding: 30px;");
+        out.println("    background-color: #ffffff;");
+        out.println("    color: #343a40;");
+        out.println("    font-family: 'Verdana', sans-serif;");
+        out.println("    font-size: 1rem;");
+        out.println("    line-height: 1.5;");
+        out.println("}");
+
+        out.println(".modal-body label {");
+        out.println("    font-weight: bold;");
+        out.println("    color: #007bff;");
+        out.println("    display: block;");
+        out.println("    margin-bottom: 8px;");
+        out.println("    font-size: 1rem;");
+        out.println("}");
+
+        out.println(".modal-body .form-control {");
+        out.println("    border-radius: 12px;");
+        out.println("    border: 1px solid #dddddd;");
+        out.println("    padding: 12px 15px;");
+        out.println("    font-size: 1rem;");
+        out.println("    background-color: #f9f9f9;");
+        out.println("    transition: all 0.3s ease;");
+        out.println("}");
+
+        out.println(".modal-body .form-control:focus {");
+        out.println("    border-color: #007bff;");
+        out.println("    background-color: #ffffff;");
+        out.println("    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);");
+        out.println("}");
+
+        out.println(".modal-body input[type='file'] {");
+        out.println("    padding: 5px;");
+        out.println("}");
+
+        out.println(".modal-body .form-group {");
+        out.println("    margin-bottom: 20px;");
+        out.println("}");
+
+        out.println("/* Pie del modal */");
+        out.println(".modal-footer {");
+        out.println("    background-color: #f1f1f1;");
+        out.println("    padding: 20px;");
+        out.println("    border-top: 2px solid #dddddd;");
+        out.println("}");
+
+        out.println(".modal-footer .btn {");
+        out.println("    border-radius: 20px;");
+        out.println("    padding: 12px 30px;");
+        out.println("    font-size: 1rem;");
+        out.println("    font-weight: bold;");
+        out.println("    letter-spacing: 1px;");
+        out.println("    transition: all 0.3s ease;");
+        out.println("}");
+
+        out.println(".modal-footer .btn-primary {");
+        out.println("    background-color: #007bff;");
+        out.println("    border: none;");
+        out.println("    color: #ffffff;");
+        out.println("}");
+
+        out.println(".modal-footer .btn-primary:hover {");
+        out.println("    background-color: #0056b3;");
+        out.println("    transform: translateY(-2px);");
+        out.println("}");
+
+        out.println(".modal-footer .btn-secondary {");
+        out.println("    background-color: #6c757d;");
+        out.println("    border: none;");
+        out.println("    color: #ffffff;");
+        out.println("}");
+
+        out.println(".modal-footer .btn-secondary:hover {");
+        out.println("    background-color: #5a6268;");
+        out.println("    transform: translateY(-2px);");
+        out.println("}");
+
+        out.println("/* Animación del modal */");
+        out.println(".modal.fade .modal-dialog {");
+        out.println("    transform: translate(0, -50px);");
+        out.println("    opacity: 0;");
+        out.println("    transition: all 0.4s ease-in-out;");
+        out.println("}");
+
+        out.println(".modal.show .modal-dialog {");
+        out.println("    transform: translate(0, 0);");
+        out.println("    opacity: 1;");
+        out.println("}");
         out.println("</style>");
 
         // JavaScript para alternar la visibilidad del submenú
@@ -122,6 +249,14 @@ public class AdministrarCanchasServlet extends HttpServlet {
         out.println("        submenu.toggle();");
         out.println("    });");
         out.println("});");
+        out.println("function cargarDatosCancha(canchaId, nroCancha, precioDia, precioNoche) {");
+        out.println("  document.getElementById('editarCanchaId').value = cancha_id;");
+        out.println("  document.getElementById('editarNroCancha').value = nro_cancha;");
+        out.println("  document.getElementById('editarPrecioDia').value = precio_dia;");
+        out.println("  document.getElementById('editarPrecioNoche').value = precio_noche;");
+        out.println("  document.getElementById('editarHoraInicio').value = hora_abierto;");
+        out.println("  document.getElementById('editarHoraFin').value = hora_cerrado;");
+        out.println("}");
         out.println("</script>");
 
         out.println("</head>");
@@ -180,7 +315,9 @@ public class AdministrarCanchasServlet extends HttpServlet {
         out.println("<div class='d-flex justify-content-between align-items-center mb-4 mt-4'>");
         out.println("<h1 class='m-0'>Administrar Canchas</h1>");
         // Botón para agregar cancha
-        out.println("<a href='agregarCancha.html' class='btn btn-primary'><i class='fas fa-plus'></i> Agregar Cancha</a>");
+        out.println("<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#agregarCanchaModal'>");
+        out.println("<i class='fas fa-plus'></i> Agregar Cancha");
+        out.println("</button>");
         out.println("</div>");
 
         // Mostrar las canchas desde la base de datos
@@ -215,8 +352,9 @@ public class AdministrarCanchasServlet extends HttpServlet {
 
             // Botones de acción: Editar y Eliminar
             out.println("<div class='d-flex justify-content-center mb-3'>");
-            out.println("<a href='editarCancha?id=" + cancha.getCanchaId() + "' class='btn btn-warning mr-2'>");
-            out.println("<i class='fas fa-edit'></i> Editar</a>");
+            out.println("<button type='button' class='btn btn-warning mr-2' data-toggle='modal' data-target='#editarCanchaModal' onclick='cargarDatosCancha(" + cancha.getCanchaId() + ", " + cancha.getNroCancha() + ", " + cancha.getPrecioDia() + ", " + cancha.getPrecioNoche() + ")'>");
+            out.println("<i class='fas fa-edit'></i> Editar");
+            out.println("</button>");
             out.println("<a href='eliminarCancha?id=" + cancha.getCanchaId() + "' class='btn btn-danger'>");
             out.println("<i class='fas fa-trash'></i> Eliminar</a>");
             out.println("</div>");
@@ -231,6 +369,90 @@ public class AdministrarCanchasServlet extends HttpServlet {
         out.println("</div>"); // cerrar row
         out.println("</div>"); // cerrar container-fluid
         out.println("</body>");
+        out.println("""
+                <!-- Modal para agregar cancha -->
+                <div class="modal fade" id="agregarCanchaModal" tabindex="-1" role="dialog" aria-labelledby="agregarCanchaLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="agregarCanchaLabel">Agregar Cancha</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/agregarCancha" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="nro_cancha">Número de Cancha</label>
+                                        <input type="number" class="form-control" name="nro_cancha" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="precio_dia">Precio Día</label>
+                                        <input type="number" class="form-control" name="precio_dia" step="0.01" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="precio_noche">Precio Noche</label>
+                                        <input type="number" class="form-control" name="precio_noche" step="0.01" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hora_abierto">Hora de Inicio</label>
+                                        <input type="time" class="form-control" name="hora_abierto" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hora_cerrado">Hora de Fin</label>
+                                        <input type="time" class="form-control" name="hora_cerrado" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="imagen_cancha">Imagen de la Cancha</label>
+                                        <input type="file" class="form-control-file" name="imagen_cancha" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                """);
+// Modal para editar cancha
+        out.println("<div class='modal fade' id='editarCanchaModal' tabindex='-1' role='dialog' aria-labelledby='editarCanchaLabel' aria-hidden='true'>");
+        out.println("  <div class='modal-dialog' role='document'>");
+        out.println("    <div class='modal-content'>");
+        out.println("      <div class='modal-header'>");
+        out.println("        <h5 class='modal-title' id='editarCanchaLabel'>Editar Cancha</h5>");
+        out.println("        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>");
+        out.println("          <span aria-hidden='true'>&times;</span>");
+        out.println("        </button>");
+        out.println("      </div>");
+        out.println("      <div class='modal-body'>");
+        out.println("        <form action='/editarCancha' method='POST' enctype='multipart/form-data'>");
+        out.println("          <input type='hidden' name='canchaId' id='editarCanchaId'>"); // Campo oculto para ID
+        out.println("          <div class='form-group'>");
+        out.println("            <label for='nro_cancha'>Número de Cancha</label>");
+        out.println("            <input type='number' class='form-control' name='nro_cancha' required>");
+        out.println("          </div>");
+        out.println("          <div class='form-group'>");
+        out.println("            <label for='precio_dia'>Precio Día</label>");
+        out.println("            <input type='number' class='form-control' name='precio_dia' step='0.01' required>");
+        out.println("          </div>");
+        out.println("          <div class='form-group'>");
+        out.println("            <label for='precio_noche'>Precio Noche</label>");
+        out.println("            <input type='number' class='form-control' name='precio_noche' step='0.01' required>");
+        out.println("          </div>");
+        out.println("          <div class='form-group'>");
+        out.println("            <label for='hora_abierto'>Hora de Inicio</label>");
+        out.println("            <input type='time' class='form-control' name='hora_abierto' step='0.01' required>");
+        out.println("          </div>");
+        out.println("          <div class='form-group'>");
+        out.println("            <label for='hora_cerrado'>Hora de Fin</label>");
+        out.println("            <input type='time' class='form-control' name='hora_cerrado' step='0.01' required>");
+        out.println("          </div>");
+        out.println("          <button type='submit' class='btn btn-primary'>Guardar Cambios</button>");
+        out.println("        </form>");
+        out.println("      </div>");
+        out.println("    </div>");
+        out.println("  </div>");
+        out.println("</div>");
         out.println("</html>");
     }
 }
