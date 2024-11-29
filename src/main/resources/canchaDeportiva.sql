@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS CanchaDeportiva;
-USE CanchaDeportiva;
+CREATE DATABASE IF NOT EXISTS Canchas;
+USE Canchas;
 
 -- Tabla Cancha
 CREATE TABLE Cancha (
@@ -389,7 +389,7 @@ CREATE PROCEDURE ReservarCancha(
     IN p_hora_inicio TIME,
     IN p_hora_fin TIME,
     IN p_metodo_pago VARCHAR(50),
-    IN p_fecha_reserva DATE,
+    IN p_fecha_reserva DATE,  -- Nuevo parámetro para la fecha de la reserva
     OUT p_resultado VARCHAR(255)
 )
 BEGIN
@@ -418,8 +418,8 @@ END IF;
         SELECT 1
         FROM Reserva
         WHERE cancha_id = p_cancha_id
-          AND estado_reserva IN ('Confirmada', 'Pagada')
-          AND p_fecha_reserva = fecha_reserva
+          AND estado_reserva IN ('Confirmada', 'Pagada')  -- Solo busca reservas confirmadas o pagadas
+          AND p_fecha_reserva = fecha_reserva  -- Compara también la fecha de la reserva
           AND ((p_hora_inicio >= hora_inicio AND p_hora_inicio < hora_fin)
             OR (p_hora_fin > hora_inicio AND p_hora_fin <= hora_fin)
             OR (p_hora_inicio <= hora_inicio AND p_hora_fin >= hora_fin))
@@ -431,18 +431,35 @@ END IF;
     -- Determinar si el precio es de día o de noche
     IF HOUR(p_hora_inicio) >= 6 AND HOUR(p_hora_inicio) < 18 THEN
         SET v_precio = v_precio_dia;
-ELSE
-        SET v_precio = v_precio_noche;
-END IF;
+       ELSE
+       SET v_precio = v_precio_noche;
+       END IF;
 
-    -- Insertar la reserva
-INSERT INTO Reserva (nombre, apellido, nro_identidad, telefono, email, fecha_nacimiento, fecha_reserva,
-                     hora_inicio, hora_fin, metodo_pago, precio, estado_reserva, cancha_id)
-VALUES (p_cliente_nombre, p_cliente_apellido, p_nro_identidad, p_telefono, p_email, p_fecha_nacimiento,
-        p_fecha_reserva, p_hora_inicio, p_hora_fin, p_metodo_pago, v_precio, 'Pendiente', p_cancha_id);
+    -- Insertar los datos del cliente
+INSERT INTO Cliente (nombre, apellido, nro_identidad, telefono, email, fecha_nacimiento)
+VALUES (p_cliente_nombre, p_cliente_apellido, p_nro_identidad, p_telefono, p_email, p_fecha_nacimiento);
 
--- Establecer el resultado
-SET p_resultado = 'Reserva realizada con éxito';
+-- Obtener el ID del cliente recién insertado
+SET @cliente_id = LAST_INSERT_ID();
+
+    -- Insertar el usuario con rol de cliente
+SELECT rol_id INTO v_rol_id FROM Rol WHERE rol = 'cliente';
+
+INSERT INTO User (cliente_id, rol_id, username, password)
+VALUES (@cliente_id, v_rol_id, NULL, NULL);
+
+-- Insertar la reserva
+INSERT INTO Reserva (cliente_id, cancha_id, precio_reserva, fecha_reserva, hora_inicio, hora_fin, estado_reserva)
+VALUES (@cliente_id, p_cancha_id, v_precio, p_fecha_reserva, p_hora_inicio, p_hora_fin, 'Pendiente');
+
+-- Obtener el ID de la reserva recién insertada
+SET v_reserva_id = LAST_INSERT_ID();
+
+    -- Registrar el pago en la tabla Pago
+INSERT INTO Pago (reserva_id, metodo_pago, monto, fecha_pago)
+VALUES (v_reserva_id, p_metodo_pago, v_precio, CURDATE());
+
+SET p_resultado = 'Reserva y pago realizados con éxito.';
 
 END //
 
