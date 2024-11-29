@@ -7,9 +7,8 @@
   <groupId>pe.edu.utp</groupId>
   <artifactId>ProyectoCanchaDeportiva</artifactId>
   <version>1.0-SNAPSHOT</version>
-
-  <name>PrismaProject</name>
-  <!-- FIXME change it to the project's website -->
+  <name>ProjectCanchaDeportiva</name>
+  <packaging>war</packaging>
   <url>http://www.example.com</url>
 
   <properties>
