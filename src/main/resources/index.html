@@ -44,5 +44,23 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="JS/login.js"></script> <!-- Link to your external JS file -->
+
+<script>
+    // Evita que el navegador guarde la página actual en el historial
+    if (typeof history.pushState === "function") {
+        history.pushState(null, null, location.href);
+        window.onpopstate = function() {
+            history.go(1); // Previene el retroceso
+        };
+    }
+
+    // Redirige hacia adelante para prevenir el retroceso en el historial
+    window.onload = function() {
+        if (window.history.length > 1) {
+            window.history.forward();
+        }
+    };
+</script>
+
 </body>
 </html>

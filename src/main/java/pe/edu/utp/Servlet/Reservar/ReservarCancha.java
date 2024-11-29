@@ -18,6 +18,7 @@ public class ReservarCancha extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
+
         // Obtener parámetros del formulario
         String nombre = request.getParameter("nombre");
         String apellido = request.getParameter("apellido");
@@ -29,10 +30,13 @@ public class ReservarCancha extends HttpServlet {
         String horaInicio = request.getParameter("hora_inicio");
         String horaFin = request.getParameter("hora_fin");
         String metodoPago = request.getParameter("metodo_pago");
+        String fechaReserva = request.getParameter("fecha_reserva");  // Obtener la fecha de reserva
 
         try {
             // Llamar al método del DAO para realizar la reserva
-            String resultado = reservaDAO.reservarCancha(nombre, apellido, nroIdentidad, telefono, email, fechaNacimiento, canchaId, horaInicio, horaFin, metodoPago);
+            String resultado = reservaDAO.reservarCancha(
+                    nombre, apellido, nroIdentidad, telefono, email, fechaNacimiento,
+                    canchaId, horaInicio, horaFin, metodoPago, fechaReserva);
 
             // Generar el contenido del reporte en formato texto
             String reporte = "==========================================================\n";
@@ -77,4 +81,3 @@ public class ReservarCancha extends HttpServlet {
         }
     }
 }
-

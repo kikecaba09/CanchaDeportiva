@@ -8,17 +8,22 @@ public class Usuario {
     private int idRol;
     private int idCliente;
     private Cliente cliente;
+    private Rol rol;
 
-    public Usuario(int idUsuario, String username, String password, int idRol, int idCliente, Cliente cliente) {
+    public Usuario(int idUsuario, String username, String password, int idRol, int idCliente, Cliente cliente, Rol rol) {
         this.idUsuario = idUsuario;
         this.username = username;
         this.password = password;
         this.idRol = idRol;
         this.idCliente = idCliente;
         this.cliente = cliente;
+        this.rol = rol;
     }
 
     public Usuario() {
+    }
+
+    public Usuario(int idUsuario, String username, String password, int i, int idCliente, Cliente cliente) {
     }
 
     public int getIdUsuario() {
@@ -69,6 +74,14 @@ public class Usuario {
         this.cliente = cliente;
     }
 
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
@@ -78,6 +91,7 @@ public class Usuario {
                 ", idRol=" + idRol +
                 ", idCliente=" + idCliente +
                 ", cliente=" + cliente +
+                ", rol=" + rol +
                 '}';
     }
 }

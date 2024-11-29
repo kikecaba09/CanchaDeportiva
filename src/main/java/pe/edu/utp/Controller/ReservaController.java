@@ -33,7 +33,9 @@ public class ReservaController implements ReservaDAO {
 
     @Override
     public String reservarCancha(String nombre, String apellido, String nroIdentidad, String telefono, String email,
-                                 String fechaNacimiento, int canchaId, String horaInicio, String horaFin, String metodoPago) throws SQLException {
+                                 String fechaNacimiento, int canchaId, String horaInicio, String horaFin, String metodoPago,
+                                 String fechaReserva) throws SQLException {
+
         Connection conexion = null;
         CallableStatement stmt = null;
         String resultado = "";
@@ -43,7 +45,7 @@ public class ReservaController implements ReservaDAO {
             conexion = ConexionBD.obtenerConexion();
 
             // Llamar al procedimiento almacenado
-            String sql = "{CALL ReservarCancha(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+            String sql = "{CALL ReservarCancha(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
             stmt = conexion.prepareCall(sql);
 
             // Configurar los parámetros de entrada
@@ -56,16 +58,17 @@ public class ReservaController implements ReservaDAO {
             stmt.setInt(7, canchaId);
             stmt.setString(8, horaInicio);
             stmt.setString(9, horaFin);
-            stmt.setString(10, metodoPago); // Agregar el método de pago
+            stmt.setString(10, metodoPago);
+            stmt.setString(11, fechaReserva);
 
             // Configurar el parámetro de salida
-            stmt.registerOutParameter(11, java.sql.Types.VARCHAR);
+            stmt.registerOutParameter(12, java.sql.Types.VARCHAR);
 
             // Ejecutar el procedimiento
             stmt.execute();
 
             // Obtener el resultado del procedimiento
-            resultado = stmt.getString(11);
+            resultado = stmt.getString(12);
         } finally {
             if (stmt != null) stmt.close();
             if (conexion != null) ConexionBD.cerrarConexion(conexion);
@@ -73,6 +76,7 @@ public class ReservaController implements ReservaDAO {
 
         return resultado;
     }
+
 
     @Override
     public List<Reserva> obtenerTodasLasReservas() {

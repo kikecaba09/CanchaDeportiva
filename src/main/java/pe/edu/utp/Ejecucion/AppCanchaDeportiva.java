@@ -5,11 +5,9 @@ import pe.edu.utp.Servlet.Cajeros.EliminarCajero;
 import pe.edu.utp.Servlet.Cajeros.ListarCajerosServlet;
 import pe.edu.utp.Servlet.Cajeros.RegistrarCajeroServlet;
 import pe.edu.utp.Servlet.Canchas.*;
-import pe.edu.utp.Servlet.Login.CerrarSesionServlet;
-import pe.edu.utp.Servlet.Login.PerfilServlet;
+import pe.edu.utp.Servlet.Login.*;
 import pe.edu.utp.Servlet.Reportes.*;
 import pe.edu.utp.Servlet.Reservar.CalendarioReserva;
-import pe.edu.utp.Servlet.Login.LoginServlet;
 import pe.edu.utp.Servlet.Reservar.ReservarCancha;
 import pe.edu.utp.utils.JettyUTP;
 import java.net.URL;
@@ -21,7 +19,7 @@ public class AppCanchaDeportiva {
 
         JettyUTP webserver = new JettyUTP(8081, path);
         webserver.addServlet(LoginServlet.class,"/login");
-        webserver.addServlet(CerrarSesionServlet.class,"/cerrarSesion");
+        webserver.addServlet(LogoutServlet.class,"/logout");
         webserver.addServlet(PerfilServlet.class,"/miPerfil");
         webserver.addServlet(RegistrarCajeroServlet.class,"/RegistrarCajero");
         webserver.addServlet(ListarCajerosServlet.class,"/listarCajeros");
@@ -31,7 +29,8 @@ public class AppCanchaDeportiva {
         webserver.addServlet(AgregarCanchaServlet.class,"/agregarCancha");
         webserver.addServlet(ActualizarCanchaServlet.class,"/modificarCancha");
         webserver.addServlet(EliminarCanchaServlet.class,"/eliminarCancha");
-        webserver.addServlet(ListarCanchaServlet.class,"/listarCanchas");
+        webserver.addServlet(DashboardCajero.class,"/dashboardCajero");
+        webserver.addServlet(DashboardAdministrador.class,"/dashboardAdmin");
         webserver.addServlet(ReservarCancha.class,"/reservarCancha");
         webserver.addServlet(CalendarioReserva.class,"/calendario");
         webserver.addServlet(ListarClientesServlet.class,"/listarClientes");

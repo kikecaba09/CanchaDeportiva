@@ -67,9 +67,9 @@ CREATE TABLE Pago (
 
 INSERT INTO Cancha (nro_cancha, precio_dia, precio_noche, imagen_cancha, hora_abierto, hora_cerrado, estado) VALUES
                                                                                                                  (1, 45.00, 65.00, 'cancha1.png', '08:00:00', '21:00:00', 'Disponible'),
-                                                                                                                 (2, 50.00, 70.00, 'cancha2.png', '09:30:00', '20:30:00', 'No disponible'),
+                                                                                                                 (2, 50.00, 70.00, 'cancha2.png', '09:30:00', '20:30:00', 'Disponible'),
                                                                                                                  (3, 55.00, 75.00, 'cancha3.png', '10:30:00', '22:00:00', 'Disponible'),
-                                                                                                                 (4, 60.00, 80.00, 'cancha4.png', '09:30:00', '19:00:00', 'No disponible');
+                                                                                                                 (4, 60.00, 80.00, 'cancha4.png', '09:30:00', '19:00:00', 'Disponible');
 
 INSERT INTO Rol (rol) VALUES ('administrador'), ('cajero'),  ('cliente');
 
@@ -389,11 +389,11 @@ CREATE PROCEDURE ReservarCancha(
     IN p_hora_inicio TIME,
     IN p_hora_fin TIME,
     IN p_metodo_pago VARCHAR(50),
+    IN p_fecha_reserva DATE,
     OUT p_resultado VARCHAR(255)
 )
 BEGIN
     DECLARE v_precio DECIMAL(10,2);
-    DECLARE v_fecha_reserva DATE;
     DECLARE v_hora_abierto TIME;
     DECLARE v_hora_cerrado TIME;
     DECLARE v_precio_dia DECIMAL(10,2);
@@ -413,12 +413,13 @@ IF p_hora_inicio < v_hora_abierto OR p_hora_fin > v_hora_cerrado THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = p_resultado;
 END IF;
 
-    -- Verificar cruce de horarios con otras reservas
+    -- Verificar cruce de horarios con otras reservas confirmadas o pagadas
     IF EXISTS (
         SELECT 1
         FROM Reserva
         WHERE cancha_id = p_cancha_id
-          AND estado_reserva = 'Pendiente'
+          AND estado_reserva IN ('Confirmada', 'Pagada')
+          AND p_fecha_reserva = fecha_reserva
           AND ((p_hora_inicio >= hora_inicio AND p_hora_inicio < hora_fin)
             OR (p_hora_fin > hora_inicio AND p_hora_fin <= hora_fin)
             OR (p_hora_inicio <= hora_inicio AND p_hora_fin >= hora_fin))
@@ -434,39 +435,18 @@ ELSE
         SET v_precio = v_precio_noche;
 END IF;
 
-    -- Obtener la fecha actual para la reserva
-    SET v_fecha_reserva = CURDATE();
+    -- Insertar la reserva
+INSERT INTO Reserva (nombre, apellido, nro_identidad, telefono, email, fecha_nacimiento, fecha_reserva,
+                     hora_inicio, hora_fin, metodo_pago, precio, estado_reserva, cancha_id)
+VALUES (p_cliente_nombre, p_cliente_apellido, p_nro_identidad, p_telefono, p_email, p_fecha_nacimiento,
+        p_fecha_reserva, p_hora_inicio, p_hora_fin, p_metodo_pago, v_precio, 'Pendiente', p_cancha_id);
 
-    -- Insertar los datos del cliente
-INSERT INTO Cliente (nombre, apellido, nro_identidad, telefono, email, fecha_nacimiento)
-VALUES (p_cliente_nombre, p_cliente_apellido, p_nro_identidad, p_telefono, p_email, p_fecha_nacimiento);
+-- Establecer el resultado
+SET p_resultado = 'Reserva realizada con éxito';
 
--- Obtener el ID del cliente recién insertado
-SET @cliente_id = LAST_INSERT_ID();
-
-    -- Insertar el usuario con rol de cliente
-SELECT rol_id INTO v_rol_id FROM Rol WHERE rol = 'cliente';
-
-INSERT INTO User (cliente_id, rol_id, username, password)
-VALUES (@cliente_id, v_rol_id, NULL, NULL);
-
--- Insertar la reserva
-INSERT INTO Reserva (cliente_id, cancha_id, precio_reserva, fecha_reserva, hora_inicio, hora_fin, estado_reserva)
-VALUES (@cliente_id, p_cancha_id, v_precio, v_fecha_reserva, p_hora_inicio, p_hora_fin, 'Pendiente');
-
--- Obtener el ID de la reserva recién insertada
-SET v_reserva_id = LAST_INSERT_ID();
-
-    -- Registrar el pago en la tabla Pago
-INSERT INTO Pago (reserva_id, metodo_pago, monto, fecha_pago)
-VALUES (v_reserva_id, p_metodo_pago, v_precio, CURDATE());
-
-SET p_resultado = 'Reserva y pago realizados con éxito.';
 END //
 
 DELIMITER ;
-
-
 
 DELIMITER //
 

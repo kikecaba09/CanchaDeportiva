@@ -2,6 +2,7 @@ package pe.edu.utp.Controller;
 
 import pe.edu.utp.Ejecucion.ConexionBD;
 import pe.edu.utp.Model.Cliente;
+import pe.edu.utp.Model.Rol;
 import pe.edu.utp.Model.Usuario;
 import pe.edu.utp.DAO.UsuarioDAO;
 import java.sql.*;
@@ -13,30 +14,42 @@ public class UsuarioController implements UsuarioDAO {
     @Override
     public Usuario obtenerUsuario(String username, String password) {
         Usuario usuario = null;
-        Connection conexion = null;
+        String sql = "SELECT u.user_id, u.username, u.password, u.rol_id, u.cliente_id, r.rol " +
+                "FROM User u " +
+                "JOIN Rol r ON u.rol_id = r.rol_id " +
+                "WHERE u.username = ? AND u.password = ?";
 
-        try {
-            conexion = ConexionBD.obtenerConexion();
-            String sql = "SELECT * FROM User WHERE username = ? AND password = ?";
-            PreparedStatement ps = conexion.prepareStatement(sql);
-            ps.setString(1, username);
-            ps.setString(2, password);
-            ResultSet rs = ps.executeQuery();
+        try (Connection connection = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            if (rs.next()) {
-                usuario = new Usuario();
-                usuario.setIdUsuario(rs.getInt("user_id"));
-                usuario.setUsername(rs.getString("username"));
-                usuario.setPassword(rs.getString("password"));
-                usuario.setIdRol(rs.getInt("rol_id"));
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Crear el objeto Usuario
+                    usuario = new Usuario();
+                    usuario.setIdUsuario(rs.getInt("user_id"));
+                    usuario.setUsername(rs.getString("username"));
+                    usuario.setPassword(rs.getString("password"));
+                    usuario.setIdRol(rs.getInt("rol_id"));
+                    usuario.setIdCliente(rs.getInt("cliente_id"));
+
+                    // Crear el objeto Rol asociado al Usuario
+                    Rol rol = new Rol();
+                    rol.setRolId(rs.getInt("rol_id"));
+                    rol.setRol(rs.getString("rol"));
+                    // Asignar el Rol al Usuario
+                    usuario.setRol(rol); // Esto asigna el objeto Rol completo
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            ConexionBD.cerrarConexion(conexion);
         }
+
         return usuario;
     }
+
 
     @Override
     public Usuario obtenerUsuarioPorId(int idUsuario) {

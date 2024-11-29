@@ -1,4 +1,4 @@
-package pe.edu.utp.Servlet.Canchas;
+package pe.edu.utp.Servlet.Login;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,14 +11,18 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet("/listarCanchas")
-public class ListarCanchaServlet extends HttpServlet {
+@WebServlet("/dashboardAdmin")
+public class DashboardAdministrador extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
+        // Evitar que la página se almacene en caché
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -139,11 +143,6 @@ public class ListarCanchaServlet extends HttpServlet {
         out.println("<h1 class='m-0' style='font-size: 1.5rem;'>SHUMPI Soccer Club</h1>");
         out.println("</header>");
         out.println("<ul class='nav flex-column'>");
-        out.println("<li class='nav-item'><a class='nav-link' data-toggle='#reservarMenu' href='#'><i class='fas fa-calendar-plus'></i> Reservar</a></li>");
-        out.println("<ul id='reservarMenu' class='submenu'>");
-        out.println("<a class='nav-link' href='/listarCanchas'><i class='fas fa-check'></i> Canchas disponibles</a>");
-        out.println("<a class='nav-link' href='HTML/calendarioReserva.html'><i class='fas fa-calendar-alt'></i> Calendario disponibilidad</a>");
-        out.println("</ul>");
         out.println("<li class='nav-item'><a class='nav-link' data-toggle='#configuracionMenu' href='#'><i class='fas fa-cog'></i> Configuración</a></li>");
         out.println("<ul id='configuracionMenu' class='submenu'>");
         out.println("<a class='nav-link' href='HTML/miPerfil.html'><i class='fas fa-user'></i>Mi perfil</a>");
@@ -169,7 +168,7 @@ public class ListarCanchaServlet extends HttpServlet {
                   </a>
                 </ul>
                 """);
-        out.println("<li class='nav-item'><a class='nav-link' href='index.html'><i class='fas fa-sign-out-alt'></i> Cerrar sesión</a></li>");
+        out.println("<li class='nav-item'><a class='nav-link' href='/logout'><i class='fas fa-sign-out-alt'></i> Cerrar sesión</a></li>");
         out.println("</ul>");
         out.println("</div>");
         out.println("</nav>");
