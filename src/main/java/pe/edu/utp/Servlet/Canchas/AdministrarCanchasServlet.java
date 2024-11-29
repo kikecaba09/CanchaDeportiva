@@ -274,11 +274,6 @@ public class AdministrarCanchasServlet extends HttpServlet {
         out.println("<h1 class='m-0' style='font-size: 1.5rem;'>SHUMPI Soccer Club</h1>");
         out.println("</header>");
         out.println("<ul class='nav flex-column'>");
-        out.println("<li class='nav-item'><a class='nav-link' data-toggle='#reservarMenu' href='#'><i class='fas fa-calendar-plus'></i> Reservar</a></li>");
-        out.println("<ul id='reservarMenu' class='submenu'>");
-        out.println("<a class='nav-link' href='/listarCanchas'><i class='fas fa-check'></i> Canchas disponibles</a>");
-        out.println("<a class='nav-link' href='HTML/calendarioReserva.html'><i class='fas fa-calendar-alt'></i> Calendario disponibilidad</a>");
-        out.println("</ul>");
         out.println("<li class='nav-item'><a class='nav-link' data-toggle='#configuracionMenu' href='#'><i class='fas fa-cog'></i> Configuración</a></li>");
         out.println("<ul id='configuracionMenu' class='submenu'>");
         out.println("<a class='nav-link' href='HTML/miPerfil.html'><i class='fas fa-user'></i>Mi perfil</a>");
@@ -441,11 +436,11 @@ public class AdministrarCanchasServlet extends HttpServlet {
         out.println("          </div>");
         out.println("          <div class='form-group'>");
         out.println("            <label for='hora_abierto'>Hora de Inicio</label>");
-        out.println("            <input type='time' class='form-control' name='hora_abierto' step='0.01' required>");
+        out.println("            <input type='time' class='form-control' name='hora_abierto' required>");
         out.println("          </div>");
         out.println("          <div class='form-group'>");
         out.println("            <label for='hora_cerrado'>Hora de Fin</label>");
-        out.println("            <input type='time' class='form-control' name='hora_cerrado' step='0.01' required>");
+        out.println("            <input type='time' class='form-control' name='hora_cerrado' required>");
         out.println("          </div>");
         out.println("          <button type='submit' class='btn btn-primary'>Guardar Cambios</button>");
         out.println("        </form>");
